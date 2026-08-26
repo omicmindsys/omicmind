@@ -67,7 +67,8 @@ const stroke = {
    read as interface rather than as copy. */
 const KEYWORDS = [
   {
-    label: 'Glass Slide',
+    label: 'Specimen Data Engine',
+    desc: 'Connecting FFPE tissue, H&E, IHC and molecular data',
     // Microscope over a mounted slide
     icon: (
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" {...stroke}>
@@ -80,7 +81,9 @@ const KEYWORDS = [
     ),
   },
   {
-    label: 'Digital Image',
+    
+    label: 'Pathology Foundation Models',
+    desc: 'Learning morphology, biomarkers and disease phenotypes',
     // Whole-slide scan frame with tissue detail
     icon: (
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" {...stroke}>
@@ -92,7 +95,9 @@ const KEYWORDS = [
     ),
   },
   {
-    label: 'Quantitative Biomarker',
+    
+    label: 'Multimodal Biomarker Intelligence',
+    desc: 'Integrating pathology, spatial biology and multiomics',
     // Scored expression bars with a rising trend
     icon: (
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" {...stroke}>
@@ -104,7 +109,9 @@ const KEYWORDS = [
     ),
   },
   {
-    label: 'Molecular Context',
+    
+    label: 'Treatment & Trial Intelligence',
+    desc: 'Supporting response modelling and cohort stratification',
     // Helix threaded through an interaction network
     icon: (
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" {...stroke}>
@@ -119,7 +126,9 @@ const KEYWORDS = [
     ),
   },
   {
-    label: 'Treatment Insights',
+    
+    label: 'Therapeutics Discovery',
+    desc: 'Translating patient-derived insights into drug-target hypotheses',
     // Clinical cross reading out a response curve
     icon: (
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" {...stroke}>
@@ -470,27 +479,21 @@ export default function Hero() {
             className="max-w-[42rem] lg:max-w-[46rem]"
             style={{ transformStyle: 'preserve-3d' }}
           >
-            {/* Eyebrow */}
-            <span className="hero-eyebrow inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.08] py-2 pl-3 pr-5 opacity-0 shadow-[0_8px_30px_-12px_rgba(168,85,247,0.5)] backdrop-blur-xl">
-              <Sparkles className="h-4 w-4 shrink-0 text-purple-300" strokeWidth={2} />
-              <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-200 to-pink-200 md:text-xs">
-                Introducing OmicMind Breast&trade;
-              </span>
-            </span>
+           
 
             {/* Headline */}
             <h1
               className="mt-8 font-serif font-semibold text-white tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[4.25rem] xl:text-[5rem]"
               style={{ textShadow: '0 2px 40px rgba(3,7,18,0.55)' }}
             >
-              <span className="hero-line block opacity-0">One FFPE Specimen.</span>
-              <span className="hero-line block opacity-0">
-                Infinite{' '}
+              <span className="hero-line block opacity-0">From Tissue Morphology to </span>
+              
+                
                 <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] via-[#E879F9] to-[#F9A8D4]">
-                  Multi-Omic
+                  Precision-Medicine Intelligence.
                 </span>{' '}
-                Insights.
-              </span>
+                
+              
             </h1>
 
             {/* Editorial rule */}
@@ -501,8 +504,7 @@ export default function Hero() {
 
             {/* Description */}
             <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-gray-200/90 opacity-0">
-              Accelerate your research with our cutting-edge AI platform. We transform complex data
-              into actionable insights for the future of healthcare.
+              A specimen-centric AI platform integrating digital pathology, biomarker quantification, spatial biology and multiomics to support translational research, patient stratification and biomarker development.
             </p>
 
             {/* Calls to action */}
@@ -546,17 +548,23 @@ export default function Hero() {
               </MagneticButton>
             </div>
 
-            {/* Index of readouts */}
-            <div className="hero-reveal mt-14 flex flex-wrap items-center gap-x-3.5 gap-y-2 opacity-0">
+            {/* Index of readouts — set as Hero highlights: the four terms the
+                platform is known for, sized to be read from across the room and
+                painted in the brand gradient. The glyphs carry their own drop
+                shadow so they hold up over the brightest frames of the footage. */}
+            <div className="hero-reveal mt-14 flex flex-wrap items-center gap-x-3 gap-y-2.5 opacity-0 sm:flex-nowrap sm:gap-x-3.5">
               {MODALITIES.map((m, i) => (
                 <React.Fragment key={m}>
                   {i > 0 && (
                     <span
-                      className="h-1 w-1 rounded-full bg-purple-400/50"
+                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#A855F7] to-[#EC4899] shadow-[0_0_10px_1px_rgba(168,85,247,0.55)]"
                       aria-hidden="true"
                     />
                   )}
-                  <span className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] text-gray-300/70">
+                  <span
+                    className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#DDD6FE] via-[#E879F9] to-[#F9A8D4]"
+                    style={{ filter: 'drop-shadow(0 2px 18px rgba(3,7,18,0.85)) drop-shadow(0 0 26px rgba(168,85,247,0.35))' }}
+                  >
                     {m}
                   </span>
                 </React.Fragment>
@@ -573,28 +581,38 @@ export default function Hero() {
               and centres itself vertically — the band the existing readout
               panels leave open between the top and bottom one.
 
-              Width and offset are both set as a share of the frame, and they
-              are held under the 15% inset of the existing mid-right readout
-              panel: the cards grow with the screen but never cross into that
-              panel's lane, at any width from `lg` up. */}
+              Width and offset are both set as a share of the frame, and the
+              column is only as wide as the two lines of each stage need: the
+              cards grow with the screen but stay clear of the copy's lane, at
+              any width from `lg` up. */}
           <div
             ref={chipsRef}
-            className="mt-10 lg:pointer-events-none lg:absolute lg:inset-y-0 lg:right-[1.5%] lg:mt-0 lg:flex lg:w-[12.5%] lg:min-w-[10.5rem] lg:max-w-[15.5rem] lg:items-center"
+            className="mt-10 lg:pointer-events-none lg:absolute lg:inset-y-0 lg:right-[1.5%] lg:mt-0 lg:flex lg:w-[19%] lg:min-w-[13.5rem] lg:max-w-[19rem] lg:items-center"
           >
-            <div className="flex w-full flex-col gap-2.5 sm:gap-3">
+            <div className="flex w-full flex-col gap-3 sm:gap-3.5">
               {KEYWORDS.map((k) => (
                 <span
                   key={k.label}
-                  className="hero-panel pointer-events-auto flex w-[17rem] items-center gap-3 rounded-xl border border-white/15 bg-white/[0.07] px-3.5 py-3 opacity-0 shadow-[0_18px_45px_-24px_rgba(168,85,247,0.95)] ring-1 ring-inset ring-white/5 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300 ease-out hover:border-white/30 hover:bg-white/[0.11] sm:w-[18rem] lg:w-full"
+                  className="hero-panel pointer-events-auto flex w-[19rem] items-start gap-3 rounded-xl border border-white/15 bg-white/[0.07] px-3.5 py-3.5 opacity-0 shadow-[0_18px_45px_-24px_rgba(168,85,247,0.95)] ring-1 ring-inset ring-white/5 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300 ease-out hover:border-white/30 hover:bg-white/[0.11] sm:w-[20rem] lg:w-full"
                 >
                   <span
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7C3AED] to-[#EC4899] text-white shadow-[0_8px_20px_-8px_rgba(168,85,247,0.9)]"
+                    className="mt-[1px] flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7C3AED] to-[#EC4899] text-white shadow-[0_8px_20px_-8px_rgba(168,85,247,0.9)]"
                     aria-hidden="true"
                   >
                     {k.icon}
                   </span>
-                  <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-white lg:text-[12.5px]">
-                    {k.label}
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-white lg:text-[12.5px]">
+                      {k.step && (
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F9A8D4]">
+                          {k.step}.{' '}
+                        </span>
+                      )}
+                      {k.label}
+                    </span>
+                    <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-gray-300/75 lg:text-[10.5px]">
+                      {k.desc}
+                    </span>
                   </span>
                 </span>
               ))}

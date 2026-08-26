@@ -105,7 +105,7 @@ function App() {
       {/* Re-writing the Suites wrapper correctly for standard flow */}
       <div ref={suitesWrapperRef} className="relative z-20 w-full bg-[#030712] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[3rem]">
         <FoundationModel />
-        <OmicMindBreast />
+        
         <OmicMindCore />
         <OmicMindEcosystem />
       </div>

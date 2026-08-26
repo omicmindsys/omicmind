@@ -477,18 +477,18 @@ function ReconstructionVisual() {
 /* ------------------------------------------------------------------ */
 const features = [
   {
-    title: 'Multimodal Biological Understanding',
-    body: 'Integrates information from diverse biological modalities, including H&E histology images, spatial patterns, genomic data, and molecular profiles, to build a comprehensive understanding of tissue biology.',
+    title: 'Multimodal Biological Intelligence',
+    body: 'Integrates tissue morphology, biomarker expression, spatial context and molecular profiles around the same tumor specimen to create a unified representation of disease biology.',
     Visual: MultimodalVisual,
   },
   {
-    title: 'Cross-Modal Attention Architecture',
-    body: 'Uses advanced AI attention mechanisms to identify relationships between visible tissue structures and hidden molecular characteristics, learning how cellular morphology connects with underlying biology.',
+    title: 'Cross-Modal Learning Architecture',
+    body: 'Learns associations between visible tissue architecture and underlying biological states across pathology, spatial and multiomic datasets.',
     Visual: AttentionVisual,
   },
   {
-    title: 'Reconstruction of Missing Biological Layers',
-    body: 'Predicts unavailable molecular information by analyzing patterns within routine pathology images, reducing the need for extensive laboratory assays while preserving biological insights.',
+    title: 'From Tissue to Therapeutic Insight',
+    body: 'Develops research models that connect tumor morphology with molecular phenotypes, treatment response, clinical outcomes and biological pathways—supporting cohort enrichment, confirmatory-testing prioritization and drug-target discovery.',
     Visual: ReconstructionVisual,
   },
 ];
@@ -703,20 +703,26 @@ export default function OmicMindCore() {
             </span>
           </h2>
 
+          {/* Subheading — the section's second line, in the same serif
+              italic gradient the other chapter headers use */}
+          <p className="mt-4 font-serif text-xl font-semibold italic leading-snug tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] sm:mt-5 sm:text-2xl lg:text-[1.75rem]">
+            Connecting Tissue Morphology to Molecular Biology
+          </p>
+
           <p className="mx-auto mt-8 max-w-2xl font-sans text-lg font-normal leading-[1.65] tracking-[-0.005em] text-[#1F2937] sm:text-xl">
-            Our Foundation Model uses{' '}
+            OmicMind Core is a{' '}
             <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
-              cross-modal attention mechanisms
+              specimen-centric multimodal AI engine
             </span>{' '}
-            to reconstruct missing biological layers, allowing us to predict{' '}
-            <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
-              molecular phenotypes
-            </span>{' '}
-            from simple{' '}
-            <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
-              tissue scans
-            </span>
-            .
+            designed to learn relationships across H&E pathology, quantitative IHC,
+            spatial biology, genomics, transcriptomics and clinical outcomes.
+          </p>
+
+          <p className="mx-auto mt-5 max-w-2xl font-sans text-base font-normal leading-[1.7] tracking-[-0.005em] text-gray-600 sm:text-lg">
+            Through cross-modal learning, the platform identifies
+            biological patterns associated with molecular phenotypes—supporting biomarker
+            discovery, treatment-response research, clinical-trial cohort stratification
+            and drug-target prioritization from routinely collected tumor tissue.
           </p>
         </div>
 

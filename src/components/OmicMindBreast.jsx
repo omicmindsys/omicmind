@@ -900,13 +900,6 @@ export default function OmicMindBreast() {
             OmicMind Breast&trade;
           </span>
 
-          <h2 className="mt-6 font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.5rem]">
-            Precision Computational Pathology for{' '}
-            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
-              Breast Cancer
-            </span>
-          </h2>
-
           <div className="mx-auto mt-7 max-w-2xl space-y-4 text-left sm:text-center">
             <p className="font-sans text-base leading-relaxed text-[#1F2937] sm:text-lg">
               OmicMind Breast&trade; is the flagship clinical application built on the OmicMind

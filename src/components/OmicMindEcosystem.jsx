@@ -481,37 +481,46 @@ function DrugVisual() {
 }
 
 /* ------------------------------------------------------------------ */
+/* Titles carry no trademark character here: the card renders a superscript
+   ™ of its own after {title}, so putting one in the string would print it
+   twice. `cta` is optional — a card without one simply ends at its
+   feature list. */
 const products = [
   {
-    title: 'Omio Clinical AI',
-    desc: 'An AI-powered clinical intelligence platform that transforms digital pathology and multimodal biological data into actionable insights for precision diagnosis and patient care.',
+    title: 'OmicMind Computational Pathology AI',
+    desc: 'Transforms routine H&E and IHC whole-slide images into quantitative, spatial and predictive research insights for translational medicine and biopharma development.',
     features: [
-      'AI-assisted pathology analysis',
-      'Biomarker interpretation',
-      'Clinical decision support',
-      'Integrated patient insights',
+      'Tissue and tumor segmentation',
+      'Quantitative biomarker analysis',
+      'Molecular phenotype prediction',
+      'Treatment-response research',
+      'Clinical-trial cohort stratification',
     ],
+    cta: 'Explore Pathology AI',
     Visual: ClinicalVisual,
   },
   {
-    title: 'Omio Biomarker Discovery',
-    desc: 'A multimodal AI platform for discovering and validating novel biomarkers by connecting tissue morphology, molecular profiles, and biological signals.',
+    title: 'OmicMind Multiomics Intelligence',
+    desc: 'Connects tissue morphology with genomics, transcriptomics, spatial biology and clinical outcomes to reveal disease mechanisms, biomarkers and patient subgroups.',
     features: [
-      'Biomarker identification',
-      'Spatial biology analysis',
-      'Molecular pattern discovery',
-      'AI-driven validation',
+      'Multimodal data integration',
+      'Biomarker discovery and validation',
+      'Spatial microenvironment analysis',
+      'Patient and cohort stratification',
+      'Biological knowledge graphs',
     ],
+    cta: 'Explore Multiomics',
     Visual: BiomarkerVisual,
   },
   {
-    title: 'Omio Drug Discovery AI',
-    desc: 'An AI-driven discovery platform that combines biological understanding, molecular insights, and predictive modeling to accelerate therapeutic development.',
+    title: 'OmicMind Drug Discovery AI',
+    desc: 'Uses patient-derived pathology and multiomic intelligence to prioritize therapeutic targets, identify responsive disease populations and support biomarker-guided drug development.',
     features: [
-      'Target discovery',
-      'Molecular prediction',
-      'Drug response modeling',
-      'Translational research support',
+      'Target identification and prioritization',
+      'Disease and pathway modelling',
+      'Biomarker-guided indication selection',
+      'Drug-response modelling',
+      'Translational program intelligence',
     ],
     Visual: DrugVisual,
   },
@@ -772,7 +781,7 @@ export default function OmicMindEcosystem() {
           ref={gridRef}
           className="mt-16 grid grid-cols-1 gap-7 md:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
         >
-          {products.map(({ title, desc, features, Visual }, i) => (
+          {products.map(({ title, desc, features, cta, Visual }, i) => (
             <article
               key={title}
               className={`eco-card group relative ${
@@ -830,7 +839,7 @@ export default function OmicMindEcosystem() {
                   {desc}
                 </p>
 
-                <ul className="relative mt-6 space-y-2.5 border-t border-gray-100 pt-5">
+                <ul className="relative mt-6 space-y-2.5 border-t border-gray-100 pt-5 [text-wrap:pretty]">
                   {features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5">
                       <span
@@ -856,6 +865,46 @@ export default function OmicMindEcosystem() {
                     </li>
                   ))}
                 </ul>
+
+                {/* ---- Call to action ----
+                    Held to the foot of the card with `mt-auto`, so the
+                    buttons line up across the row whatever length each
+                    feature list runs to. The pill is the same gradient
+                    language the Hero's primary action uses, sized for a
+                    card rather than a page. */}
+                {cta && (
+                  <div className="relative mt-auto pt-7">
+                    <button
+                      type="button"
+                      className="group/cta relative inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 font-sans text-[14px] font-semibold tracking-[0.01em] text-white"
+                    >
+                      <span
+                        className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-[14px] transition-opacity duration-[380ms] ease-out group-hover:opacity-70"
+                        style={{ backgroundImage: 'linear-gradient(90deg, #7C3AED, #EC4899)' }}
+                        aria-hidden="true"
+                      />
+                      <span
+                        className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] ring-1 ring-inset ring-white/25"
+                        aria-hidden="true"
+                      />
+                      <span className="relative">{cta}</span>
+                      <svg
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        className="relative h-4 w-4 transition-transform duration-300 ease-out group-hover/cta:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M4 10h11M10.5 5.5L15 10l-4.5 4.5"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             </article>
           ))}
