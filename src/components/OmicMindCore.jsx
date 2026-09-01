@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import normalBreast from '../assets/normalbreast.webp';
+
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------
@@ -695,35 +697,75 @@ export default function OmicMindCore() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        {/* ---------------- Header ---------------- */}
-        <div ref={headerRef} className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] sm:text-5xl lg:text-[3.5rem]">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
-              OmicMind Core
-            </span>
-          </h2>
+        {/* ---------------- Header and specimen plate ----------------
+            Two columns from `lg`, where each half still clears ~580px: the
+            chapter's copy on the left, the reference specimen on the right,
+            centred against each other. Below `lg` the grid collapses to one
+            column and the plate falls beneath the text, in that order. */}
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          {/* ---------------- Header ---------------- */}
+          <div ref={headerRef} className="mx-auto max-w-3xl text-center">
+            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] sm:text-5xl lg:text-[3.5rem]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+                OmicMind Core
+              </span>
+            </h2>
 
-          {/* Subheading — the section's second line, in the same serif
-              italic gradient the other chapter headers use */}
-          <p className="mt-4 font-serif text-xl font-semibold italic leading-snug tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] sm:mt-5 sm:text-2xl lg:text-[1.75rem]">
-            Connecting Tissue Morphology to Molecular Biology
-          </p>
+            {/* Subheading — the section's second line, in the same serif
+                italic gradient the other chapter headers use */}
+            <p className="mt-4 font-serif text-xl font-semibold italic leading-snug tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] sm:mt-5 sm:text-2xl lg:text-[1.75rem]">
+              Connecting Tissue Morphology to Molecular Biology
+            </p>
 
-          <p className="mx-auto mt-8 max-w-2xl font-sans text-lg font-normal leading-[1.65] tracking-[-0.005em] text-[#1F2937] sm:text-xl">
-            OmicMind Core is a{' '}
-            <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
-              specimen-centric multimodal AI engine
-            </span>{' '}
-            designed to learn relationships across H&E pathology, quantitative IHC,
-            spatial biology, genomics, transcriptomics and clinical outcomes.
-          </p>
+            {/* ---- Body copy ----
+                Both paragraphs carry the same `mx-auto max-w-2xl`, so they sit
+                on identical left and right boundaries at every breakpoint, and
+                both are set `text-left`: the heading and subheading above stay
+                centred, while the prose reads down a straight left edge instead
+                of a ragged centred one. They cannot share a wrapper — the header
+                staggers its own children — so the measure is stated on each. */}
+            <p className="mx-auto mt-8 max-w-2xl text-left font-sans text-lg font-normal leading-[1.7] tracking-[-0.005em] text-[#1F2937] [text-wrap:pretty] sm:text-xl">
+              OmicMind Core is a{' '}
+              <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
+                specimen-centric multimodal AI engine
+              </span>{' '}
+              designed to learn relationships across H&E pathology, quantitative IHC,
+              spatial biology, genomics, transcriptomics and clinical outcomes.
+            </p>
 
-          <p className="mx-auto mt-5 max-w-2xl font-sans text-base font-normal leading-[1.7] tracking-[-0.005em] text-gray-600 sm:text-lg">
-            Through cross-modal learning, the platform identifies
-            biological patterns associated with molecular phenotypes—supporting biomarker
-            discovery, treatment-response research, clinical-trial cohort stratification
-            and drug-target prioritization from routinely collected tumor tissue.
-          </p>
+            <p className="mx-auto mt-6 max-w-2xl text-left font-sans text-base font-normal leading-[1.7] tracking-[-0.005em] text-gray-600 [text-wrap:pretty] sm:text-lg">
+              Through cross-modal learning, the platform identifies
+              biological patterns associated with molecular phenotypes—supporting biomarker
+              discovery, treatment-response research, clinical-trial cohort stratification
+              and drug-target prioritization from routinely collected tumor tissue.
+            </p>
+          </div>
+
+          {/* ---------------- Specimen plate ----------------
+              The same 1px-padding gradient shell the rest of the site frames
+              its imagery with, so the plate carries the brand ramp on its
+              edge without any of it touching the section. The slide is laid
+              in at `h-auto w-full`: it keeps its own aspect at every width,
+              so it is never cropped, stretched or letterboxed. */}
+          <div className="mx-auto w-full max-w-2xl lg:max-w-none">
+            <div
+              className="relative rounded-[24px] p-px shadow-[0_18px_44px_-26px_rgba(76,29,149,0.5)]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(150deg, rgba(255,255,255,0.92) 0%, rgba(124,58,237,0.50) 34%, rgba(236,72,153,0.30) 64%, rgba(255,255,255,0.55) 100%)',
+              }}
+            >
+              <div className="overflow-hidden rounded-[23px] bg-white">
+                <img
+                  src={normalBreast}
+                  alt="Whole-slide H&E section of normal breast tissue, with a 2.5 mm scale bar"
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto w-full"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ---------------- Three feature blocks ---------------- */}

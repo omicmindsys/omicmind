@@ -486,11 +486,11 @@ export default function Hero() {
               className="mt-8 font-serif font-semibold text-white tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[4.25rem] xl:text-[5rem]"
               style={{ textShadow: '0 2px 40px rgba(3,7,18,0.55)' }}
             >
-              <span className="hero-line block opacity-0">From Tissue Morphology to </span>
+              <span className="hero-line block opacity-0">From Tissue to Validated</span>
               
                 
                 <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] via-[#E879F9] to-[#F9A8D4]">
-                  Precision-Medicine Intelligence.
+                  Biomarker and therapeutic intelligence
                 </span>{' '}
                 
               

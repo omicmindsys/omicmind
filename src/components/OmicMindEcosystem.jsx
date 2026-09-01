@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import normalBreastOne from '../assets/normalbreastone.webp';
+
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------
@@ -725,54 +727,88 @@ export default function OmicMindEcosystem() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        {/* ---------------- Header ---------------- */}
-        <div ref={headerRef} className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.5rem]">
-            <span className="block">OmicMind</span>
-            <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
-              AI Ecosystem
-            </span>
-          </h2>
+        {/* ---------------- Header and specimen plate ----------------
+            Two columns from `lg`, where each half still clears ~580px: the
+            chapter's copy and its flow strip on the left, the reference
+            specimen on the right, centred against each other. Below `lg` the
+            grid collapses and the plate falls beneath the copy, in that
+            order. The product cards below keep the full width. */}
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          {/* ---------------- Header ---------------- */}
+          <div ref={headerRef} className="mx-auto max-w-3xl text-center">
+            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.5rem]">
+              <span className="block">OmicMind</span>
+              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+                AI Ecosystem
+              </span>
+            </h2>
 
-          <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-gray-600 sm:text-lg">
-            From clinical intelligence to biomarker discovery and therapeutic innovation, OmicMind
-            AI transforms biological data into actionable insights across the healthcare and life
-            sciences ecosystem.
-          </p>
+            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-gray-600 sm:text-lg">
+              From clinical intelligence to biomarker discovery and therapeutic innovation, OmicMind
+              AI transforms biological data into actionable insights across the healthcare and life
+              sciences ecosystem.
+            </p>
 
-          {/* Ecosystem flow: Core → Clinical → Biomarker → Drug */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
-            {ECOSYSTEM_FLOW.map((step, i) => (
-              <React.Fragment key={step}>
-                <span
-                  className={`rounded-full border px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] ${
-                    i === 0
-                      ? 'border-purple-200 bg-purple-50/70 text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]'
-                      : 'border-gray-200 bg-white text-gray-500'
-                  }`}
-                >
-                  {step}
-                </span>
-                {i < ECOSYSTEM_FLOW.length - 1 && (
-                  <svg
-                    width="14"
-                    height="8"
-                    viewBox="0 0 14 8"
-                    className="shrink-0"
-                    aria-hidden="true"
+            {/* Ecosystem flow: Core → Clinical → Biomarker → Drug */}
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
+              {ECOSYSTEM_FLOW.map((step, i) => (
+                <React.Fragment key={step}>
+                  <span
+                    className={`rounded-full border px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] ${
+                      i === 0
+                        ? 'border-purple-200 bg-purple-50/70 text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]'
+                        : 'border-gray-200 bg-white text-gray-500'
+                    }`}
                   >
-                    <path
-                      d="M0 4h11M8.4 1.2L11.4 4l-3 2.8"
-                      fill="none"
-                      stroke="rgba(124,58,237,0.45)"
-                      strokeWidth="1.3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </React.Fragment>
-            ))}
+                    {step}
+                  </span>
+                  {i < ECOSYSTEM_FLOW.length - 1 && (
+                    <svg
+                      width="14"
+                      height="8"
+                      viewBox="0 0 14 8"
+                      className="shrink-0"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0 4h11M8.4 1.2L11.4 4l-3 2.8"
+                        fill="none"
+                        stroke="rgba(124,58,237,0.45)"
+                        strokeWidth="1.3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
+          {/* ---------------- Specimen plate ----------------
+              The same 1px-padding gradient shell the rest of the site frames
+              its imagery with, so the brand ramp sits on the plate's edge and
+              nowhere on the slide itself — no wash, no tint, nothing over the
+              image. It is laid in at `h-auto w-full`, so it holds its own
+              aspect at every width and is never cropped or stretched. */}
+          <div className="mx-auto w-full max-w-2xl lg:max-w-none">
+            <div
+              className="relative rounded-[24px] p-px shadow-[0_18px_44px_-26px_rgba(76,29,149,0.5)]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(150deg, rgba(255,255,255,0.92) 0%, rgba(124,58,237,0.50) 34%, rgba(236,72,153,0.30) 64%, rgba(255,255,255,0.55) 100%)',
+              }}
+            >
+              <div className="overflow-hidden rounded-[23px] bg-white">
+                <img
+                  src={normalBreastOne}
+                  alt="Whole-slide H&E section of breast tissue, with a 5 mm scale bar"
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto w-full"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
