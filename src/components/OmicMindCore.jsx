@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import normalBreast from '../assets/normalbreast.webp';
+import classifiedField from '../assets/h&eclassification.webp';
+import cellReadout from '../assets/carcinocell.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -499,6 +501,13 @@ export default function OmicMindCore() {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const gridRef = useRef(null);
+  /* `plateRef` is only ever read from — it is the box the scroll position is
+     measured against. Nothing is written to it, so the slide it wraps cannot
+     move. The only things written to on this section are the two clip
+     rectangles below, and all either one does is get taller or shorter. */
+  const plateRef = useRef(null);
+  const heCurtainRef = useRef(null);
+  const cellCurtainRef = useRef(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -515,6 +524,45 @@ export default function OmicMindCore() {
         stagger: 0.15,
         scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
       });
+
+      /* ---- The two views draw down; the slide does not move ----
+         Neither overlay is transformed at all — nothing here rotates, flips,
+         scales or shifts. Each is uncovered instead: the rectangle that clips
+         it is anchored at its top edge and grows downward, so the image
+         appears from its own top edge to its own bottom, the way a blind is
+         let down. Growing a height is not a transform, so the images cannot
+         move or distort while it happens; they only become more or less of
+         themselves. The slide behind them is not a target of anything.
+
+         Both are on one timeline at position 0, driven by one scrub, so both
+         read the same progress: whatever fraction of one is uncovered, the
+         same fraction of the other is too, and they cannot drift apart. `scrub`
+         ties that progress to the scroll position rather than to a clock and
+         carries the smoothing — it trails the scroll by a beat and eases into
+         rest — so the tweens themselves are linear rather than fighting it.
+         Scrolling back up runs the same path backwards, closing each image
+         from the bottom up.
+
+         The rectangles are authored at their full height in the markup, so the
+         images are whole before a line of this runs — with JavaScript slow,
+         refused or reduced, or with the section already scrolled past on load,
+         what shows is both images complete rather than both missing. */
+      const curtain = gsap.timeline({
+        scrollTrigger: {
+          trigger: plateRef.current,
+          start: 'top 88%',
+          end: 'top 28%',
+          scrub: 1,
+        },
+      });
+      curtain
+        .fromTo(heCurtainRef.current, { attr: { height: 0 } }, { attr: { height: 410 }, ease: 'none' }, 0)
+        .fromTo(
+          cellCurtainRef.current,
+          { attr: { height: 0 } },
+          { attr: { height: 310.7 }, ease: 'none' },
+          0
+        );
 
       // Feature blocks fade-up, staggered
       gsap.from('.feature-card', {
@@ -746,16 +794,22 @@ export default function OmicMindCore() {
               its imagery with, so the plate carries the brand ramp on its
               edge without any of it touching the section. The slide is laid
               in at `h-auto w-full`: it keeps its own aspect at every width,
-              so it is never cropped, stretched or letterboxed. */}
+              so it is never cropped, stretched or letterboxed.
+
+              The plate carries no transform of any kind and nothing on this
+              section drives one: it is upright and still, at load and at every
+              scroll position. The ref on it is read-only — it is the box the
+              overlays' scroll position is measured against, nothing more. */}
           <div className="mx-auto w-full max-w-2xl lg:max-w-none">
             <div
+              ref={plateRef}
               className="relative rounded-[24px] p-px shadow-[0_18px_44px_-26px_rgba(76,29,149,0.5)]"
               style={{
                 backgroundImage:
                   'linear-gradient(150deg, rgba(255,255,255,0.92) 0%, rgba(124,58,237,0.50) 34%, rgba(236,72,153,0.30) 64%, rgba(255,255,255,0.55) 100%)',
               }}
             >
-              <div className="overflow-hidden rounded-[23px] bg-white">
+              <div className="relative overflow-hidden rounded-[23px] bg-white">
                 <img
                   src={normalBreast}
                   alt="Whole-slide H&E section of normal breast tissue, with a 2.5 mm scale bar"
@@ -763,6 +817,114 @@ export default function OmicMindCore() {
                   decoding="async"
                   className="block h-auto w-full"
                 />
+
+                {/* ---------------- Magnified views ----------------
+                    The two images laid over the slide whole, in opposite
+                    corners: the H&E classification top-right, the carcinoma
+                    cell view bottom-left, with the specimen reading between
+                    them. Each is drawn as a plain rectangle at its own
+                    intrinsic ratio, with no mask, no crop and no rounded
+                    corner anywhere on either — every pixel of both files is on
+                    screen, in its own shape. Their boxes are the files' own
+                    proportions to within a fraction of a percent, and
+                    `preserveAspectRatio` is left at its default `meet`, so
+                    neither can be stretched even if a number here were
+                    rounded: an image fits inside its box rather than filling
+                    it.
+
+                    Both keep to the margins and the tissue's outer edges, so
+                    the body of the specimen is clear between them. The
+                    carcinoma view is drawn first and the H&E slide second,
+                    which is the stacking asked for; at these positions they do
+                    not overlap in any case.
+
+                    Drawn as one SVG at `inset-0` on a `viewBox` of the
+                    slide's own pixel dimensions. The image is `h-auto
+                    w-full`, so its box always carries its intrinsic ratio and
+                    the two coincide exactly: every coordinate below is a
+                    position on the slide itself and stays on it at every
+                    width, with no breakpoints and nothing taking layout space.
+
+                    Each clip rectangle is wider and taller than the image it
+                    uncovers, by the reach of that image's shadow on every
+                    side. A clip is applied after a filter, not before it, so a
+                    rectangle cut to the image's own bounds would have taken
+                    the shadow off with it; the margin is what lets the shadow
+                    be uncovered along with the image it belongs to. Each is
+                    authored here at full height — the state with no JavaScript
+                    is both images whole. */}
+                <svg
+                  viewBox="0 0 1280 559"
+                  className="pointer-events-none absolute inset-0 h-full w-full"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <clipPath id="omcCurtainCell">
+                      <rect ref={cellCurtainRef} x="65" y="235" width="310" height="310.7" />
+                    </clipPath>
+                    <clipPath id="omcCurtainHE">
+                      <rect ref={heCurtainRef} x="815" y="-10" width="325.2" height="410" />
+                    </clipPath>
+
+                    <filter id="omcSlideShadow" x="-25%" y="-25%" width="150%" height="150%">
+                      <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="#0F172A" floodOpacity="0.32" />
+                    </filter>
+                  </defs>
+
+                  {/* Bottom-left — the carcinoma cell view, 557 x 559 */}
+                  <image
+                    href={cellReadout}
+                    x="120"
+                    y="290"
+                    width="200"
+                    height="200.7"
+                    filter="url(#omcSlideShadow)"
+                    clipPath="url(#omcCurtainCell)"
+                  />
+
+                  {/* Top-right — the classified H&E slide, 454 x 633 */}
+                  <image
+                    href={classifiedField}
+                    x="870"
+                    y="45"
+                    width="215.2"
+                    height="300"
+                    filter="url(#omcSlideShadow)"
+                    clipPath="url(#omcCurtainHE)"
+                  />
+                </svg>
+
+                {/* ---------------- Reading frame ----------------
+                    The interface the slide is read through. It is laid over
+                    the plate rather than beside it, and every part of it is
+                    positioned absolutely, so it occupies no space of its own:
+                    the image keeps the exact box, aspect and place it had.
+
+                    Two things only — marks bounding the field of view, and
+                    labels naming what is inside it. The labels say what this
+                    specimen is and nothing more; there is no readout here,
+                    because a number rendered beside a real specimen would be
+                    read as a measurement of it, and this platform's own
+                    measurements are not ours to invent. */}
+                <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                  {/* Field-of-view marks, one to a corner */}
+                  <span className="absolute left-2.5 top-2.5 h-5 w-5 rounded-tl-[7px] border-l border-t border-white/80 sm:left-3.5 sm:top-3.5 sm:h-6 sm:w-6" />
+                  <span className="absolute right-2.5 top-2.5 h-5 w-5 rounded-tr-[7px] border-r border-t border-white/80 sm:right-3.5 sm:top-3.5 sm:h-6 sm:w-6" />
+                  <span className="absolute bottom-2.5 left-2.5 h-5 w-5 rounded-bl-[7px] border-b border-l border-white/80 sm:bottom-3.5 sm:left-3.5 sm:h-6 sm:w-6" />
+                  <span className="absolute bottom-2.5 right-2.5 h-5 w-5 rounded-br-[7px] border-b border-r border-white/80 sm:bottom-3.5 sm:right-3.5 sm:h-6 sm:w-6" />
+
+                  {/* Modality and specimen, in the words the section and the
+                      image's own description already use */}
+                  <span className="absolute left-3 top-9 flex flex-col items-start gap-1.5 sm:left-4 sm:top-11">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/90 px-2.5 py-1 font-sans text-[10px] font-semibold tracking-[0.02em] text-slate-800 shadow-[0_6px_16px_-10px_rgba(15,23,42,0.75)] sm:text-[11px]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#EC4899]" />
+                      H&E · Whole-slide section
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-white/70 bg-white/85 px-2.5 py-1 font-sans text-[10px] font-medium tracking-[0.02em] text-slate-600 shadow-[0_6px_16px_-10px_rgba(15,23,42,0.75)] sm:text-[11px]">
+                      Normal breast tissue
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>

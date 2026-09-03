@@ -5,6 +5,8 @@ import Research from './pages/Research.jsx'
 import BreastCancer from './pages/BreastCancer.jsx'
 import LungCancer from './pages/LungCancer.jsx'
 import IhcAnalysis from './pages/IhcAnalysis.jsx'
+import AiFoundationModel from './pages/AiFoundationModel.jsx'
+import AboutOmicMind from './pages/AboutOmicMind.jsx'
 import { usePathname } from './router.jsx'
 import './index.css'
 
@@ -21,6 +23,8 @@ function Root() {
   if (route === '/solutions/breast-cancer') return <BreastCancer />
   if (route === '/solutions/lung-cancer') return <LungCancer />
   if (route === '/applications/ihc-analysis') return <IhcAnalysis />
+  if (route === '/platform/ai-foundation-model') return <AiFoundationModel />
+  if (route === '/company/about') return <AboutOmicMind />
   return <App />
 }
 

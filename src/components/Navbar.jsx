@@ -17,7 +17,7 @@ const NAV_ITEMS = [
     label: 'Platform',
     items: [
       'Digital Pathology AI',
-      'AI Foundation Model',
+      { label: 'AI Foundation Model', href: '/platform/ai-foundation-model' },
       'Whole Slide Image Analysis',
       'Biomarker Quantification',
       'Clinical Decision Support',
@@ -47,7 +47,7 @@ const NAV_ITEMS = [
   {
     label: 'Company',
     items: [
-      'About OmicMind',
+      { label: 'About OmicMind', href: '/company/about' },
       { label: 'Research', href: '/research' },
       'Publications',
       'Careers',
