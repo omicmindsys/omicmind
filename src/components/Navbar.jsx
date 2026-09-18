@@ -11,50 +11,47 @@ gsap.registerPlugin(ScrollTrigger);
 const subLabel = (sub) => (typeof sub === 'string' ? sub : sub.label);
 const subHref = (sub) => (typeof sub === 'string' ? null : sub.href);
 
+/* Home, then four menus. An entry with no `items` renders as a plain link
+   rather than a dropdown, which both the desktop bar and the mobile drawer
+   already handle; `Home` additionally routes through `goHome`, so it returns
+   to / from a sub-page and scrolls to the top when already there.
+
+   Every entry that resolves to a real page keeps its `href` and therefore its
+   route: the live pages are reachable as Platform → Omic Biomarker Quant,
+   Omic Molecular Predict and Omic Spatial TME, Products → Breast Cancer and
+   Lung Cancer, Investors → Research, and Company → About OmicMind. The rest are the plain strings they
+   always were. */
 const NAV_ITEMS = [
-  { label: 'Home', href: '#' },
+  { label: 'Home', href: '/' },
   {
     label: 'Platform',
     items: [
-      'Digital Pathology AI',
-      { label: 'AI Foundation Model', href: '/platform/ai-foundation-model' },
-      'Whole Slide Image Analysis',
-      'Biomarker Quantification',
-      'Clinical Decision Support',
+      { label: 'Omic Biomarker Quant', href: '/platform/biomarker-quantification' },
+      { label: 'Omic Molecular Predict', href: '/platform/molecular-predict' },
+      { label: 'Omic Treatment Response Predict', href: '/platform/treatment-response-predict' },
+      { label: 'Omic Spatial TME', href: '/platform/spatial' },
     ],
   },
   {
-    label: 'Solutions',
+    label: 'Products',
     items: [
+      { label: 'OM Breast', href: '/platform/om-breast' },
+      'OM Lung Immune',
+      'Lung IO-Resistance',
       { label: 'Breast Cancer', href: '/solutions/breast-cancer' },
       { label: 'Lung Cancer', href: '/solutions/lung-cancer' },
       'Precision Oncology',
-      'Biomarker Discovery',
-      'Clinical Research',
+      'Pan-Cancer Analysis',
     ],
   },
   {
-    label: 'Applications',
-    items: [
-      'Histopathology',
-      { label: 'IHC Analysis', href: '/applications/ihc-analysis' },
-      'Genomics',
-      'Transcriptomics',
-      'Spatial Biology',
-      'Outcomes Prediction',
-    ],
+    label: 'Investors',
+    items: [{ label: 'Research', href: '/research' }, 'Publications'],
   },
   {
     label: 'Company',
-    items: [
-      { label: 'About OmicMind', href: '/company/about' },
-      { label: 'Research', href: '/research' },
-      'Publications',
-      'Careers',
-      'Partners',
-    ],
+    items: [{ label: 'About OmicMind', href: '/company/about' }, 'Careers', 'Partners'],
   },
-  { label: 'Contact', href: '#' },
 ];
 
 /* Wordmark — pure text, no DNA glyph */
@@ -94,7 +91,7 @@ function Logo({ onClick }) {
       className="group relative inline-flex shrink-0 items-baseline gap-[1px] outline-none"
     >
       <span className="logo-mark inline-flex items-baseline">
-        <span className="font-serif text-[1.6rem] font-semibold leading-none tracking-[-0.015em] text-slate-900 md:text-[1.75rem]">
+        <span className="font-serif text-[1.6rem] font-semibold leading-none tracking-[-0.015em] text-white md:text-[1.75rem]">
           OmicMind
         </span>
         <span className="font-serif text-[1.6rem] font-semibold leading-none tracking-[-0.015em] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 md:text-[1.75rem]">
@@ -118,18 +115,18 @@ function DemoButton({ className = '', onClick }) {
 
     const enter = () => {
       gsap.to(el, { scale: 1.045, duration: 0.4, ease: 'power3.out' });
-      gsap.to(glow, { opacity: 1, scale: 1.15, duration: 0.5, ease: 'power2.out' });
-      gsap.to(arrow, { x: 3, duration: 0.4, ease: 'power3.out' });
+      if (glow) gsap.to(glow, { opacity: 1, scale: 1.15, duration: 0.5, ease: 'power2.out' });
+if (arrow) gsap.to(arrow, { x: 3, duration: 0.4, ease: 'power3.out' });
     };
     const leave = () => {
       gsap.to(el, { scale: 1, duration: 0.45, ease: 'power3.out' });
-      gsap.to(glow, { opacity: 0.55, scale: 1, duration: 0.5, ease: 'power2.out' });
-      gsap.to(arrow, { x: 0, duration: 0.4, ease: 'power3.out' });
+      if (glow) gsap.to(glow, { opacity: 0.55, scale: 1, duration: 0.5, ease: 'power2.out' });
+if (arrow) gsap.to(arrow, { x: 0, duration: 0.4, ease: 'power3.out' });
     };
     const down = () => gsap.to(el, { scale: 0.97, duration: 0.15, ease: 'power2.out' });
     const up = () => gsap.to(el, { scale: 1.045, duration: 0.25, ease: 'power2.out' });
 
-    gsap.set(glow, { opacity: 0.55 });
+if (glow) gsap.set(glow, { opacity: 0.55 });
     el.addEventListener('mouseenter', enter);
     el.addEventListener('mouseleave', leave);
     el.addEventListener('mousedown', down);
@@ -182,9 +179,9 @@ export default function Navbar() {
     const ctx = gsap.context(() => {
       // Resting (top of page) navbar look
       gsap.set(navRef.current, {
-        backgroundColor: 'rgba(255,255,255,0.72)',
-        borderBottomColor: 'rgba(255,255,255,0.35)',
-        boxShadow: '0 1px 0 rgba(15,23,42,0.03)',
+        backgroundColor: 'rgba(5,8,22,0.65)',
+        borderBottomColor: 'rgba(255,255,255,0.08)',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
       });
       gsap.set(rowRef.current, { height: 84 });
 
@@ -218,9 +215,9 @@ export default function Navbar() {
         .to(
           navRef.current,
           {
-            backgroundColor: 'rgba(255,255,255,0.93)',
-            borderBottomColor: 'rgba(226,232,240,0.9)',
-            boxShadow: '0 6px 28px -8px rgba(15,23,42,0.14), 0 1px 0 rgba(15,23,42,0.04)',
+            backgroundColor: 'rgba(5,8,22,0.88)',
+            borderBottomColor: 'rgba(255,255,255,0.10)',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.25), 0 1px 0 rgba(139,92,246,0.06)',
           },
           0
         )
@@ -386,8 +383,12 @@ export default function Navbar() {
     <>
       <header
         ref={navRef}
-        className="fixed inset-x-0 top-0 z-[200] w-full border-b backdrop-blur-xl backdrop-saturate-150"
-        style={{ willChange: 'background-color, box-shadow, transform' }}
+        className="fixed inset-x-0 top-0 z-[200] w-full border-b"
+        style={{
+          willChange: 'background-color, box-shadow, transform',
+          backdropFilter: 'blur(16px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(150%)',
+        }}
       >
         <div
           ref={rowRef}
@@ -421,13 +422,13 @@ export default function Navbar() {
                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
                         className={`group inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] transition-colors duration-300 xl:px-4 ${
                           openIndex === i
-                            ? 'bg-slate-900/[0.04] text-slate-900'
-                            : 'text-slate-600 hover:bg-slate-900/[0.04] hover:text-slate-900'
+                            ? 'bg-white/[0.07] text-white shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]'
+                            : 'text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
                         }`}
                       >
                         {item.label}
                         <ChevronDown
-                          className={`h-3.5 w-3.5 text-slate-400 transition-transform duration-300 group-hover:text-slate-600 ${
+                          className={`h-3.5 w-3.5 text-[#D9E2F2]/60 transition-transform duration-300 group-hover:text-white/80 ${
                             openIndex === i ? 'rotate-180' : ''
                           }`}
                           strokeWidth={2.25}
@@ -437,7 +438,7 @@ export default function Navbar() {
                       <a
                         href={item.href}
                         onClick={item.label === 'Home' ? goHome : (e) => e.preventDefault()}
-                        className="inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] text-slate-600 transition-colors duration-300 hover:bg-slate-900/[0.04] hover:text-slate-900 xl:px-4"
+                        className="inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] text-[#D9E2F2] transition-colors duration-300 hover:bg-white/[0.06] hover:text-white xl:px-4"
                       >
                         {item.label}
                       </a>
@@ -451,7 +452,14 @@ export default function Navbar() {
                         }}
                         className="absolute left-1/2 top-full z-10 -translate-x-1/2 pt-3"
                       >
-                        <div className="relative min-w-[16rem] overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-2 shadow-[0_24px_60px_-18px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
+                        <div
+                          className="relative min-w-[16rem] overflow-hidden rounded-2xl border border-white/10 p-2 shadow-[0_24px_60px_-18px_rgba(0,0,0,0.6)]"
+                          style={{
+                            backgroundColor: 'rgba(5,8,22,0.90)',
+                            backdropFilter: 'blur(18px)',
+                            WebkitBackdropFilter: 'blur(18px)',
+                          }}
+                        >
                           <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-fuchsia-400/50 to-transparent" />
                           <ul className="relative">
                             {item.items.map((sub) => {
@@ -470,9 +478,9 @@ export default function Navbar() {
                                 <li key={label}>
                                   <a
                                     {...linkProps}
-                                    className="dd-link group flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 font-sans text-[0.85rem] font-medium text-slate-600 transition-colors duration-200 hover:bg-slate-50 hover:text-slate-900"
+                                    className="dd-link group flex items-center gap-2.5 rounded-xl px-3.5 py-2.5 font-sans text-[0.85rem] font-medium text-[#D9E2F2] transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
                                   >
-                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-200 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-[0_0_8px_rgba(192,38,211,0.55)]" />
+                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/25 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 group-hover:shadow-[0_0_8px_rgba(192,38,211,0.55)]" />
                                     <span className="whitespace-nowrap">{label}</span>
                                   </a>
                                 </li>
@@ -498,11 +506,11 @@ export default function Navbar() {
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/70 transition-colors duration-300 hover:bg-white lg:hidden"
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] transition-colors duration-300 hover:bg-white/[0.12] lg:hidden"
             >
               <span className="flex h-4 w-[22px] flex-col items-start justify-center gap-[5px]">
-                <span className="bar-top block h-[2px] w-[22px] rounded-full bg-slate-800" />
-                <span className="bar-bottom block h-[2px] w-[15px] rounded-full bg-slate-800" />
+                <span className="bar-top block h-[2px] w-[22px] rounded-full bg-[#D9E2F2]" />
+                <span className="bar-bottom block h-[2px] w-[15px] rounded-full bg-[#D9E2F2]" />
               </span>
             </button>
           </div>
@@ -512,12 +520,19 @@ export default function Navbar() {
       {/* Mobile full-screen drawer */}
       <div
         ref={drawerRef}
-        className="fixed inset-0 z-[190] overflow-y-auto bg-white/[0.97] backdrop-blur-2xl lg:hidden"
-        style={{ opacity: 0, visibility: 'hidden', pointerEvents: 'none' }}
+        className="fixed inset-0 z-[190] overflow-y-auto lg:hidden"
+        style={{
+          opacity: 0,
+          visibility: 'hidden',
+          pointerEvents: 'none',
+          backgroundColor: 'rgba(5,8,22,0.94)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+        }}
       >
         <div className="min-h-full px-6 pb-14 pt-28">
           <nav aria-label="Mobile navigation">
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-white/[0.08]">
               {NAV_ITEMS.map((item, i) => {
                 const hasMenu = Boolean(item.items);
                 return (
@@ -530,11 +545,11 @@ export default function Navbar() {
                           onClick={() => setAccOpen(accOpen === i ? null : i)}
                           className="flex w-full items-center justify-between py-4 text-left"
                         >
-                          <span className="font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-slate-900">
+                          <span className="font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-white">
                             {item.label}
                           </span>
                           <ChevronDown
-                            className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${
+                            className={`h-5 w-5 text-[#D9E2F2]/60 transition-transform duration-300 ${
                               accOpen === i ? 'rotate-180' : ''
                             }`}
                             strokeWidth={2.25}
@@ -547,7 +562,7 @@ export default function Navbar() {
                           className="overflow-hidden"
                           style={{ height: 0, opacity: 0 }}
                         >
-                          <ul className="mb-3 ml-1 space-y-0.5 border-l border-slate-100 pl-4">
+                          <ul className="mb-3 ml-1 space-y-0.5 border-l border-white/10 pl-4">
                             {item.items.map((sub) => {
                               const label = subLabel(sub);
                               const href = subHref(sub);
@@ -564,7 +579,7 @@ export default function Navbar() {
                                 <li key={label}>
                                   <a
                                     {...linkProps}
-                                    className="flex items-center gap-2.5 rounded-lg px-1 py-2.5 font-sans text-[0.9375rem] text-slate-600 active:text-slate-900"
+                                    className="flex items-center gap-2.5 rounded-lg px-1 py-2.5 font-sans text-[0.9375rem] text-[#D9E2F2] active:text-white"
                                   >
                                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" />
                                     {label}
@@ -582,7 +597,7 @@ export default function Navbar() {
                           e.preventDefault();
                           setMobileOpen(false);
                         }}
-                        className="block py-4 font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-slate-900"
+                        className="block py-4 font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-white"
                       >
                         {item.label}
                       </a>
@@ -595,7 +610,7 @@ export default function Navbar() {
 
           <div className="m-foot mt-10">
             <DemoButton className="w-full [&>button]:w-full [&>button]:justify-center [&>button]:py-3.5 [&>button]:text-[0.9375rem]" onClick={() => setMobileOpen(false)} />
-            <p className="mt-6 font-sans text-[0.8125rem] leading-relaxed text-slate-400">
+            <p className="mt-6 font-sans text-[0.8125rem] leading-relaxed text-[#D9E2F2]/60">
               OmicMind.ai — multi-omics AI intelligence for digital pathology and precision
               oncology.
             </p>

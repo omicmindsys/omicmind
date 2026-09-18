@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import tissueVideo from '../assets/tissue.mp4';
-
 gsap.registerPlugin(ScrollTrigger);
 
 /* The gaps the connectors have to span, in Tailwind units, so a rail is
@@ -99,6 +97,10 @@ const STAGES = [
     icon: icons.slide,
     from: '#7C3AED',
     to: '#A78BFA',
+    cardA: '124, 58, 237',
+    cardB: '168, 85, 247',
+    bg1: '#3B1D5A',
+    bg2: '#5B2A86',
     lg: 'right',
     sm: 'right',
   },
@@ -109,6 +111,10 @@ const STAGES = [
     icon: icons.biomarker,
     from: '#8B5CF6',
     to: '#C4B5FD',
+    cardA: '236, 72, 153',
+    cardB: '217, 70, 239',
+    bg1: '#4A1535',
+    bg2: '#7A1F52',
     lg: 'right',
     sm: 'down',
   },
@@ -119,6 +125,10 @@ const STAGES = [
     icon: icons.omics,
     from: '#A855F7',
     to: '#D8B4FE',
+    cardA: '59, 130, 246',
+    cardB: '96, 165, 250',
+    bg1: '#102A4C',
+    bg2: '#1E4E79',
     lg: 'down',
     sm: 'left',
   },
@@ -129,6 +139,10 @@ const STAGES = [
     icon: icons.integrate,
     from: '#C026D3',
     to: '#E879F9',
+    cardA: '124, 58, 237',
+    cardB: '59, 130, 246',
+    bg1: '#2D1B4E',
+    bg2: '#1E3A6D',
     lg: 'left',
     sm: 'down',
   },
@@ -139,6 +153,10 @@ const STAGES = [
     icon: icons.clinical,
     from: '#D946EF',
     to: '#F0ABFC',
+    cardA: '236, 72, 153',
+    cardB: '168, 85, 247',
+    bg1: '#4A1D3F',
+    bg2: '#54205F',
     lg: 'left',
     sm: 'right',
   },
@@ -149,6 +167,10 @@ const STAGES = [
     icon: icons.drug,
     from: '#EC4899',
     to: '#F9A8D4',
+    cardA: '59, 130, 246',
+    cardB: '124, 58, 237',
+    bg1: '#12384A',
+    bg2: '#3B2766',
   },
 ];
 
@@ -257,11 +279,23 @@ function Rail({ dir, show, from, to }) {
 }
 
 function StageCard({ stage, index }) {
-  const { no, title, body, icon, from, to, lg, sm } = stage;
+  const { no, title, body, icon, from, to, cardA, cardB, bg1, bg2, lg, sm } = stage;
+
+  /* Each stage carries its own two-colour accent. It is handed to the card
+     as two custom properties, so the single `wf-card` rule set at the foot
+     of this file tints six different cards — edge, corner glow, hover glow,
+     node, rule and step number — without a stylesheet entry per stage. */
+  const accent = {
+    '--wf-a': cardA,
+    '--wf-b': cardB,
+    '--wf-bg1': bg1,
+    '--wf-bg2': bg2,
+  };
 
   return (
     <li
       className={`wf-stage group relative ${PLACE_SM[index]} ${PLACE_LG[index]}`}
+      style={accent}
     >
       {/* ---- The links out of this stage, one per layout ---- */}
       {lg && <Rail dir={lg} show="hidden lg:block" from={from} to={to} />}
@@ -270,18 +304,23 @@ function StageCard({ stage, index }) {
         <Rail dir="down" show="block sm:hidden" from={from} to={to} />
       )}
 
-      {/* ---- The glass pane ----
-          One translucent white wash on one white hairline, over a very soft
-          neutral shadow. The card still carries no fill of its own, and the
-          backdrop blur is kept to 4px, so the tissue reads straight through
-          it rather than being smeared behind it.
+      {/* ---- The pane ----
+          Each stage carries its own dark gradient fill, `--wf-bg1` into
+          `--wf-bg2` on the same 135° diagonal, so the six cards read as six
+          identities — purple, pink, blue, purple-blue, pink-purple,
+          blue-purple — rather than one repeated tile. The matching accent
+          pair `--wf-a` / `--wf-b` still drives the edge, the corner glow,
+          the inner glow and the hover bloom. Dimensions, padding and the
+          hover lift are untouched, and the type stays white throughout. */}
+      <div className="wf-card relative flex h-full flex-col overflow-hidden rounded-[24px] border p-6 backdrop-blur-sm transition-all duration-[380ms] ease-out group-hover:-translate-y-1">
+        {/* A 1px gradient edge, A → white → B, drawn as a masked ring so it
+            tints the border line only and never the pane's interior. */}
+        <span className="wf-card-edge pointer-events-none absolute inset-0 rounded-[24px]" aria-hidden="true" />
 
-          The purple and pink live entirely in the shadow stack: two soft
-          outer rings, which the browser clips to the area *outside* the
-          border box, plus a 1px inset ring that tints the edge line itself.
-          Neither can reach the card's interior, so the glass — and the video
-          through it — stays uncoloured. */}
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-white/25 bg-white/[0.08] p-6 shadow-[0_8px_26px_-16px_rgba(0,0,0,0.5),0_0_14px_-2px_rgba(168,85,247,0.20),0_0_26px_-6px_rgba(236,72,153,0.16),inset_0_0_0_1px_rgba(217,70,239,0.10)] backdrop-blur-sm transition-all duration-[380ms] ease-out group-hover:-translate-y-1 group-hover:border-white/45 group-hover:bg-white/[0.13] group-hover:shadow-[0_18px_40px_-18px_rgba(0,0,0,0.55),0_0_20px_-2px_rgba(168,85,247,0.34),0_0_36px_-6px_rgba(236,72,153,0.26),inset_0_0_0_1px_rgba(217,70,239,0.20)]">
+        {/* Corner glow: the first accent pooled at the top right, the second
+            at the bottom left, both well under a fifth of an alpha. */}
+        <span className="wf-card-glow pointer-events-none absolute inset-0 rounded-[24px]" aria-hidden="true" />
+
         {/* Top sheen, so the pane reads as glass rather than a flat tile */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -295,7 +334,7 @@ function StageCard({ stage, index }) {
         {/* ---- Icon and number on one line ---- */}
         <div className="relative flex items-center justify-between gap-3">
           <span
-            className="wf-node relative flex h-11 w-11 items-center justify-center rounded-[14px] border border-white/30 bg-white/10 text-white transition-all duration-[380ms] ease-out group-hover:scale-105 group-hover:border-white/50"
+            className="wf-node relative flex h-11 w-11 items-center justify-center rounded-[14px] border text-white transition-all duration-[380ms] ease-out group-hover:scale-105"
             style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.45))' }}
           >
             {/* The ring that pulses once as the chain reaches this stage */}
@@ -307,10 +346,7 @@ function StageCard({ stage, index }) {
             {icon}
           </span>
 
-          <span
-            className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
-          >
+          <span className="wf-no font-sans text-[11px] font-semibold uppercase tracking-[0.22em]">
             {no}
           </span>
         </div>
@@ -325,11 +361,7 @@ function StageCard({ stage, index }) {
 
         {/* Short rule, separating the title from the description */}
         <span
-          className="relative mt-3.5 block h-px w-9 rounded-full transition-all duration-[380ms] ease-out group-hover:w-14"
-          style={{
-            backgroundImage:
-              'linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0.18))',
-          }}
+          className="wf-rule relative mt-3.5 block h-px w-9 rounded-full transition-all duration-[380ms] ease-out group-hover:w-14"
           aria-hidden="true"
         />
 
@@ -461,10 +493,116 @@ export default function WorkflowJourney() {
      opening onto the first. */
   return (
     <div ref={rootRef} className="relative mt-4 lg:mt-6">
+      {/* ---------------- Card accent system ----------------
+          Every rule here reads `--wf-a` and `--wf-b`, the two colours the
+          stage sets on its own `li`, so one rule set gives the six cards six
+          different accent pairs. Nothing below changes a card's size, its
+          padding, its blur or its layout — only what colour it carries. */}
+      <style>{`
+        .wf-card {
+          background-color: var(--wf-bg1);
+          background-image: linear-gradient(135deg, var(--wf-bg1) 0%, var(--wf-bg2) 100%);
+          border-color: rgba(var(--wf-b), 0.38);
+          box-shadow:
+            0 10px 28px -16px rgba(0, 0, 0, 0.62),
+            0 0 18px -4px rgba(var(--wf-a), 0.22),
+            0 0 34px -8px rgba(var(--wf-b), 0.18),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+            inset 0 0 32px -10px rgba(var(--wf-b), 0.35);
+        }
+        .wf-stage:hover .wf-card {
+          background-image:
+            linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
+            linear-gradient(135deg, var(--wf-bg1) 0%, var(--wf-bg2) 100%);
+          border-color: rgba(var(--wf-b), 0.62);
+          box-shadow:
+            0 20px 44px -18px rgba(0, 0, 0, 0.66),
+            0 0 26px -4px rgba(var(--wf-a), 0.38),
+            0 0 52px -8px rgba(var(--wf-b), 0.30),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+            inset 0 0 40px -10px rgba(var(--wf-b), 0.50);
+        }
+
+        /* The gradient edge, masked to a 1px ring so it stays on the border */
+        .wf-card-edge {
+          padding: 1px;
+          background-image: linear-gradient(
+            140deg,
+            rgba(var(--wf-a), 0.55) 0%,
+            rgba(255, 255, 255, 0.10) 52%,
+            rgba(var(--wf-b), 0.50) 100%
+          );
+          -webkit-mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+          mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          opacity: 0.7;
+          transition: opacity 380ms ease-out;
+        }
+        .wf-stage:hover .wf-card-edge { opacity: 1; }
+
+        /* Corner glow — A at the top right, B at the bottom left */
+        .wf-card-glow {
+          background-image:
+            radial-gradient(38% 34% at 100% 0%, rgba(var(--wf-a), 0.20) 0%, rgba(0, 0, 0, 0) 70%),
+            radial-gradient(40% 36% at 0% 100%, rgba(var(--wf-b), 0.16) 0%, rgba(0, 0, 0, 0) 72%);
+          opacity: 0.85;
+          transition: opacity 380ms ease-out;
+        }
+        .wf-stage:hover .wf-card-glow { opacity: 1; }
+
+        /* The icon plate: a tinted fill and a soft accent halo, the glyph
+           itself left white so it keeps its contrast on the dark pane. */
+        .wf-node {
+          border-color: rgba(255, 255, 255, 0.26);
+          background-image: linear-gradient(
+            145deg,
+            rgba(var(--wf-a), 0.30) 0%,
+            rgba(var(--wf-b), 0.18) 100%
+          );
+          box-shadow:
+            inset 0 0 0 1px rgba(var(--wf-a), 0.18),
+            0 0 14px -4px rgba(var(--wf-b), 0.50);
+        }
+        .wf-stage:hover .wf-node {
+          border-color: rgba(255, 255, 255, 0.46);
+          box-shadow:
+            inset 0 0 0 1px rgba(var(--wf-a), 0.30),
+            0 0 22px -4px rgba(var(--wf-b), 0.75);
+        }
+
+        /* The step number, clipped over white so the accent reads as a light
+           tint rather than as the saturated colour itself. */
+        .wf-no {
+          background-color: #ffffff;
+          background-image: linear-gradient(
+            90deg,
+            rgba(var(--wf-a), 0.68) 0%,
+            rgba(var(--wf-b), 0.68) 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        /* The short rule under each title, running A → B */
+        .wf-rule {
+          background-image: linear-gradient(
+            90deg,
+            rgba(var(--wf-a), 0.95) 0%,
+            rgba(var(--wf-b), 0.35) 100%
+          );
+        }
+      `}</style>
+
       {/* ---------------- Header ---------------- */}
       <div ref={headRef} className="mx-auto max-w-3xl text-center">
-        <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.25rem]">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+        <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#F8FAFC] sm:text-5xl lg:text-[3.25rem]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
             End-to-End AI Workflow from Tissue to Therapy
           </span>
         </h2>
@@ -490,7 +628,7 @@ export default function WorkflowJourney() {
             className="absolute inset-0"
             style={{
               backgroundImage:
-                'radial-gradient(46% 40% at 14% 10%, rgba(124,58,237,0.10) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 88% 90%, rgba(236,72,153,0.09) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(168,85,247,0.05) 0%, rgba(255,255,255,0) 76%)',
+                'radial-gradient(46% 40% at 14% 10%, rgba(124,58,237,0.22) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 88% 90%, rgba(236,72,153,0.18) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(30,58,138,0.28) 0%, rgba(11,16,32,0) 76%)',
             }}
           />
 
@@ -503,17 +641,17 @@ export default function WorkflowJourney() {
           >
             <defs>
               <pattern id="wf-molecule" width="180" height="156" patternUnits="userSpaceOnUse">
-                <g fill="none" stroke="rgba(124,58,237,0.14)" strokeWidth="1" strokeLinecap="round">
+                <g fill="none" stroke="rgba(167,139,250,0.22)" strokeWidth="1" strokeLinecap="round">
                   <path d="M90 12 L156 50 L156 126 L90 164 L24 126 L24 50 Z" />
                   <path d="M90 12 L90 88 M90 88 L156 126 M90 88 L24 126" />
                 </g>
-                <g fill="rgba(168,85,247,0.28)">
+                <g fill="rgba(192,132,252,0.38)">
                   <circle cx="90" cy="12" r="2.4" />
                   <circle cx="156" cy="50" r="2" />
                   <circle cx="24" cy="50" r="2" />
                   <circle cx="90" cy="88" r="2.8" />
                 </g>
-                <g fill="rgba(236,72,153,0.24)">
+                <g fill="rgba(244,114,182,0.34)">
                   <circle cx="156" cy="126" r="2" />
                   <circle cx="24" cy="126" r="2" />
                 </g>
@@ -523,35 +661,46 @@ export default function WorkflowJourney() {
           </svg>
         </div>
 
-        {/* ---- The card area and its background video ----
-            The wrapper is sized by the grid alone, so `tissue.mp4` covers
+        {/* ---- The card area and its ground ----
+            The wrapper is sized by the grid alone, so the panel covers
             exactly the box the six stages occupy — at every breakpoint,
             however many columns the grid resolves to — and never the page.
-            Its padding keeps the footage running a little past the cards, so
-            the blooms and the hover lift are never clipped by the rounding. */}
-        <div className="relative overflow-hidden rounded-[2rem] p-5 sm:p-7 lg:p-9">
-          <video
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center"
-            src={tissueVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            controls={false}
-            disablePictureInPicture
+            Its padding keeps the ground running a little past the cards, so
+            the blooms and the hover lift are never clipped by the rounding.
+            Every layer below is `absolute inset-0`, exactly as the footage
+            it replaces was, so the panel takes its height from the grid and
+            nothing here can open a gap. */}
+        <div className="relative overflow-hidden rounded-[2rem] bg-[#080B18] p-5 sm:p-7 lg:p-9">
+          {/* The ground: a shallow diagonal through three near-black
+              navies, so the panel reads as lit rather than as one flat
+              rectangle, and sits a shade below the section around it. */}
+          <span
+            className="pointer-events-none absolute inset-0 z-0"
+            style={{
+              backgroundImage:
+                'linear-gradient(160deg, #0C1024 0%, #080B18 48%, #0A0C20 100%)',
+            }}
             aria-hidden="true"
           />
 
-          {/* A neutral scrim — no blur, no tint, no colour — carrying just
-              enough density to seat white type over moving footage. The video
-              itself stays completely sharp underneath it. */}
+          {/* Three very faint pools of the brand ramp — violet at the head
+              of the chain, purple at its foot, a breath of pink between —
+              none above 0.2 alpha, so they give the ground depth without
+              ever competing with the glass panes over them. */}
           <span
-            className="pointer-events-none absolute inset-0 z-[1]"
+            className="pointer-events-none absolute inset-0 z-0"
             style={{
               backgroundImage:
-                'linear-gradient(180deg, rgba(8,10,14,0.42) 0%, rgba(8,10,14,0.34) 46%, rgba(8,10,14,0.46) 100%)',
+                'radial-gradient(58% 46% at 16% 10%, rgba(124,58,237,0.20) 0%, rgba(8,11,24,0) 68%), radial-gradient(52% 44% at 86% 90%, rgba(168,85,247,0.14) 0%, rgba(8,11,24,0) 70%), radial-gradient(46% 38% at 50% 50%, rgba(236,72,153,0.07) 0%, rgba(8,11,24,0) 74%)',
             }}
+            aria-hidden="true"
+          />
+
+          {/* A hairline on the inside of the rounding, so the panel states
+              its own edge against the section rather than bleeding into it. */}
+          <span
+            className="pointer-events-none absolute inset-0 z-[1] rounded-[2rem]"
+            style={{ boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)' }}
             aria-hidden="true"
           />
 

@@ -2,94 +2,99 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import breastImg from '../assets/breastcancer.webp';
-import lungImg from '../assets/lungcancer.webp';
-import colorectalImg from '../assets/colorectal.webp';
-/* Gastric deliberately carries the pancreatic photograph — the asset the
-   brief specifies for this card. Not a mismatch to be "corrected". */
-import gastricImg from '../assets/pancreatic.webp';
-import ovarianImg from '../assets/ovarian.webp';
-import panCancerImg from '../assets/pancancer.webp';
-
 gsap.registerPlugin(ScrollTrigger);
 
-const stroke = {
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeWidth: 1.6,
-  strokeLinecap: 'round',
-  strokeLinejoin: 'round',
-};
-
 /* ------------------------------------------------------------------
-   Six minimal marks, one per disease area, all drawn in the same
-   24 x 24 box and inheriting `currentColor` so each takes its card's
-   accent without a second definition. Deliberately abstract — these
-   read as anatomy at a glance without pretending to be diagrams.
------------------------------------------------------------------- */
-const icons = {
-  breast: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <path d="M10 21.2 15.4 9.6" />
-      <path d="M14 21.2 8.6 9.6" />
-      <path d="M8.6 9.6c-1.6-2.6-.8-5.2 1.6-6.2 2.4-1 4.8.6 5.4 3 .3 1.3 0 2.4-1 3.2" />
-    </svg>
-  ),
-  lung: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <path d="M12 3.2v7.6" />
-      <path d="M10.1 10.8c-1.2 0-2.1.8-2.3 2l-1 5.8c-.3 1.7.8 3 2.3 3h1.1c1 0 1.8-.8 1.8-1.8v-7.2c0-1-.8-1.8-1.9-1.8z" />
-      <path d="M13.9 10.8c1.2 0 2.1.8 2.3 2l1 5.8c.3 1.7-.8 3-2.3 3h-1.1c-1 0-1.8-.8-1.8-1.8v-7.2c0-1 .8-1.8 1.9-1.8z" />
-    </svg>
-  ),
-  colorectal: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <path d="M7 3.4v4.4a3.4 3.4 0 0 0 3.4 3.4h3.2A3.4 3.4 0 0 1 17 14.6v6" />
-      <path d="M4.4 3.4h5.2" />
-      <path d="M14.4 20.6h5.2" />
-    </svg>
-  ),
-  gastric: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <path d="M8.8 3.2v3.4c0 3-2.4 3.6-2.4 7.2 0 3.6 2.8 6.2 6.2 6.2 3 0 5.2-1.9 5.2-4.5 0-2.4-1.6-3.8-3.4-3.8" />
-      <path d="M8.8 6.6h3.8" />
-    </svg>
-  ),
-  ovarian: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <path d="M12 21.2v-6.2" />
-      <path d="M12 15c-3.4 0-6-2.4-6-5.5S8.6 4 12 4s6 2.4 6 5.5S15.4 15 12 15z" />
-      <circle cx="12" cy="9.5" r="2" />
-    </svg>
-  ),
-  panCancer: (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-      <circle cx="12" cy="12" r="2.8" />
-      <circle cx="12" cy="3.8" r="1.5" />
-      <circle cx="19.1" cy="7.9" r="1.5" />
-      <circle cx="19.1" cy="16.1" r="1.5" />
-      <circle cx="12" cy="20.2" r="1.5" />
-      <circle cx="4.9" cy="16.1" r="1.5" />
-      <circle cx="4.9" cy="7.9" r="1.5" />
-      <path d="M12 5.3v3.9M17.8 8.7 14.4 10.6M17.8 15.3 14.4 13.4M12 18.7v-3.9M6.2 15.3 9.6 13.4M6.2 8.7 9.6 10.6" />
-    </svg>
-  ),
-};
+   Three modules, carried on type alone.
 
-/* Six steps of the brand ramp — violet through lavender to pink — so the
-   grid reads as one system while every area stays individually legible. */
-const AREAS = [
-  { no: '01', title: 'Breast Cancer', icon: icons.breast, img: breastImg, from: '#7C3AED', to: '#A78BFA' },
-  { no: '02', title: 'Lung Cancer', icon: icons.lung, img: lungImg, from: '#8B5CF6', to: '#C4B5FD' },
-  { no: '03', title: 'Colorectal Cancer', icon: icons.colorectal, img: colorectalImg, from: '#A855F7', to: '#D8B4FE' },
-  { no: '04', title: 'Pancreatic Cancer', icon: icons.gastric, img: gastricImg, from: '#C026D3', to: '#E879F9' },
-  { no: '05', title: 'Ovarian Cancer', icon: icons.ovarian, img: ovarianImg, from: '#D946EF', to: '#F0ABFC' },
-  { no: '06', title: 'Pan-Cancer Analysis', icon: icons.panCancer, img: panCancerImg, from: '#EC4899', to: '#F9A8D4' },
+   Nothing in these cards is photographed or drawn. Each is a short
+   dossier and its interest comes from the hierarchy — a category
+   label, the module's name, what it does, what it is for, and where it
+   sits in the plan — with hairlines rather than colour separating one
+   block from the next. Each card takes one step of the brand ramp for
+   its label, its rules and its hover bloom, so the three read as one
+   system without any of them becoming the loud one.
+------------------------------------------------------------------ */
+const MODULES = [
+  {
+    eyebrow: 'RUO QUANT',
+    title: 'OM BREAST',
+    features: [
+      'Tumour and compartment segmentation',
+      'ER/PR quantification and H-score',
+      'Ki-67 global and hotspot analysis',
+      'HER2 scoring assistance',
+      'CD3/CD8 spatial density',
+    ],
+    purposeLabel: 'Commercial Purpose',
+    purpose: 'Validate the platform, reporting and multi-stain workflow.',
+    highlight: 'Ship second',
+    from: '#7C3AED',
+    to: '#A78BFA',
+  },
+  {
+    eyebrow: 'RESEARCH',
+    title: 'OM LUNG IMMUNE',
+    features: [
+      'Histologic subtype assistance',
+      'Assay-specific PD-L1 TPS',
+      'CD8 spatial density',
+      'Inflamed, excluded and desert phenotypes',
+      'Cohort export for translational research',
+    ],
+    purposeLabel: 'Commercial Purpose',
+    purpose: 'Enter pharma biomarker and IO workflows.',
+    highlight: 'Flagship asset',
+    from: '#A855F7',
+    to: '#E879F9',
+  },
+  {
+    eyebrow: 'FLAGSHIP ASSET',
+    title: 'LUNG IO-RESISTANCE',
+    features: [
+      'Outcome-linked pretreatment cohort',
+      'Spatial resistance signature',
+      'Locked external validation',
+      'Patent and prospective protocol',
+      'Mechanism and wet-lab confirmation',
+    ],
+    purposeLabel: 'Fundraising Purpose',
+    purpose: 'Demonstrate an asset, not merely software.',
+    from: '#D946EF',
+    to: '#F9A8D4',
+  },
 ];
 
-function AreaCard({ no, title,img, icon, from, to }) {
+/* The hairline between one block of the dossier and the next: the
+   card's own accent at the left, fading out across the measure, so the
+   division is felt rather than drawn. */
+function Rule({ to }) {
   return (
-    <li className="oda-card group relative h-full list-none">
+    <span
+      className="relative my-6 block h-px w-full"
+      style={{ backgroundImage: `linear-gradient(90deg, ${to}59, ${to}1A 45%, transparent 100%)` }}
+      aria-hidden="true"
+    />
+  );
+}
+
+function ModuleCard({
+  eyebrow,
+  title,
+  features,
+  purposeLabel,
+  purpose,
+  highlight,
+  from,
+  to,
+  wide,
+}) {
+  return (
+    <li
+      className={`oda-card group relative h-full list-none ${
+        wide ? 'sm:col-span-2 lg:col-span-1' : ''
+      }`}
+    >
       {/* Outer bloom — off at rest, lifted in on hover */}
       <div
         className="pointer-events-none absolute -inset-[6px] rounded-[30px] opacity-0 blur-[16px] transition-opacity duration-[380ms] ease-out group-hover:opacity-100"
@@ -102,87 +107,84 @@ function AreaCard({ no, title,img, icon, from, to }) {
       <div
         className="relative h-full rounded-[24px] p-px shadow-[0_10px_30px_-20px_rgba(76,29,149,0.45)] transition-all duration-[380ms] ease-out group-hover:-translate-y-1.5 group-hover:shadow-[0_28px_54px_-22px_rgba(124,58,237,0.36)]"
         style={{
-          backgroundImage: `linear-gradient(150deg, rgba(255,255,255,0.92) 0%, ${from}80 34%, ${to}4D 64%, rgba(255,255,255,0.55) 100%)`,
+          backgroundImage: `linear-gradient(150deg, rgba(255,255,255,0.55) 0%, ${from}80 34%, ${to}4D 64%, rgba(255,255,255,0.28) 100%)`,
         }}
       >
-        <div className="relative flex h-full min-h-[19rem] flex-col justify-end overflow-hidden rounded-[23px]">
-          {/* ---- The photograph, filling the card ----
-              `object-cover` with a centred origin, so the frame crops rather
-              than stretching whatever aspect the source happens to be. */}
-          <img
-            src={img}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[700ms] ease-out group-hover:scale-[1.05]"
-          />
-
-          {/* ---- Readability wash ----
-              Dark from the foot so the type always has ground under it,
-              with a breath of the card's own accent across the top. Kept
-              off the image's midtones, so the picture stays sharp. */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(180deg, rgba(10,4,24,0.10) 0%, rgba(10,4,24,0.34) 42%, rgba(10,4,24,0.84) 100%), linear-gradient(158deg, ${from}3D 0%, rgba(10,4,24,0) 52%)`,
-            }}
-            aria-hidden="true"
-          />
-
-          {/* The accent deepening as the card is hovered */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[380ms] ease-out group-hover:opacity-100"
-            style={{
-              backgroundImage: `linear-gradient(158deg, ${from}52 0%, rgba(10,4,24,0) 46%), linear-gradient(0deg, ${to}2E 0%, rgba(10,4,24,0) 55%)`,
-            }}
-            aria-hidden="true"
-          />
-
+        {/* The glass the dossier is set on. It carries no fill of its own
+            beyond a few percent of white, so the section's ground reads
+            through it and the card stays a card rather than a panel. */}
+        <div className="relative flex h-full flex-col overflow-hidden rounded-[23px] bg-white/[0.045] p-7 backdrop-blur-xl sm:p-8">
           {/* Top sheen, so the card still reads as glass at its edge */}
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-px"
-            style={{
-              backgroundImage: `linear-gradient(90deg, transparent, ${to}99, transparent)`,
-            }}
+            style={{ backgroundImage: `linear-gradient(90deg, transparent, ${to}99, transparent)` }}
             aria-hidden="true"
           />
 
-          {/* ---- Content, anchored to the foot of the image ---- */}
-          <div className="relative flex items-center gap-4 p-6">
-            {/* ---- Icon ---- */}
-            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-[15px] border border-white/30 bg-white/15 text-white shadow-[0_10px_24px_-14px_rgba(10,4,24,0.9)] backdrop-blur-md transition-transform duration-[380ms] ease-out group-hover:scale-110">
-              {/* Top sheen on the mark itself, matching the engine's */}
-              <span
-                className="pointer-events-none absolute inset-0 rounded-[15px] opacity-60"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 62%)',
-                }}
-                aria-hidden="true"
-              />
-              <span className="relative">{icon}</span>
-            </span>
+          {/* 1 — category */}
+          <span
+            className="relative inline-flex w-fit items-center rounded-full border px-3 py-1.5 font-sans text-[10px] font-semibold uppercase leading-none tracking-[0.22em]"
+            style={{ borderColor: `${to}3D`, backgroundColor: `${from}1A`, color: to }}
+          >
+            {eyebrow}
+          </span>
 
-            {/* ---- Number and name ---- */}
-            <div className="min-w-0">
-              <span
-                className="block font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-transparent bg-clip-text"
-                style={{ backgroundImage: `linear-gradient(120deg, ${to}, #FFFFFF)` }}
-              >
-                {no}
-              </span>
+          {/* 2 — the module's name, the loudest thing on the card */}
+          <h3 className="relative mt-5 font-serif text-[1.5rem] font-semibold uppercase leading-tight tracking-[0.01em] text-white [text-wrap:balance] sm:text-[1.65rem]">
+            {title}
+          </h3>
 
-              <h3 className="mt-1.5 font-serif text-[1.2rem] font-semibold leading-tight tracking-[-0.01em] text-white [text-shadow:0_1px_16px_rgba(10,4,24,0.65)] [text-wrap:balance]">
-                {title}
-              </h3>
+          <Rule to={to} />
 
-              {/* Short accent rule, extending as the card is hovered */}
-              <span
-                className="mt-3 block h-px w-9 rounded-full transition-all duration-[380ms] ease-out group-hover:w-14"
-                style={{ backgroundImage: `linear-gradient(90deg, ${to}, #FFFFFF)` }}
-                aria-hidden="true"
-              />
-            </div>
+          {/* 3 — what it does */}
+          <ul className="relative space-y-3 [text-wrap:pretty]">
+            {features.map((f) => (
+              <li key={f} className="flex items-start gap-3">
+                <span
+                  className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                  style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
+                  aria-hidden="true"
+                />
+                <span className="font-sans text-[13.5px] leading-relaxed text-slate-300">{f}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* ---- The foot of the dossier ----
+              Held down with `mt-auto`, so the purpose and the status line
+              up across the row however many lines the capabilities above
+              them run to. The third card carries no status; its purpose
+              simply sits where the others' does. */}
+          <div className="relative mt-auto">
+            <Rule to={to} />
+
+            {/* 4 — purpose heading */}
+            <p
+              className="font-sans text-[10px] font-semibold uppercase leading-none tracking-[0.18em]"
+              style={{ color: to }}
+            >
+              {purposeLabel}
+            </p>
+
+            {/* 5 — purpose description */}
+            <p className="mt-2.5 font-sans text-[13.5px] leading-relaxed text-slate-300 [text-wrap:pretty]">
+              {purpose}
+            </p>
+
+            {/* 6 — where it sits in the plan */}
+            {highlight && (
+              <>
+                <Rule to={to} />
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase leading-none tracking-[0.16em] text-white">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: to, boxShadow: `0 0 8px 1.5px ${to}` }}
+                    aria-hidden="true"
+                  />
+                  {highlight}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -211,8 +213,7 @@ export default function OncologyDiseaseAreas() {
         scrollTrigger: { trigger: headRef.current, start: 'top 85%' },
       });
 
-      // The six areas land in reading order, across the first row and
-      // then the second.
+      // The three modules land in reading order, left to right.
       gsap.from('.oda-card', {
         y: 44,
         opacity: 0,
@@ -239,8 +240,8 @@ export default function OncologyDiseaseAreas() {
     <div ref={rootRef} className="relative mt-24 lg:mt-32">
       {/* ---------------- Header ---------------- */}
       <div ref={headRef} className="mx-auto max-w-3xl text-center">
-        <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.25rem]">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+        <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#F8FAFC] sm:text-5xl lg:text-[3.25rem]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
             Oncology Disease Areas
           </span>
         </h2>
@@ -252,10 +253,10 @@ export default function OncologyDiseaseAreas() {
         />
       </div>
 
-      {/* ---------------- The six areas ---------------- */}
+      {/* ---------------- The three modules ---------------- */}
       <div ref={gridRef} className="relative mt-14 lg:mt-16">
-        {/* ---- The ground the six areas sit on ----
-            A white field lifted by one purple and one pink radial, with a
+        {/* ---- The ground the three modules sit on ----
+            A dark field lifted by one purple and one pink radial, with a
             faint molecular lattice across it. Decoration only: it sits
             behind the grid and never touches the type. */}
         <div
@@ -266,7 +267,7 @@ export default function OncologyDiseaseAreas() {
             className="absolute inset-0"
             style={{
               backgroundImage:
-                'radial-gradient(46% 40% at 14% 10%, rgba(124,58,237,0.10) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 88% 90%, rgba(236,72,153,0.09) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(168,85,247,0.05) 0%, rgba(255,255,255,0) 76%)',
+                'radial-gradient(46% 40% at 14% 10%, rgba(124,58,237,0.22) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 88% 90%, rgba(236,72,153,0.18) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(30,58,138,0.28) 0%, rgba(11,16,32,0) 76%)',
             }}
           />
 
@@ -279,17 +280,17 @@ export default function OncologyDiseaseAreas() {
           >
             <defs>
               <pattern id="oda-molecule" width="180" height="156" patternUnits="userSpaceOnUse">
-                <g fill="none" stroke="rgba(124,58,237,0.14)" strokeWidth="1" strokeLinecap="round">
+                <g fill="none" stroke="rgba(167,139,250,0.22)" strokeWidth="1" strokeLinecap="round">
                   <path d="M90 12 L156 50 L156 126 L90 164 L24 126 L24 50 Z" />
                   <path d="M90 12 L90 88 M90 88 L156 126 M90 88 L24 126" />
                 </g>
-                <g fill="rgba(168,85,247,0.28)">
+                <g fill="rgba(192,132,252,0.38)">
                   <circle cx="90" cy="12" r="2.4" />
                   <circle cx="156" cy="50" r="2" />
                   <circle cx="24" cy="50" r="2" />
                   <circle cx="90" cy="88" r="2.8" />
                 </g>
-                <g fill="rgba(236,72,153,0.24)">
+                <g fill="rgba(244,114,182,0.34)">
                   <circle cx="156" cy="126" r="2" />
                   <circle cx="24" cy="126" r="2" />
                 </g>
@@ -299,12 +300,14 @@ export default function OncologyDiseaseAreas() {
           </svg>
         </div>
 
-        {/* Three across from `lg` in two full rows, two on a tablet, one on
-            a phone. `items-stretch` plus `h-full` on each shell keeps a
-            row's cards to a shared height. */}
+        {/* Three across in one row from `lg`; two on a tablet with the
+            third taking the full width beneath them, rather than sitting
+            beside a gap; one to a row on a phone. `items-stretch` plus
+            `h-full` on each shell keeps the row's cards to a shared
+            height, and the cards grow to their content on a phone. */}
         <ol className="relative grid grid-cols-1 items-stretch gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-          {AREAS.map((area) => (
-            <AreaCard key={area.title} {...area} />
+          {MODULES.map((module, i) => (
+            <ModuleCard key={module.title} {...module} wide={i === 2} />
           ))}
         </ol>
       </div>

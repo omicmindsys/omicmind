@@ -34,20 +34,20 @@ function Defs({ id }) {
   return (
     <defs>
       <linearGradient id={`${id}-ring`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#7C3AED" />
+        <stop offset="0%" stopColor="#A78BFA" />
         <stop offset="55%" stopColor="#D946EF" />
         <stop offset="100%" stopColor="#EC4899" />
       </linearGradient>
       <linearGradient id={`${id}-bar`} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor="#7C3AED" />
+        <stop offset="0%" stopColor="#A78BFA" />
         <stop offset="100%" stopColor="#EC4899" />
       </linearGradient>
       <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.16" />
-        <stop offset="100%" stopColor="#EC4899" stopOpacity="0.1" />
+        <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.26" />
+        <stop offset="100%" stopColor="#EC4899" stopOpacity="0.18" />
       </linearGradient>
       <linearGradient id={`${id}-area`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#A855F7" stopOpacity="0.28" />
+        <stop offset="0%" stopColor="#A855F7" stopOpacity="0.36" />
         <stop offset="100%" stopColor="#EC4899" stopOpacity="0" />
       </linearGradient>
     </defs>
@@ -84,15 +84,15 @@ function ClinicalVisual() {
         width="300"
         height="156"
         rx="12"
-        fill="#ffffff"
-        stroke="rgba(124,58,237,0.18)"
+        fill="#101B2E"
+        stroke="rgba(167,139,250,0.31)"
         strokeWidth="1.2"
       />
-      <path d="M10 33h300" stroke="rgba(124,58,237,0.12)" strokeWidth="1" />
-      <circle cx="24" cy="22.5" r="2.2" fill="rgba(124,58,237,0.35)" />
-      <circle cx="33" cy="22.5" r="2.2" fill="rgba(217,70,239,0.32)" />
-      <circle cx="42" cy="22.5" r="2.2" fill="rgba(236,72,153,0.3)" />
-      <rect x="58" y="18.5" width="64" height="8" rx="4" fill="rgba(124,58,237,0.1)" />
+      <path d="M10 33h300" stroke="rgba(167,139,250,0.24)" strokeWidth="1" />
+      <circle cx="24" cy="22.5" r="2.2" fill="rgba(167,139,250,0.47)" />
+      <circle cx="33" cy="22.5" r="2.2" fill="rgba(232,121,249,0.44)" />
+      <circle cx="42" cy="22.5" r="2.2" fill="rgba(244,114,182,0.43)" />
+      <rect x="58" y="18.5" width="64" height="8" rx="4" fill="rgba(167,139,250,0.22)" />
 
       {/* Whole-slide preview */}
       <rect
@@ -102,18 +102,18 @@ function ClinicalVisual() {
         height="72"
         rx="8"
         fill={`url(#${id}-fill)`}
-        stroke="rgba(124,58,237,0.2)"
+        stroke="rgba(167,139,250,0.33)"
         strokeWidth="1.1"
       />
       <g className="eco1-cells">
-        <circle cx="48" cy="66" r="7" fill="none" stroke="rgba(124,58,237,0.5)" strokeWidth="1.3" />
-        <circle cx="48" cy="66" r="2.2" fill="rgba(124,58,237,0.55)" />
-        <circle cx="78" cy="60" r="5" fill="none" stroke="rgba(168,85,247,0.5)" strokeWidth="1.3" />
-        <circle cx="78" cy="60" r="1.8" fill="rgba(168,85,247,0.5)" />
-        <circle cx="64" cy="92" r="6" fill="none" stroke="rgba(217,70,239,0.45)" strokeWidth="1.3" />
-        <circle cx="64" cy="92" r="1.9" fill="rgba(217,70,239,0.5)" />
-        <circle cx="100" cy="88" r="4.4" fill="none" stroke="rgba(236,72,153,0.45)" strokeWidth="1.3" />
-        <circle cx="104" cy="66" r="3.4" fill="none" stroke="rgba(236,72,153,0.4)" strokeWidth="1.2" />
+        <circle cx="48" cy="66" r="7" fill="none" stroke="rgba(167,139,250,0.59)" strokeWidth="1.3" />
+        <circle cx="48" cy="66" r="2.2" fill="rgba(167,139,250,0.62)" />
+        <circle cx="78" cy="60" r="5" fill="none" stroke="rgba(192,132,252,0.59)" strokeWidth="1.3" />
+        <circle cx="78" cy="60" r="1.8" fill="rgba(192,132,252,0.59)" />
+        <circle cx="64" cy="92" r="6" fill="none" stroke="rgba(232,121,249,0.55)" strokeWidth="1.3" />
+        <circle cx="64" cy="92" r="1.9" fill="rgba(232,121,249,0.59)" />
+        <circle cx="100" cy="88" r="4.4" fill="none" stroke="rgba(244,114,182,0.55)" strokeWidth="1.3" />
+        <circle cx="104" cy="66" r="3.4" fill="none" stroke="rgba(244,114,182,0.51)" strokeWidth="1.2" />
       </g>
       {/* AI detection box sweeping the slide */}
       <rect
@@ -132,10 +132,10 @@ function ClinicalVisual() {
       {/* Biomarker readouts */}
       {METRICS.map((m) => (
         <g key={m.label}>
-          <text x={BAR_TRACK} y={m.y} fill="#6B7280" {...CAPTION}>
+          <text x={BAR_TRACK} y={m.y} fill="#CBD5E1" {...CAPTION}>
             {m.label}
           </text>
-          <rect x={BAR_TRACK} y={m.y + 6} width="152" height="6" rx="3" fill="rgba(124,58,237,0.1)" />
+          <rect x={BAR_TRACK} y={m.y + 6} width="152" height="6" rx="3" fill="rgba(167,139,250,0.22)" />
           <rect
             className="eco1-bar"
             x={BAR_TRACK}
@@ -157,12 +157,12 @@ function ClinicalVisual() {
             width="80"
             height="22"
             rx="11"
-            fill="#ffffff"
-            stroke="rgba(124,58,237,0.22)"
+            fill="#101B2E"
+            stroke="rgba(167,139,250,0.35)"
             strokeWidth="1.1"
           />
           <circle cx={f.x + 14} cy="141" r="3.2" fill={`url(#${id}-ring)`} />
-          <text x={f.x + 24} y="144" fill="#4B5563" {...PILL_TEXT}>
+          <text x={f.x + 24} y="144" fill="#E2E8F0" {...PILL_TEXT}>
             {f.label}
           </text>
           {i < FLOW.length - 1 && (
@@ -172,7 +172,7 @@ function ClinicalVisual() {
                 y1="141"
                 x2={f.x + 94}
                 y2="141"
-                stroke="rgba(124,58,237,0.35)"
+                stroke="rgba(167,139,250,0.47)"
                 strokeWidth="1.2"
                 strokeLinecap="round"
               />
@@ -245,10 +245,10 @@ function BiomarkerVisual() {
     <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="h-auto w-full" aria-hidden="true">
       <Defs id={id} />
 
-      <text x="82" y="20" fill="#9CA3AF" textAnchor="middle" {...CAPTION}>
+      <text x="82" y="20" fill="#94A3B8" textAnchor="middle" {...CAPTION}>
         MOLECULAR NETWORK
       </text>
-      <text x={HM_X + hmW / 2} y="20" fill="#9CA3AF" textAnchor="middle" {...CAPTION}>
+      <text x={HM_X + hmW / 2} y="20" fill="#94A3B8" textAnchor="middle" {...CAPTION}>
         BIOMARKER MAP
       </text>
 
@@ -261,7 +261,7 @@ function BiomarkerVisual() {
           y1={NET_NODES[a].y}
           x2={NET_NODES[b].x}
           y2={NET_NODES[b].y}
-          stroke="rgba(124,58,237,0.45)"
+          stroke="rgba(167,139,250,0.55)"
           strokeWidth="1.1"
           strokeLinecap="round"
           opacity="0.42"
@@ -278,7 +278,7 @@ function BiomarkerVisual() {
               cy={n.y}
               r={n.r + 4}
               fill="none"
-              stroke="rgba(236,72,153,0.55)"
+              stroke="rgba(244,114,182,0.62)"
               strokeWidth="1.4"
             />
             <circle cx={n.x} cy={n.y} r={n.r} fill={`url(#${id}-ring)`} />
@@ -289,8 +289,8 @@ function BiomarkerVisual() {
             cx={n.x}
             cy={n.y}
             r={n.r}
-            fill="#ffffff"
-            stroke="rgba(124,58,237,0.5)"
+            fill="#101B2E"
+            stroke="rgba(167,139,250,0.59)"
             strokeWidth="1.4"
           />
         )
@@ -330,10 +330,10 @@ function BiomarkerVisual() {
 
       {/* Intensity legend */}
       <rect x={HM_X} y={HM_Y + hmH + 12} width={hmW} height="7" rx="3.5" fill={`url(#${id}-bar)`} />
-      <text x={HM_X} y={HM_Y + hmH + 32} fill="#9CA3AF" {...CAPTION}>
+      <text x={HM_X} y={HM_Y + hmH + 32} fill="#94A3B8" {...CAPTION}>
         LOW
       </text>
-      <text x={HM_X + hmW} y={HM_Y + hmH + 32} fill="#9CA3AF" textAnchor="end" {...CAPTION}>
+      <text x={HM_X + hmW} y={HM_Y + hmH + 32} fill="#94A3B8" textAnchor="end" {...CAPTION}>
         HIGH
       </text>
     </svg>
@@ -374,7 +374,7 @@ function DrugVisual() {
         y1={PIPE_Y}
         x2={PIPE[PIPE.length - 1].x}
         y2={PIPE_Y}
-        stroke="rgba(124,58,237,0.22)"
+        stroke="rgba(167,139,250,0.35)"
         strokeWidth="1.4"
         strokeLinecap="round"
       />
@@ -401,7 +401,7 @@ function DrugVisual() {
       {/* Pipeline stages */}
       {PIPE.map((p, i) => (
         <g key={p.label}>
-          <circle cx={p.x} cy={PIPE_Y} r={PIPE_R} fill="#ffffff" />
+          <circle cx={p.x} cy={PIPE_Y} r={PIPE_R} fill="#101B2E" />
           <circle cx={p.x} cy={PIPE_Y} r={PIPE_R} fill={`url(#${id}-fill)`} />
           <circle
             cx={p.x}
@@ -416,7 +416,7 @@ function DrugVisual() {
             className={i === 1 ? 'eco3-molecule' : undefined}
             style={i === 1 ? { transformOrigin: `${p.x}px ${PIPE_Y}px` } : undefined}
           >
-            <circle cx={p.x} cy={PIPE_Y} r="3" fill="#7C3AED" />
+            <circle cx={p.x} cy={PIPE_Y} r="3" fill="#A78BFA" />
             {[0, 120, 240].map((a) => {
               const rad = ((a + i * 30) * Math.PI) / 180;
               return (
@@ -426,7 +426,7 @@ function DrugVisual() {
                     y1={PIPE_Y + Math.sin(rad) * 4}
                     x2={p.x + Math.cos(rad) * 8}
                     y2={PIPE_Y + Math.sin(rad) * 8}
-                    stroke="rgba(124,58,237,0.45)"
+                    stroke="rgba(167,139,250,0.55)"
                     strokeWidth="1.1"
                   />
                   <circle
@@ -439,7 +439,7 @@ function DrugVisual() {
               );
             })}
           </g>
-          <text x={p.x} y={PIPE_Y + 28} fill="#6B7280" textAnchor="middle" {...CAPTION}>
+          <text x={p.x} y={PIPE_Y + 28} fill="#CBD5E1" textAnchor="middle" {...CAPTION}>
             {p.label}
           </text>
         </g>
@@ -452,11 +452,11 @@ function DrugVisual() {
         width={CHART.w}
         height={CHART.h}
         rx="10"
-        fill="#ffffff"
-        stroke="rgba(124,58,237,0.16)"
+        fill="#101B2E"
+        stroke="rgba(167,139,250,0.29)"
         strokeWidth="1.1"
       />
-      <text x={CHART.x + 14} y={CHART.y + 16} fill="#9CA3AF" {...CAPTION}>
+      <text x={CHART.x + 14} y={CHART.y + 16} fill="#94A3B8" {...CAPTION}>
         PREDICTED RESPONSE
       </text>
       {GRIDLINES.map((y) => (
@@ -466,7 +466,7 @@ function DrugVisual() {
           y1={y}
           x2={CHART.x + CHART.w - 14}
           y2={y}
-          stroke="rgba(124,58,237,0.08)"
+          stroke="rgba(167,139,250,0.19)"
           strokeWidth="1"
         />
       ))}
@@ -487,45 +487,117 @@ function DrugVisual() {
 /* ------------------------------------------------------------------ */
 /* Titles carry no trademark character here: the card renders a superscript
    ™ of its own after {title}, so putting one in the string would print it
-   twice. `cta` is optional — a card without one simply ends at its
-   feature list. */
+   twice. 'cta' is optional — a card without one simply ends at its core
+   question.
+
+   Each card's body is a list of labelled blocks, rendered in the order
+   given: 'label' is the small-caps line, 'body' the prose beneath it. A
+   block may instead carry 'items' — term / text pairs — for content that
+   reads as a short glossary rather than a paragraph. 'question' is the
+   card's closing line and is framed on its own at the foot of the card. */
 const products = [
   {
-    title: 'OmicMind Computational Pathology AI',
-    desc: 'Transforms routine H&E and IHC whole-slide images into quantitative, spatial and predictive research insights for translational medicine and biopharma development.',
-    features: [
-      'Tissue and tumor segmentation',
-      'Quantitative biomarker analysis',
-      'Molecular phenotype prediction',
-      'Treatment-response research',
-      'Clinical-trial cohort stratification',
+    title: 'Omic Mind ResponseAI',
+    subtitle: 'Multimodal Treatment Response & Patient Stratification Model',
+    blocks: [
+      {
+        label: 'Purpose',
+        body: 'Predict which patients are most likely to respond to a specific cancer therapy.',
+      },
+      {
+        label: 'Inputs',
+        body: 'H&E + IHC + NGS + clinical data + treatment/outcome data.',
+      },
+      {
+        label: 'Example — NSCLC',
+        body: 'H&E + PD-L1 + CD3/CD8/FOXP3/CD68 + EGFR/KRAS/STK11/KEAP1/TP53 + clinical variables.',
+      },
+      {
+        label: 'Outputs',
+        body: 'Response probability, responder/non-responder stratification, risk groups, biomarker signature and potentially PFS/OS risk scores.',
+      },
+      {
+        label: 'Pharma Use',
+        body: 'Clinical-trial enrichment, retrospective trial analysis, biomarker discovery, drug-response stratification and companion-diagnostic hypothesis generation.',
+      },
     ],
-    cta: 'Explore Pathology AI',
+    question: '“Which patient is most likely to respond to this drug?”',
+    cta: 'Explore ResponseAI',
     Visual: ClinicalVisual,
   },
   {
-    title: 'OmicMind Multiomics Intelligence',
-    desc: 'Connects tissue morphology with genomics, transcriptomics, spatial biology and clinical outcomes to reveal disease mechanisms, biomarkers and patient subgroups.',
-    features: [
-      'Multimodal data integration',
-      'Biomarker discovery and validation',
-      'Spatial microenvironment analysis',
-      'Patient and cohort stratification',
-      'Biological knowledge graphs',
+    title: 'Omic Mind SpatialTME',
+    subtitle: 'AI Tumor Microenvironment & Immunotherapy Biomarker Model',
+    blocks: [
+      {
+        label: 'Purpose',
+        body: 'Understand the spatial relationship between tumor cells and the immune microenvironment and identify patterns associated with immunotherapy response.',
+      },
+      {
+        label: 'Inputs',
+        body: 'H&E + IHC/multiplex IHC, with NGS/outcome data optionally added for validation.',
+      },
+      {
+        label: 'Example',
+        body: 'H&E + PanCK + PD-L1 + CD3 + CD8 + FOXP3 + CD68.',
+      },
+      {
+        label: 'AI Analysis',
+        body: 'The AI identifies tumor, stroma and immune cells and measures immune-cell density, tumor infiltration, immune exclusion, cell-to-cell distances and spatial neighborhoods.',
+      },
+      {
+        label: 'Outputs',
+        body: 'Inflamed / excluded / desert phenotype, CD8 infiltration score, immune-exclusion score, Treg/CD8 ratio, macrophage signature and composite spatial TME biomarker.',
+      },
+      {
+        label: 'Pharma Use',
+        body: 'Immunotherapy development, mechanism-of-action studies, combination-therapy selection, translational research and novel biomarker discovery.',
+      },
     ],
-    cta: 'Explore Multiomics',
+    question:
+      '“What is happening inside this patient’s tumor microenvironment, and why might the therapy work or fail?”',
+    cta: 'Explore SpatialTME',
     Visual: BiomarkerVisual,
   },
   {
-    title: 'OmicMind Drug Discovery AI',
-    desc: 'Uses patient-derived pathology and multiomic intelligence to prioritize therapeutic targets, identify responsive disease populations and support biomarker-guided drug development.',
-    features: [
-      'Target identification and prioritization',
-      'Disease and pathway modelling',
-      'Biomarker-guided indication selection',
-      'Drug-response modelling',
-      'Translational program intelligence',
+    title: 'Omic Mind HistoMolecular',
+    subtitle: 'H&E-to-Molecular Biomarker Prediction Model',
+    blocks: [
+      {
+        label: 'Purpose',
+        body: 'Use routine H&E morphology to predict the probability of molecular alterations or clinically relevant molecular phenotypes.',
+      },
+      {
+        label: 'Primary Input',
+        body: 'H&E WSI.',
+      },
+      {
+        label: 'Ground Truth',
+        body: 'NGS/PCR/FISH/IHC results.',
+      },
+      {
+        label: 'Examples',
+        items: [
+          { term: 'NSCLC', text: 'EGFR, KRAS, selected molecular signatures.' },
+          { term: 'CRC', text: 'MSI/dMMR, BRAF, KRAS.' },
+          { term: 'Breast', text: 'Selected HER2/HR/HRD-associated phenotypes.' },
+        ],
+      },
+      {
+        label: 'Outputs',
+        body: 'Biomarker probability, confidence score, predictive heatmap and high/medium/low likelihood classification.',
+      },
+      {
+        label: 'Important Positioning',
+        body: 'Initially position this as RUO screening/enrichment rather than a replacement for confirmatory molecular testing.',
+      },
+      {
+        label: 'Pharma Use',
+        body: 'Molecular prescreening, trial enrichment, biomarker discovery, retrospective cohort analysis and development of image-derived biomarkers.',
+      },
     ],
+    question: '“What molecular biology can we infer directly from the H&E slide?”',
+    cta: 'Explore HistoMolecular',
     Visual: DrugVisual,
   },
 ];
@@ -728,14 +800,14 @@ export default function OmicMindEcosystem() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-white pb-24 pt-20 lg:pb-32 lg:pt-24"
+      className="relative w-full overflow-hidden bg-[#081225] pb-24 pt-20 lg:pb-32 lg:pt-24"
     >
       {/* Hairline divider separating this chapter from the section above */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{
           backgroundImage:
-            'linear-gradient(90deg, rgba(17,24,39,0) 0%, rgba(124,58,237,0.16) 30%, rgba(236,72,153,0.16) 70%, rgba(17,24,39,0) 100%)',
+            'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(167,139,250,0.40) 30%, rgba(244,114,182,0.36) 70%, rgba(255,255,255,0) 100%)',
         }}
         aria-hidden="true"
       />
@@ -745,7 +817,7 @@ export default function OmicMindEcosystem() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(52% 38% at 22% 20%, rgba(124,58,237,0.07) 0%, rgba(255,255,255,0) 70%), radial-gradient(52% 38% at 80% 76%, rgba(236,72,153,0.06) 0%, rgba(255,255,255,0) 70%)',
+            'radial-gradient(56% 42% at 22% 18%, rgba(30,58,138,0.36) 0%, rgba(8,18,37,0) 70%), radial-gradient(52% 40% at 80% 78%, rgba(124,58,237,0.20) 0%, rgba(8,18,37,0) 72%), radial-gradient(46% 34% at 52% 50%, rgba(236,72,153,0.10) 0%, rgba(8,18,37,0) 76%)',
         }}
         aria-hidden="true"
       />
@@ -784,14 +856,14 @@ export default function OmicMindEcosystem() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* ---------------- Header ---------------- */}
           <div ref={headerRef} className="mx-auto max-w-3xl text-center">
-            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#111827] sm:text-5xl lg:text-[3.5rem]">
+            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#F8FAFC] sm:text-5xl lg:text-[3.5rem]">
               <span className="block">OmicMind</span>
-              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
                 AI Ecosystem
               </span>
             </h2>
 
-            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-gray-600 sm:text-lg">
+            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-slate-300 sm:text-lg">
               From clinical intelligence to biomarker discovery and therapeutic innovation, OmicMind
               AI transforms biological data into actionable insights across the healthcare and life
               sciences ecosystem.
@@ -804,8 +876,8 @@ export default function OmicMindEcosystem() {
                   <span
                     className={`rounded-full border px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] ${
                       i === 0
-                        ? 'border-purple-200 bg-purple-50/70 text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]'
-                        : 'border-gray-200 bg-white text-gray-500'
+                        ? 'border-[#A855F7]/40 bg-[#A855F7]/10 text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F9A8D4]'
+                        : 'border-white/12 bg-white/[0.05] text-slate-300'
                     }`}
                   >
                     {step}
@@ -852,7 +924,7 @@ export default function OmicMindEcosystem() {
                   'linear-gradient(150deg, rgba(255,255,255,0.92) 0%, rgba(124,58,237,0.50) 34%, rgba(236,72,153,0.30) 64%, rgba(255,255,255,0.55) 100%)',
               }}
             >
-              <div className="relative overflow-hidden rounded-[23px] bg-white">
+              <div className="relative overflow-hidden rounded-[23px] bg-[#0B1424]">
                 <img
                   src={normalBreastOne}
                   alt="Whole-slide H&E section of breast tissue, with a 5 mm scale bar"
@@ -948,7 +1020,7 @@ export default function OmicMindEcosystem() {
           ref={gridRef}
           className="mt-16 grid grid-cols-1 gap-7 md:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
         >
-          {products.map(({ title, desc, features, cta, Visual }, i) => (
+          {products.map(({ title, subtitle, blocks, question, cta, Visual }, i) => (
             <article
               key={title}
               className={`eco-card group relative ${
@@ -971,7 +1043,7 @@ export default function OmicMindEcosystem() {
                 aria-hidden="true"
               />
 
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-gray-200 bg-white p-6 shadow-[0_2px_12px_rgba(17,24,39,0.05)] transition-all duration-[380ms] ease-out group-hover:-translate-y-2 group-hover:border-transparent group-hover:shadow-[0_26px_54px_-18px_rgba(124,58,237,0.3)] sm:p-7">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] p-6 shadow-[0_2px_16px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-[380ms] ease-out group-hover:-translate-y-2 group-hover:border-transparent group-hover:bg-[#4A1115] group-hover:shadow-[0_26px_54px_-18px_rgba(124,58,237,0.3)] sm:p-7">
                 {/* Light sweep on hover */}
                 <div
                   className="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 transition-transform duration-[900ms] ease-out group-hover:translate-x-[340%]"
@@ -985,62 +1057,103 @@ export default function OmicMindEcosystem() {
                 {/* Illustration — outer node floats (GSAP), inner scales (CSS hover) */}
                 <div className="eco-float">
                   <div
-                    className="rounded-[18px] border border-gray-100 p-3 transition-transform duration-[380ms] ease-out group-hover:scale-[1.03]"
+                    className="rounded-[18px] border border-white/[0.07] p-3 transition-transform duration-[380ms] ease-out group-hover:scale-[1.03]"
                     style={{
                       backgroundImage:
-                        'linear-gradient(160deg, rgba(124,58,237,0.045) 0%, rgba(236,72,153,0.03) 100%)',
+                        'linear-gradient(160deg, rgba(124,58,237,0.16) 0%, rgba(236,72,153,0.10) 100%)',
                     }}
                   >
                     <Visual />
                   </div>
                 </div>
 
-                <h3 className="relative mt-7 font-serif text-[1.5rem] font-semibold leading-tight tracking-[-0.01em] text-[#111827]">
+                {/* ---- Product name and model line ----
+                    The name keeps the section's serif display face; the model
+                    line beneath it stays sans and quiet, so the two read as a
+                    title and its subtitle rather than as two headings. */}
+                <h3 className="relative mt-7 font-serif text-[1.5rem] font-semibold leading-tight tracking-[-0.01em] text-[#F8FAFC]">
                   {title}
-                  <span className="align-super font-sans text-[0.6rem] font-medium text-gray-400">
+                  <span className="align-super font-sans text-[0.6rem] font-medium text-slate-500">
                     &trade;
                   </span>
                 </h3>
 
-                <p className="relative mt-3 font-sans text-[14.5px] leading-relaxed text-gray-600">
-                  {desc}
+                <p className="relative mt-2.5 font-sans text-[13.5px] font-medium leading-snug text-slate-400 [text-wrap:pretty]">
+                  {subtitle}
                 </p>
 
-                <ul className="relative mt-6 space-y-2.5 border-t border-gray-100 pt-5 [text-wrap:pretty]">
-                  {features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
-                        style={{
-                          backgroundImage:
-                            'linear-gradient(135deg, rgba(124,58,237,0.14), rgba(236,72,153,0.12))',
-                        }}
-                        aria-hidden="true"
-                      >
-                        <svg width="9" height="9" viewBox="0 0 10 10">
-                          <path
-                            d="M2 5.3l2 2L8 3"
-                            fill="none"
-                            stroke="#7C3AED"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </span>
-                      <span className="font-sans text-[13.5px] leading-snug text-gray-600">{f}</span>
-                    </li>
+                {/* ---- Labelled content blocks ----
+                    A definition list: every label is the same small-caps line
+                    in the brand's single accent, every body the same grey
+                    prose, so the eye can find Purpose, Inputs, Outputs and
+                    Pharma Use in the same place on all three cards. Nothing
+                    is clipped or collapsed — the card grows to whatever its
+                    content needs and the row's cards match on the tallest.
+                    'break-words' is what keeps long unbroken marker strings
+                    (EGFR/KRAS/STK11/KEAP1/TP53) inside the card on a narrow
+                    phone instead of pushing the page sideways. */}
+                <dl className="relative mt-6 space-y-4 border-t border-white/10 pt-5 [text-wrap:pretty]">
+                  {blocks.map(({ label, body: text, items }) => (
+                    <div key={label}>
+                      <dt className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
+                        {label}
+                      </dt>
+                      {text && (
+                        <dd className="mt-2 break-words font-sans text-[13.5px] leading-relaxed text-slate-300">
+                          {text}
+                        </dd>
+                      )}
+                      {items && (
+                        <dd className="mt-2 space-y-1.5">
+                          {items.map(({ term, text: value }) => (
+                            <p
+                              key={term}
+                              className="break-words font-sans text-[13.5px] leading-relaxed text-slate-300"
+                            >
+                              <span className="font-semibold text-slate-100">{term}:</span>{' '}
+                              {value}
+                            </p>
+                          ))}
+                        </dd>
+                      )}
+                    </div>
                   ))}
-                </ul>
+                </dl>
+
+                {/* ---- Core question ----
+                    The line each product exists to answer, framed at the foot
+                    of the card. 'mt-auto' holds it against the bottom, so the
+                    three frames line up across the row however long the
+                    blocks above them run. The tint is the section's own
+                    purple/pink ramp at a fraction of its strength — enough to
+                    lift the line off the card, not enough to become a
+                    second colour. */}
+                <div className="relative mt-auto pt-7">
+                  <div
+                    className="rounded-[16px] border border-[#A855F7]/25 px-4 py-3.5"
+                    style={{
+                      backgroundImage:
+                        'linear-gradient(135deg, rgba(124,58,237,0.16) 0%, rgba(236,72,153,0.10) 100%)',
+                    }}
+                  >
+                    <p className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
+                      Core Question
+                    </p>
+                    <p className="mt-2.5 font-serif text-[14.5px] italic leading-relaxed text-slate-100 [text-wrap:pretty]">
+                      {question}
+                    </p>
+                  </div>
+                </div>
 
                 {/* ---- Call to action ----
-                    Held to the foot of the card with `mt-auto`, so the
-                    buttons line up across the row whatever length each
-                    feature list runs to. The pill is the same gradient
-                    language the Hero's primary action uses, sized for a
-                    card rather than a page. */}
+                    Sits directly under the core question, which is the
+                    element now carrying `mt-auto` — so the pair travels to
+                    the foot of the card together whatever length the blocks
+                    above them run to. The pill is unchanged: the same
+                    gradient language the Hero's primary action uses, sized
+                    for a card rather than a page. */}
                 {cta && (
-                  <div className="relative mt-auto pt-7">
+                  <div className="relative pt-6">
                     <button
                       type="button"
                       className="group/cta relative inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 font-sans text-[14px] font-semibold tracking-[0.01em] text-white"

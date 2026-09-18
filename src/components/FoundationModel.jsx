@@ -132,7 +132,7 @@ const themes = {
     from: '#7C3AED',
     to: '#A78BFA',
     surface:
-      'linear-gradient(155deg, rgba(243,240,255,0.94) 0%, rgba(255,255,255,0.90) 54%, rgba(237,233,254,0.94) 100%)',
+      'linear-gradient(155deg, rgba(26,22,58,0.96) 0%, rgba(13,17,40,0.96) 54%, rgba(30,25,66,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(124,58,237,0.13) 0%, rgba(124,58,237,0) 62%), linear-gradient(155deg, rgba(233,227,254,0.96) 0%, rgba(250,249,255,0.93) 54%, rgba(224,216,253,0.96) 100%)',
     edge:
@@ -147,7 +147,7 @@ const themes = {
     from: '#8B5CF6',
     to: '#C084FC',
     surface:
-      'linear-gradient(155deg, rgba(246,241,255,0.94) 0%, rgba(255,255,255,0.90) 54%, rgba(243,232,255,0.94) 100%)',
+      'linear-gradient(155deg, rgba(30,22,60,0.96) 0%, rgba(14,17,40,0.96) 54%, rgba(34,24,66,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(168,85,247,0.13) 0%, rgba(168,85,247,0) 62%), linear-gradient(155deg, rgba(238,229,255,0.96) 0%, rgba(251,249,255,0.93) 54%, rgba(233,213,255,0.96) 100%)',
     edge:
@@ -162,7 +162,7 @@ const themes = {
     from: '#A855F7',
     to: '#E879F9',
     surface:
-      'linear-gradient(155deg, rgba(244,238,255,0.94) 0%, rgba(255,255,255,0.90) 52%, rgba(250,232,255,0.94) 100%)',
+      'linear-gradient(155deg, rgba(32,22,62,0.96) 0%, rgba(15,17,40,0.96) 52%, rgba(40,22,64,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(192,38,211,0.12) 0%, rgba(192,38,211,0) 62%), linear-gradient(155deg, rgba(235,225,255,0.96) 0%, rgba(252,249,255,0.93) 52%, rgba(245,214,254,0.96) 100%)',
     edge:
@@ -177,7 +177,7 @@ const themes = {
     from: '#D946EF',
     to: '#F472B6',
     surface:
-      'linear-gradient(155deg, rgba(251,238,255,0.94) 0%, rgba(255,255,255,0.90) 52%, rgba(253,236,246,0.94) 100%)',
+      'linear-gradient(155deg, rgba(40,20,60,0.96) 0%, rgba(16,16,38,0.96) 52%, rgba(44,20,50,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(217,70,239,0.12) 0%, rgba(217,70,239,0) 62%), linear-gradient(155deg, rgba(248,226,255,0.96) 0%, rgba(255,250,253,0.93) 52%, rgba(252,224,241,0.96) 100%)',
     edge:
@@ -192,7 +192,7 @@ const themes = {
     from: '#EC4899',
     to: '#F9A8D4',
     surface:
-      'linear-gradient(155deg, rgba(253,238,246,0.94) 0%, rgba(255,255,255,0.90) 54%, rgba(255,233,241,0.94) 100%)',
+      'linear-gradient(155deg, rgba(44,20,50,0.96) 0%, rgba(16,15,36,0.96) 54%, rgba(48,20,46,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(236,72,153,0.12) 0%, rgba(236,72,153,0) 62%), linear-gradient(155deg, rgba(252,228,241,0.96) 0%, rgba(255,250,252,0.93) 54%, rgba(254,220,235,0.96) 100%)',
     edge:
@@ -207,7 +207,7 @@ const themes = {
     from: '#9333EA',
     to: '#EC4899',
     surface:
-      'linear-gradient(155deg, rgba(248,240,250,0.94) 0%, rgba(255,255,255,0.90) 52%, rgba(238,233,254,0.94) 100%)',
+      'linear-gradient(155deg, rgba(34,20,58,0.96) 0%, rgba(15,16,38,0.96) 52%, rgba(28,24,64,0.96) 100%)',
     wash:
       'radial-gradient(115% 85% at 100% 0%, rgba(147,51,234,0.12) 0%, rgba(147,51,234,0) 62%), linear-gradient(155deg, rgba(242,229,247,0.96) 0%, rgba(252,250,255,0.93) 52%, rgba(228,220,253,0.96) 100%)',
     edge:
@@ -1009,7 +1009,7 @@ function SpecimenConstellation() {
             cy="200"
             r="135"
             fill="none"
-            stroke="rgba(168,85,247,0.18)"
+            stroke="rgba(192,132,252,0.28)"
             strokeWidth="1"
             strokeDasharray="2.5 7"
           />
@@ -1194,7 +1194,7 @@ function EngineCore({ children }) {
         </defs>
 
         {/* Outermost boundary and its measurement ticks */}
-        <circle cx={ENGINE_C} cy={ENGINE_C} r="161" stroke="rgba(168,85,247,0.16)" strokeWidth="1" />
+        <circle cx={ENGINE_C} cy={ENGINE_C} r="161" stroke="rgba(192,132,252,0.26)" strokeWidth="1" />
         <g className="engine-ticks" stroke="url(#fm-engine-arc)" strokeLinecap="round">
           {ENGINE_TICKS.map((t, i) => (
             <line
@@ -1287,7 +1287,7 @@ function EngineCore({ children }) {
           className="h-full w-full rounded-full backdrop-blur-xl"
           style={{
             backgroundImage:
-              'radial-gradient(72% 72% at 50% 34%, rgba(255,255,255,0.98) 0%, rgba(250,246,255,0.95) 46%, rgba(247,238,255,0.94) 76%, rgba(253,240,249,0.95) 100%)',
+              'radial-gradient(72% 72% at 50% 34%, rgba(28,24,58,0.96) 0%, rgba(18,22,50,0.96) 46%, rgba(12,16,38,0.96) 76%, rgba(22,14,38,0.96) 100%)',
           }}
         />
       </div>
@@ -1303,12 +1303,12 @@ function EngineCore({ children }) {
           cx="130"
           cy="130"
           r="120"
-          stroke="rgba(168,85,247,0.18)"
+          stroke="rgba(192,132,252,0.28)"
           strokeWidth="1"
           strokeDasharray="1 7"
           strokeLinecap="round"
         />
-        <circle cx="130" cy="130" r="102" stroke="rgba(236,72,153,0.12)" strokeWidth="1" />
+        <circle cx="130" cy="130" r="102" stroke="rgba(244,114,182,0.20)" strokeWidth="1" />
         <g
           className="core-fan"
           stroke="url(#fm-engine-arc)"
@@ -1650,7 +1650,11 @@ export default function FoundationModel() {
          shouldn't be.
       ================================================================ */
 
-      // The copy and the diagram arrive together, from opposite sides
+      // 1 · The copy and the diagram arrive together, from opposite sides.
+      // (Previously this call was mistakenly wrapped in a second, nested
+      // `useEffect(...)` here — inside `gsap.context`, inside the outer
+      // `useEffect` — which is invalid and broke this whole block. It is a
+      // plain call now, same as every other tween in this context.)
       gsap.from('.fm-copy', {
         x: -32,
         opacity: 0,
@@ -1743,7 +1747,7 @@ export default function FoundationModel() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden rounded-t-[3rem] bg-white pb-24 pt-24 lg:pb-32 lg:pt-32"
+      className="relative w-full overflow-hidden rounded-t-[3rem] bg-[#0B1020] pb-24 pt-24 lg:pb-32 lg:pt-32"
     >
       {/* ---------- Ambient field ----------
           Four layers, each deliberately faint: a blueprint grid masked away
@@ -1755,7 +1759,7 @@ export default function FoundationModel() {
           className="fm-grid absolute inset-0"
           style={{
             backgroundImage:
-              'linear-gradient(to right, rgba(124,58,237,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(124,58,237,0.06) 1px, transparent 1px)',
+              'linear-gradient(to right, rgba(167,139,250,0.10) 1px, transparent 1px), linear-gradient(to bottom, rgba(167,139,250,0.10) 1px, transparent 1px)',
             backgroundSize: '64px 64px',
             maskImage: 'radial-gradient(72% 58% at 50% 45%, #000 0%, transparent 80%)',
             WebkitMaskImage: 'radial-gradient(72% 58% at 50% 45%, #000 0%, transparent 80%)',
@@ -1767,14 +1771,14 @@ export default function FoundationModel() {
             className="absolute -left-[12%] top-[4%] h-[46%] w-[52%] rounded-full blur-[90px]"
             style={{
               backgroundImage:
-                'radial-gradient(circle, rgba(124,58,237,0.11) 0%, rgba(124,58,237,0) 70%)',
+                'radial-gradient(circle, rgba(124,58,237,0.26) 0%, rgba(124,58,237,0) 70%)',
             }}
           />
           <div
             className="absolute -right-[10%] bottom-[2%] h-[48%] w-[50%] rounded-full blur-[100px]"
             style={{
               backgroundImage:
-                'radial-gradient(circle, rgba(236,72,153,0.10) 0%, rgba(236,72,153,0) 70%)',
+                'radial-gradient(circle, rgba(236,72,153,0.22) 0%, rgba(236,72,153,0) 70%)',
             }}
           />
         </div>
@@ -1784,7 +1788,7 @@ export default function FoundationModel() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              'radial-gradient(60% 45% at 50% 55%, rgba(124,58,237,0.06) 0%, rgba(236,72,153,0.04) 45%, rgba(255,255,255,0) 75%)',
+              'radial-gradient(60% 45% at 50% 55%, rgba(30,58,138,0.30) 0%, rgba(124,58,237,0.12) 45%, rgba(11,16,32,0) 75%)',
           }}
         />
 
@@ -1846,9 +1850,9 @@ export default function FoundationModel() {
                     <div
                       className="engine-mark relative flex h-[74px] w-[74px] items-center justify-center rounded-[22px] border shadow-[0_14px_30px_-16px_rgba(124,58,237,0.75)]"
                       style={{
-                        backgroundImage: 'linear-gradient(135deg, rgba(124,58,237,0.16), rgba(236,72,153,0.10))',
-                        color: '#7C3AED',
-                        borderColor: 'rgba(124,58,237,0.18)',
+                        backgroundImage: 'linear-gradient(135deg, rgba(124,58,237,0.34), rgba(236,72,153,0.22))',
+                        color: '#C4B5FD',
+                        borderColor: 'rgba(167,139,250,0.38)',
                       }}
                     >
                       {/* Top sheen, so the mark reads as glass rather than a flat tile */}
@@ -1856,14 +1860,14 @@ export default function FoundationModel() {
                         className="pointer-events-none absolute inset-0 rounded-[22px] opacity-70"
                         style={{
                           backgroundImage:
-                            'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 62%)',
+                            'linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 62%)',
                         }}
                         aria-hidden="true"
                       />
                       <span className="relative">{hubIcon}</span>
                     </div>
 
-                    <h3 className="mt-4 font-serif text-[1.55rem] font-semibold leading-tight tracking-[-0.01em] text-[#111827]">
+                    <h3 className="mt-4 font-serif text-[1.55rem] font-semibold leading-tight tracking-[-0.01em] text-[#F8FAFC]">
                       OmicMind Intelligence Engine
                     </h3>
                   </div>
@@ -1909,7 +1913,7 @@ export default function FoundationModel() {
                 className="absolute inset-0"
                 style={{
                   backgroundImage:
-                    'radial-gradient(46% 40% at 16% 12%, rgba(124,58,237,0.10) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 86% 88%, rgba(236,72,153,0.09) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(168,85,247,0.05) 0%, rgba(255,255,255,0) 76%)',
+                    'radial-gradient(46% 40% at 16% 12%, rgba(124,58,237,0.22) 0%, rgba(124,58,237,0) 70%), radial-gradient(48% 42% at 86% 88%, rgba(236,72,153,0.18) 0%, rgba(236,72,153,0) 70%), radial-gradient(60% 46% at 50% 50%, rgba(30,58,138,0.28) 0%, rgba(11,16,32,0) 76%)',
                 }}
               />
 
@@ -1933,20 +1937,20 @@ export default function FoundationModel() {
                   >
                     <g
                       fill="none"
-                      stroke="rgba(124,58,237,0.16)"
+                      stroke="rgba(167,139,250,0.20)"
                       strokeWidth="1"
                       strokeLinecap="round"
                     >
                       <path d="M90 12 L156 50 L156 126 L90 164 L24 126 L24 50 Z" />
                       <path d="M90 12 L90 88 M90 88 L156 126 M90 88 L24 126" />
                     </g>
-                    <g fill="rgba(168,85,247,0.30)">
+                    <g fill="rgba(192,132,252,0.40)">
                       <circle cx="90" cy="12" r="2.4" />
                       <circle cx="156" cy="50" r="2" />
                       <circle cx="24" cy="50" r="2" />
                       <circle cx="90" cy="88" r="2.8" />
                     </g>
-                    <g fill="rgba(236,72,153,0.26)">
+                    <g fill="rgba(244,114,182,0.36)">
                       <circle cx="156" cy="126" r="2" />
                       <circle cx="24" cy="126" r="2" />
                     </g>
@@ -1977,6 +1981,49 @@ export default function FoundationModel() {
               ))}
             </ol>
           </div>
+        </div>
+
+        {/* ---------- Specimen constellation ----------
+            One specimen, five modalities, one core: the copy that used to
+            open this section now sits beside a working diagram of it. Both
+            `SpecimenConstellation` and the insight pills below were already
+            built above but were never rendered here — which is the reason
+            `.fm-copy`, `.fm-constellation`, `.link-line`, `.core-illum`,
+            `.core-halo`, `.core-orbit`, `.modality-node` and `.insight-pill`
+            all logged as "GSAP target ... not found": the animations were
+            correctly targeting classes that simply didn't exist in the DOM
+            yet. */}
+        <div className="relative mt-24 md:mt-32">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div className="fm-copy">
+              <h2 className="font-serif text-3xl font-bold leading-tight tracking-[-0.01em] text-[#F8FAFC] sm:text-4xl">
+                One Specimen, Every Modality
+              </h2>
+              <p className="mt-5 max-w-xl font-sans text-base leading-relaxed text-slate-300 sm:text-lg">
+                The same tumor specimen feeds pathology imaging, biomarker
+                expression, spatial biology, genomic data and clinical
+                context into a single foundation model — so every readout is
+                learned from one coherent view of the tissue, not five
+                disconnected datasets.
+              </p>
+            </div>
+
+            <SpecimenConstellation />
+          </div>
+
+          {/* ---------- What the platform supports ---------- */}
+          <ul className="fm-insights mt-14 flex flex-wrap items-center justify-center gap-3 p-0">
+            {INSIGHTS_LEAD.map((item) => (
+              <InsightPill key={item.label} item={item} />
+            ))}
+            {INSIGHTS_PAIR.map((item) => (
+              <InsightPill
+                key={item.label}
+                item={item}
+                className="w-[calc(50%-0.375rem)] sm:w-auto"
+              />
+            ))}
+          </ul>
         </div>
 
         {/* ---------- Oncology disease areas ----------

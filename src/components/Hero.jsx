@@ -415,15 +415,22 @@ export default function Hero() {
     const glow = btn.querySelector('.cta-glow');
     gsap.to(btn, { scale: isEnter ? 1.04 : 1, duration: 0.45, ease: 'power3.out' });
     if (glow) {
-      gsap.to(glow, { opacity: isEnter ? 1 : 0.5, duration: 0.5, ease: 'power2.out' });
+      gsap.to(glow, { opacity: isEnter ? 0 : 0.5, duration: 0.5, ease: 'power2.out' });
     }
   };
 
   return (
     <section
       ref={heroRef}
-      className="relative w-full flex items-center bg-white overflow-hidden"
-      style={{ perspective: '1200px' }} // Enables 3D space for the layered elements
+      className="relative w-full flex items-center bg-[#050816] overflow-hidden"
+      style={{
+        perspective: '1200px', // Enables 3D space for the layered elements
+        /* Depth, and nothing else: two very wide, very faint pools — one
+           navy, one violet — so the ground reads as lit space rather than
+           as a flat black rectangle. Neither reaches the type. */
+        backgroundImage:
+          'radial-gradient(58% 46% at 20% 16%, rgba(23,42,94,0.55) 0%, rgba(5,8,22,0) 68%), radial-gradient(54% 44% at 84% 76%, rgba(58,26,120,0.42) 0%, rgba(5,8,22,0) 70%)',
+      }}
     >
 
       {/* ---------- Floating instrumentation ---------- */}
@@ -496,16 +503,24 @@ export default function Hero() {
             className="w-full min-w-0 max-w-[42rem] lg:max-w-none"
             style={{ transformStyle: 'preserve-3d' }}
           >
-           
+            {/* Eyebrow — the small label the entrance timeline animates
+                first, directly above the headline. Was previously referenced
+                by the GSAP timeline but missing from the markup, which is
+                what produced the "GSAP target .hero-eyebrow not found"
+                console warning. */}
+            <span className="hero-eyebrow inline-flex items-center gap-2 opacity-0 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#C4B5FD] backdrop-blur-xl">
+              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
+              AI-Powered Biomarker Intelligence
+            </span>
 
             {/* Headline */}
             <h1
-              className="mt-8 font-serif font-semibold text-[#0B1220] tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[3.1rem] xl:text-[3.6rem]"
+              className="mt-8 font-serif font-semibold text-[#F8FAFC] tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[3.1rem] xl:text-[3.6rem]"
             >
               <span className="hero-line block opacity-0">From Tissue to Validated</span>
               
                 
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#C026D3] to-[#DB2777]">
+                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
                   Biomarker and therapeutic intelligence
                 </span>{' '}
                 
@@ -519,7 +534,7 @@ export default function Hero() {
             />
 
             {/* Description */}
-            <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-slate-600 opacity-0">
+            <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-slate-300 opacity-0">
               A specimen-centric AI platform integrating digital pathology, biomarker quantification, spatial biology and multiomics to support translational research, patient stratification and biomarker development.
             </p>
 
@@ -536,8 +551,22 @@ export default function Hero() {
                     className="cta-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#EC4899] opacity-50 blur-[18px]"
                     aria-hidden="true"
                   />
+                  {/* Dark-red hover halo: fades in as the purple glow above
+                      fades out, so the lit edge matches the hover surface. */}
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-[18px] transition-opacity duration-[350ms] ease-out group-hover:opacity-90"
+                    style={{ backgroundImage: 'linear-gradient(135deg, #350B0E, #641820)' }}
+                    aria-hidden="true"
+                  />
                   <span
                     className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] ring-1 ring-inset ring-white/25"
+                    aria-hidden="true"
+                  />
+                  {/* Dark-red hover surface, layered over the normal gradient
+                      so the default look is untouched. */}
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-full opacity-0 ring-1 ring-inset ring-white/25 transition-opacity duration-[350ms] ease-out group-hover:opacity-100"
+                    style={{ backgroundImage: 'linear-gradient(135deg, #350B0E, #641820)' }}
                     aria-hidden="true"
                   />
                   <span className="relative">Request Demo</span>
@@ -553,11 +582,11 @@ export default function Hero() {
                   type="button"
                   onMouseEnter={(e) => ctaHover(e, true)}
                   onMouseLeave={(e) => ctaHover(e, false)}
-                  className="group inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-slate-900 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.45)] transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-slate-100 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-colors duration-300 hover:border-white/30 hover:bg-white/[0.11]"
                 >
                   Explore Platform
                   <ArrowRight
-                    className="h-5 w-5 text-[#7C3AED] transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    className="h-5 w-5 text-[#C4B5FD] transition-transform duration-300 ease-out group-hover:translate-x-1"
                     strokeWidth={2.25}
                   />
                 </button>
@@ -576,7 +605,7 @@ export default function Hero() {
                       aria-hidden="true"
                     />
                   )}
-                  <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#C026D3] to-[#DB2777]">
+                  <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
                     {m}
                   </span>
                 </React.Fragment>
@@ -624,7 +653,7 @@ export default function Hero() {
             ref={mediaRef}
             className="hero-media relative w-full min-w-0 opacity-0 lg:mt-8 lg:self-start"
           >
-            <div className="relative w-full overflow-hidden rounded-lg border border-slate-200 shadow-[0_22px_60px_-30px_rgba(15,23,42,0.45)] sm:rounded-xl">
+            <div className="relative w-full overflow-hidden rounded-lg border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.9)] sm:rounded-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <video
                   ref={videoRef}
@@ -662,7 +691,7 @@ export default function Hero() {
                 {KEYWORDS.map((k, i) => (
                   <span
                     key={k.label}
-                    className={`hero-panel pointer-events-auto flex w-full items-start gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3.5 opacity-0 shadow-[0_10px_30px_-18px_rgba(15,23,42,0.35)] transition-colors duration-300 ease-out hover:border-slate-300 hover:bg-slate-50 ${
+                    className={`hero-panel pointer-events-auto flex w-full items-start gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-3.5 py-3.5 opacity-0 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-md transition-colors duration-300 ease-out hover:border-white/25 hover:bg-white/[0.10] ${
                       i === KEYWORDS.length - 1 ? 'sm:col-span-2' : ''
                     }`}
                   >
@@ -673,7 +702,7 @@ export default function Hero() {
                       {k.icon}
                     </span>
                     <span className="flex min-w-0 flex-col gap-1">
-                      <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-slate-900 lg:text-[12.5px]">
+                      <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-slate-100 lg:text-[12.5px]">
                         {k.step && (
                           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F9A8D4]">
                             {k.step}.{' '}
@@ -681,7 +710,7 @@ export default function Hero() {
                         )}
                         {k.label}
                       </span>
-                      <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-slate-500 lg:text-[10.5px]">
+                      <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-slate-400 lg:text-[10.5px]">
                         {k.desc}
                       </span>
                     </span>

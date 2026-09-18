@@ -6,7 +6,12 @@ import BreastCancer from './pages/BreastCancer.jsx'
 import LungCancer from './pages/LungCancer.jsx'
 import IhcAnalysis from './pages/IhcAnalysis.jsx'
 import AiFoundationModel from './pages/AiFoundationModel.jsx'
+import BiomarkerQuantification from './pages/BiomarkerQuantification.jsx'
 import AboutOmicMind from './pages/AboutOmicMind.jsx'
+import SpatialTme from './pages/SpatialTme.jsx'
+import MolecularPredict from './pages/MolecularPredict.jsx'
+import TreatmentPredict from './pages/TreatmentPredict.jsx'
+import OMBrest from './pages/OMBrest.jsx'
 import { usePathname } from './router.jsx'
 import './index.css'
 
@@ -24,6 +29,11 @@ function Root() {
   if (route === '/solutions/lung-cancer') return <LungCancer />
   if (route === '/applications/ihc-analysis') return <IhcAnalysis />
   if (route === '/platform/ai-foundation-model') return <AiFoundationModel />
+  if (route === '/platform/biomarker-quantification') return <BiomarkerQuantification />
+  if (route === '/platform/spatial') return <SpatialTme />
+  if (route === '/platform/molecular-predict') return <MolecularPredict />
+  if (route === '/platform/treatment-response-predict') return <TreatmentPredict />
+  if (route === '/platform/om-breast') return <OMBrest />
   if (route === '/company/about') return <AboutOmicMind />
   return <App />
 }

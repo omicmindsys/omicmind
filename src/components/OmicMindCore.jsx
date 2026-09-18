@@ -35,17 +35,17 @@ function Defs({ id }) {
   return (
     <defs>
       <linearGradient id={`${id}-line`} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.7" />
+        <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.7" />
         <stop offset="100%" stopColor="#EC4899" stopOpacity="0.35" />
       </linearGradient>
       <linearGradient id={`${id}-ring`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#7C3AED" />
+        <stop offset="0%" stopColor="#A78BFA" />
         <stop offset="55%" stopColor="#D946EF" />
         <stop offset="100%" stopColor="#EC4899" />
       </linearGradient>
       <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.16" />
-        <stop offset="100%" stopColor="#EC4899" stopOpacity="0.1" />
+        <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.26" />
+        <stop offset="100%" stopColor="#EC4899" stopOpacity="0.18" />
       </linearGradient>
     </defs>
   );
@@ -90,7 +90,7 @@ function MultimodalVisual() {
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="rgba(124,58,237,0.28)"
+              stroke="rgba(167,139,250,0.41)"
               strokeWidth="1.4"
               strokeLinecap="round"
             />
@@ -122,12 +122,12 @@ function MultimodalVisual() {
             width="88"
             height="26"
             rx="13"
-            fill="#ffffff"
-            stroke="rgba(124,58,237,0.2)"
+            fill="#101B2E"
+            stroke="rgba(167,139,250,0.33)"
             strokeWidth="1.2"
           />
           <circle cx={m.x - 30} cy={m.y} r="3.6" fill={`url(#${id}-ring)`} />
-          <text x={m.x - 20} y={m.y + 3.2} fill="#4B5563" {...LABEL}>
+          <text x={m.x - 20} y={m.y + 3.2} fill="#E2E8F0" {...LABEL}>
             {m.label}
           </text>
         </g>
@@ -140,7 +140,7 @@ function MultimodalVisual() {
         cy={HUB.y}
         r={HUB.r}
         fill="none"
-        stroke="rgba(168,85,247,0.4)"
+        stroke="rgba(192,132,252,0.51)"
         strokeWidth="1.4"
       />
       <circle cx={HUB.x} cy={HUB.y} r={HUB.r} fill={`url(#${id}-fill)`} />
@@ -153,7 +153,7 @@ function MultimodalVisual() {
         strokeWidth="1.8"
       />
       <g className="v1-lattice" style={{ transformOrigin: `${HUB.x}px ${HUB.y}px` }}>
-        <circle cx={HUB.x} cy={HUB.y} r="4.6" fill="#7C3AED" />
+        <circle cx={HUB.x} cy={HUB.y} r="4.6" fill="#A78BFA" />
         {[0, 60, 120, 180, 240, 300].map((a) => {
           const r = (a * Math.PI) / 180;
           return (
@@ -163,7 +163,7 @@ function MultimodalVisual() {
                 y1={HUB.y + Math.sin(r) * 7}
                 x2={HUB.x + Math.cos(r) * 16}
                 y2={HUB.y + Math.sin(r) * 16}
-                stroke="rgba(124,58,237,0.5)"
+                stroke="rgba(167,139,250,0.59)"
                 strokeWidth="1.2"
               />
               <circle
@@ -202,10 +202,10 @@ function AttentionVisual() {
     <svg viewBox={`0 0 ${VB_W} ${VB_H}`} className="h-auto w-full" aria-hidden="true">
       <Defs id={id} />
 
-      <text x={ATT_LX} y="14" fill="#9CA3AF" textAnchor="middle" {...CAPTION}>
+      <text x={ATT_LX} y="14" fill="#94A3B8" textAnchor="middle" {...CAPTION}>
         MORPHOLOGY
       </text>
-      <text x={ATT_RX} y="14" fill="#9CA3AF" textAnchor="middle" {...CAPTION}>
+      <text x={ATT_RX} y="14" fill="#94A3B8" textAnchor="middle" {...CAPTION}>
         MOLECULAR
       </text>
 
@@ -222,7 +222,7 @@ function AttentionVisual() {
               y1={ly}
               x2={ATT_RX - 13}
               y2={ry}
-              stroke={strong ? `url(#${id}-line)` : 'rgba(124,58,237,0.5)'}
+              stroke={strong ? `url(#${id}-line)` : 'rgba(167,139,250,0.59)'}
               strokeWidth={strong ? 1.6 : 1}
               strokeLinecap="round"
               opacity={strong ? 0.75 : w}
@@ -262,13 +262,13 @@ function AttentionVisual() {
             width="26"
             height="22"
             rx="5"
-            fill="#ffffff"
-            stroke="rgba(124,58,237,0.35)"
+            fill="#101B2E"
+            stroke="rgba(167,139,250,0.47)"
             strokeWidth="1.2"
           />
-          <circle cx={ATT_LX - 5} cy={y - 3} r="2.8" fill="rgba(124,58,237,0.5)" />
-          <circle cx={ATT_LX + 5} cy={y + 3} r="2.2" fill="rgba(168,85,247,0.45)" />
-          <circle cx={ATT_LX + 6} cy={y - 5} r="1.5" fill="rgba(217,70,239,0.4)" />
+          <circle cx={ATT_LX - 5} cy={y - 3} r="2.8" fill="rgba(167,139,250,0.59)" />
+          <circle cx={ATT_LX + 5} cy={y + 3} r="2.2" fill="rgba(192,132,252,0.55)" />
+          <circle cx={ATT_LX + 6} cy={y - 5} r="1.5" fill="rgba(232,121,249,0.51)" />
         </g>
       ))}
 
@@ -281,8 +281,8 @@ function AttentionVisual() {
             width="26"
             height="22"
             rx="5"
-            fill="#ffffff"
-            stroke="rgba(236,72,153,0.35)"
+            fill="#101B2E"
+            stroke="rgba(244,114,182,0.47)"
             strokeWidth="1.2"
           />
           <path
@@ -290,7 +290,7 @@ function AttentionVisual() {
               ATT_RX + 7
             } ${y - 5}`}
             fill="none"
-            stroke="rgba(236,72,153,0.65)"
+            stroke="rgba(244,114,182,0.69)"
             strokeWidth="1.4"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -337,8 +337,8 @@ function ReconstructionVisual() {
             width={s.w}
             height={STAGE_H}
             rx="12"
-            fill="#ffffff"
-            stroke="rgba(124,58,237,0.18)"
+            fill="#101B2E"
+            stroke="rgba(167,139,250,0.31)"
             strokeWidth="1.2"
           />
           {s.label.map((line, li) => (
@@ -346,7 +346,7 @@ function ReconstructionVisual() {
               key={line}
               x={s.x + s.w / 2}
               y={STAGE_Y + STAGE_H + 18 + li * 11}
-              fill="#6B7280"
+              fill="#CBD5E1"
               textAnchor="middle"
               {...CAPTION}
             >
@@ -367,7 +367,7 @@ function ReconstructionVisual() {
             y1={STAGE_Y + STAGE_H / 2}
             x2={a.x2 - 4}
             y2={STAGE_Y + STAGE_H / 2}
-            stroke="rgba(124,58,237,0.4)"
+            stroke="rgba(167,139,250,0.51)"
             strokeWidth="1.4"
             strokeLinecap="round"
           />
@@ -376,7 +376,7 @@ function ReconstructionVisual() {
               a.x2 - 6
             } ${STAGE_Y + STAGE_H / 2 + 3.4}`}
             fill="none"
-            stroke="rgba(124,58,237,0.55)"
+            stroke="rgba(167,139,250,0.62)"
             strokeWidth="1.4"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -400,21 +400,21 @@ function ReconstructionVisual() {
 
       {/* Stage 1 — routine H&E tissue */}
       <g>
-        <path d="M14 52h76" stroke="rgba(124,58,237,0.14)" strokeWidth="1" />
-        <circle cx="34" cy="70" r="7.5" fill="none" stroke="rgba(124,58,237,0.45)" strokeWidth="1.3" />
-        <circle cx="34" cy="70" r="2.2" fill="rgba(124,58,237,0.55)" />
-        <circle cx="58" cy="63" r="5.5" fill="none" stroke="rgba(168,85,247,0.45)" strokeWidth="1.3" />
-        <circle cx="58" cy="63" r="1.8" fill="rgba(168,85,247,0.5)" />
-        <circle cx="48" cy="88" r="6.2" fill="none" stroke="rgba(217,70,239,0.4)" strokeWidth="1.3" />
-        <circle cx="48" cy="88" r="1.9" fill="rgba(217,70,239,0.45)" />
-        <circle cx="72" cy="86" r="4.4" fill="none" stroke="rgba(236,72,153,0.4)" strokeWidth="1.3" />
+        <path d="M14 52h76" stroke="rgba(167,139,250,0.27)" strokeWidth="1" />
+        <circle cx="34" cy="70" r="7.5" fill="none" stroke="rgba(167,139,250,0.55)" strokeWidth="1.3" />
+        <circle cx="34" cy="70" r="2.2" fill="rgba(167,139,250,0.62)" />
+        <circle cx="58" cy="63" r="5.5" fill="none" stroke="rgba(192,132,252,0.55)" strokeWidth="1.3" />
+        <circle cx="58" cy="63" r="1.8" fill="rgba(192,132,252,0.59)" />
+        <circle cx="48" cy="88" r="6.2" fill="none" stroke="rgba(232,121,249,0.51)" strokeWidth="1.3" />
+        <circle cx="48" cy="88" r="1.9" fill="rgba(232,121,249,0.55)" />
+        <circle cx="72" cy="86" r="4.4" fill="none" stroke="rgba(244,114,182,0.51)" strokeWidth="1.3" />
       </g>
 
       {/* Stage 2 — attention/encoder lattice */}
       <g className="v3-engine" style={{ transformOrigin: '160px 72px' }}>
         <circle cx="160" cy="72" r="19" fill={`url(#${id}-fill)`} />
         <circle cx="160" cy="72" r="19" fill="none" stroke={`url(#${id}-ring)`} strokeWidth="1.6" />
-        <circle cx="160" cy="72" r="3.8" fill="#7C3AED" />
+        <circle cx="160" cy="72" r="3.8" fill="#A78BFA" />
         {[30, 90, 150, 210, 270, 330].map((a) => {
           const r = (a * Math.PI) / 180;
           return (
@@ -424,7 +424,7 @@ function ReconstructionVisual() {
                 y1={72 + Math.sin(r) * 6}
                 x2={160 + Math.cos(r) * 12.5}
                 y2={72 + Math.sin(r) * 12.5}
-                stroke="rgba(124,58,237,0.45)"
+                stroke="rgba(167,139,250,0.55)"
                 strokeWidth="1.1"
               />
               <circle
@@ -456,7 +456,7 @@ function ReconstructionVisual() {
             height={CELL}
             rx="3.5"
             fill={`url(#${id}-ring)`}
-            stroke="rgba(124,58,237,0.35)"
+            stroke="rgba(167,139,250,0.47)"
             strokeWidth="1"
             opacity="0.12"
           />
@@ -468,8 +468,8 @@ function ReconstructionVisual() {
             width={CELL}
             height={CELL}
             rx="3.5"
-            fill="rgba(124,58,237,0.1)"
-            stroke="rgba(124,58,237,0.16)"
+            fill="rgba(167,139,250,0.22)"
+            stroke="rgba(167,139,250,0.29)"
             strokeWidth="1"
           />
         );
@@ -668,14 +668,14 @@ export default function OmicMindCore() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-white pb-24 pt-20 lg:pb-32 lg:pt-24"
+      className="relative w-full overflow-hidden bg-[#060A14] pb-24 pt-20 lg:pb-32 lg:pt-24"
     >
       {/* Hairline divider separating this chapter from the section above */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{
           backgroundImage:
-            'linear-gradient(90deg, rgba(17,24,39,0) 0%, rgba(124,58,237,0.16) 30%, rgba(236,72,153,0.16) 70%, rgba(17,24,39,0) 100%)',
+            'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(167,139,250,0.40) 30%, rgba(244,114,182,0.36) 70%, rgba(255,255,255,0) 100%)',
         }}
         aria-hidden="true"
       />
@@ -685,7 +685,7 @@ export default function OmicMindCore() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(55% 40% at 18% 22%, rgba(124,58,237,0.07) 0%, rgba(255,255,255,0) 70%), radial-gradient(55% 40% at 82% 78%, rgba(236,72,153,0.06) 0%, rgba(255,255,255,0) 70%), radial-gradient(45% 35% at 50% 50%, rgba(168,85,247,0.05) 0%, rgba(255,255,255,0) 75%)',
+            'radial-gradient(55% 40% at 18% 22%, rgba(23,42,94,0.34) 0%, rgba(6,10,20,0) 70%), radial-gradient(55% 40% at 82% 78%, rgba(124,58,237,0.18) 0%, rgba(6,10,20,0) 70%), radial-gradient(45% 35% at 50% 50%, rgba(236,72,153,0.09) 0%, rgba(6,10,20,0) 75%)',
         }}
         aria-hidden="true"
       />
@@ -701,12 +701,12 @@ export default function OmicMindCore() {
             <path
               d="M44 0v88M0 44h88M0 0l88 88M88 0L0 88"
               fill="none"
-              stroke="rgba(124,58,237,0.055)"
+              stroke="rgba(167,139,250,0.10)"
               strokeWidth="1"
             />
-            <circle cx="44" cy="44" r="1.6" fill="rgba(168,85,247,0.14)" />
-            <circle cx="0" cy="0" r="1.2" fill="rgba(236,72,153,0.12)" />
-            <circle cx="88" cy="88" r="1.2" fill="rgba(236,72,153,0.12)" />
+            <circle cx="44" cy="44" r="1.6" fill="rgba(192,132,252,0.26)" />
+            <circle cx="0" cy="0" r="1.2" fill="rgba(244,114,182,0.22)" />
+            <circle cx="88" cy="88" r="1.2" fill="rgba(244,114,182,0.22)" />
           </pattern>
           <radialGradient id="omc-net-fade" cx="50%" cy="50%" r="62%">
             <stop offset="0%" stopColor="#fff" stopOpacity="1" />
@@ -754,14 +754,14 @@ export default function OmicMindCore() {
           {/* ---------------- Header ---------------- */}
           <div ref={headerRef} className="mx-auto max-w-3xl text-center">
             <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] sm:text-5xl lg:text-[3.5rem]">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
                 OmicMind Core
               </span>
             </h2>
 
             {/* Subheading — the section's second line, in the same serif
                 italic gradient the other chapter headers use */}
-            <p className="mt-4 font-serif text-xl font-semibold italic leading-snug tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] sm:mt-5 sm:text-2xl lg:text-[1.75rem]">
+            <p className="mt-4 font-serif text-xl font-semibold italic leading-snug tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4] sm:mt-5 sm:text-2xl lg:text-[1.75rem]">
               Connecting Tissue Morphology to Molecular Biology
             </p>
 
@@ -772,16 +772,16 @@ export default function OmicMindCore() {
                 centred, while the prose reads down a straight left edge instead
                 of a ragged centred one. They cannot share a wrapper — the header
                 staggers its own children — so the measure is stated on each. */}
-            <p className="mx-auto mt-8 max-w-2xl text-left font-sans text-lg font-normal leading-[1.7] tracking-[-0.005em] text-[#1F2937] [text-wrap:pretty] sm:text-xl">
+            <p className="mx-auto mt-8 max-w-2xl text-left font-sans text-lg font-normal leading-[1.7] tracking-[-0.005em] text-slate-200 [text-wrap:pretty] sm:text-xl">
               OmicMind Core is a{' '}
-              <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">
+              <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F0ABFC]">
                 specimen-centric multimodal AI engine
               </span>{' '}
               designed to learn relationships across H&E pathology, quantitative IHC,
               spatial biology, genomics, transcriptomics and clinical outcomes.
             </p>
 
-            <p className="mx-auto mt-6 max-w-2xl text-left font-sans text-base font-normal leading-[1.7] tracking-[-0.005em] text-gray-600 [text-wrap:pretty] sm:text-lg">
+            <p className="mx-auto mt-6 max-w-2xl text-left font-sans text-base font-normal leading-[1.7] tracking-[-0.005em] text-slate-300 [text-wrap:pretty] sm:text-lg">
               Through cross-modal learning, the platform identifies
               biological patterns associated with molecular phenotypes—supporting biomarker
               discovery, treatment-response research, clinical-trial cohort stratification
@@ -809,7 +809,7 @@ export default function OmicMindCore() {
                   'linear-gradient(150deg, rgba(255,255,255,0.92) 0%, rgba(124,58,237,0.50) 34%, rgba(236,72,153,0.30) 64%, rgba(255,255,255,0.55) 100%)',
               }}
             >
-              <div className="relative overflow-hidden rounded-[23px] bg-white">
+              <div className="relative overflow-hidden rounded-[23px] bg-[#0B1424]">
                 <img
                   src={normalBreast}
                   alt="Whole-slide H&E section of normal breast tissue, with a 2.5 mm scale bar"
@@ -952,23 +952,23 @@ export default function OmicMindCore() {
                 aria-hidden="true"
               />
 
-              <div className="relative flex h-full flex-col rounded-[24px] border border-gray-200 bg-white p-6 shadow-[0_2px_12px_rgba(17,24,39,0.05)] transition-all duration-[350ms] ease-out group-hover:-translate-y-1.5 group-hover:border-purple-200 group-hover:shadow-[0_22px_48px_-16px_rgba(124,58,237,0.28)] sm:p-7">
+              <div className="relative flex h-full flex-col rounded-[24px] border border-white/10 bg-white/[0.045] p-6 shadow-[0_2px_16px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-[350ms] ease-out group-hover:-translate-y-1.5 group-hover:border-[#A855F7]/45 group-hover:shadow-[0_22px_48px_-16px_rgba(124,58,237,0.28)] sm:p-7">
                 {/* Illustration */}
                 <div
-                  className="rounded-[18px] border border-gray-100 p-3"
+                  className="rounded-[18px] border border-white/[0.07] p-3"
                   style={{
                     backgroundImage:
-                      'linear-gradient(160deg, rgba(124,58,237,0.045) 0%, rgba(236,72,153,0.03) 100%)',
+                      'linear-gradient(160deg, rgba(124,58,237,0.16) 0%, rgba(236,72,153,0.10) 100%)',
                   }}
                 >
                   <Visual />
                 </div>
 
-                <h3 className="mt-7 font-serif text-[1.45rem] font-semibold leading-tight tracking-[-0.01em] text-[#111827]">
+                <h3 className="mt-7 font-serif text-[1.45rem] font-semibold leading-tight tracking-[-0.01em] text-[#F8FAFC]">
                   {title}
                 </h3>
 
-                <p className="mt-3 font-sans text-[14.5px] leading-relaxed text-gray-600">{body}</p>
+                <p className="mt-3 font-sans text-[14.5px] leading-relaxed text-slate-300">{body}</p>
               </div>
             </article>
           ))}
