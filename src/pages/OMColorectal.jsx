@@ -6,6 +6,8 @@ import {
   Activity,
   ArrowDown,
   BrainCircuit,
+  Building2,
+  ClipboardList,
   Crosshair,
   Dna,
   FlaskConical,
@@ -23,7 +25,6 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import breastImg from '../assets/breastcancer.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,7 +88,7 @@ function Hl({ children }) {
    an icon + short label. Layout helper only. */
 function Tile({ icon: Icon, label, group, a = '168, 85, 247', className = '' }) {
   return (
-    <div className={`ob-tile rounded-xl border px-4 py-3.5 ${className}`} style={{ '--t': a }}>
+    <div className={`oc-tile rounded-xl border px-4 py-3.5 ${className}`} style={{ '--t': a }}>
       {group && <GroupLabel>{group}</GroupLabel>}
       <p
         className={`flex items-start gap-2.5 font-sans text-[13.5px] font-semibold leading-snug text-white ${
@@ -116,10 +117,10 @@ function Section({ section, children, aside }) {
     <article
       id={section.id}
       data-reveal
-      className="ob-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+      className="oc-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
       style={{ '--a': section.a, '--b': section.b }}
     >
-      <span className="ob-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+      <span className="oc-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
       <span
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{
@@ -181,101 +182,149 @@ const bodyText =
 ================================================================ */
 
 const SECTIONS = [
-  { id: 'quantitative-biomarkers', n: '01', title: 'Quantitative Breast Biomarkers', icon: Gauge, a: '124, 58, 237', b: '168, 85, 247' },
-  { id: 'tumor-microenvironment', n: '02', title: 'Breast Tumor Microenvironment', icon: Network, a: '94, 234, 212', b: '59, 130, 246' },
-  { id: 'molecular-intelligence', n: '03', title: 'Breast Molecular Intelligence', icon: Dna, a: '168, 85, 247', b: '236, 72, 153' },
-  { id: 'treatment-research', n: '04', title: 'Breast Treatment Research', icon: BrainCircuit, a: '236, 72, 153', b: '59, 130, 246' },
+  { id: 'quantitative-biomarkers', n: '01', title: 'Quantitative CRC Biomarkers', icon: Gauge, a: '124, 58, 237', b: '168, 85, 247' },
+  { id: 'tumor-microenvironment', n: '02', title: 'CRC Tumor Microenvironment', icon: Network, a: '94, 234, 212', b: '59, 130, 246' },
+  { id: 'molecular-intelligence', n: '03', title: 'CRC Molecular Intelligence', icon: Dna, a: '168, 85, 247', b: '236, 72, 153' },
+  { id: 'treatment-research', n: '04', title: 'CRC Treatment Research', icon: BrainCircuit, a: '236, 72, 153', b: '59, 130, 246' },
 ];
 
 /* The four data layers named in the opening paragraph */
 const LAYERS = [
-  { label: 'Digital pathology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'Quantitative IHC', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Immune spatial profiling', icon: Network, a: '94, 234, 212' },
+  { label: 'Digital histopathology', icon: Microscope, a: '168, 85, 247' },
+  { label: 'Mismatch-repair IHC', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'Spatial immune profiling', icon: Network, a: '94, 234, 212' },
   { label: 'Molecular information', icon: Dna, a: '59, 130, 246' },
 ];
 
 const BIOMARKER_GROUPS = [
-  { group: 'Major breast cancer biomarkers', a: '236, 72, 153', items: ['ER', 'PR', 'HER2', 'Ki-67'] },
-  { group: 'Extended translational studies', a: '94, 234, 212', items: ['PD-L1', 'PanCK', 'CD3', 'CD8', 'FOXP3', 'CD68'] },
-  { group: 'Genomic information', a: '59, 130, 246', items: ['PIK3CA', 'TP53', 'BRCA1/2', 'HRD-related features'] },
+  { group: 'Mismatch-repair proteins', a: '236, 72, 153', items: ['MLH1', 'PMS2', 'MSH2', 'MSH6'] },
+  { group: 'Immune panels', a: '94, 234, 212', items: ['CD3', 'CD8', 'FOXP3', 'CD68'] },
+  { group: 'Molecular alterations', a: '59, 130, 246', items: ['MSI-H/dMMR', 'BRAF V600E', 'KRAS', 'NRAS'] },
 ];
 
-/* The six levels a single specimen can be studied at */
+/* The levels a single specimen can be studied at */
 const LEVELS = [
-  { label: 'Tissue morphology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'Biomarker expression', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Tumor proliferation', icon: Activity, a: '244, 114, 182' },
-  { label: 'Immune composition', icon: Users, a: '94, 234, 212' },
-  { label: 'Spatial organization', icon: Shapes, a: '59, 130, 246' },
-  { label: 'Molecular biology', icon: Dna, a: '124, 58, 237' },
+  { label: 'Tumor morphology', icon: Microscope, a: '168, 85, 247' },
+  { label: 'Mismatch-repair biology', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'Tumor budding', icon: Activity, a: '244, 114, 182' },
+  { label: 'Immune infiltration', icon: Users, a: '94, 234, 212' },
+  { label: 'Spatial immune features', icon: Shapes, a: '59, 130, 246' },
+  { label: 'Genomic alterations', icon: Dna, a: '124, 58, 237' },
 ];
 
 const QUANT_READOUTS = [
   {
-    group: 'ER / PR',
-    a: '236, 72, 153',
-    icon: ScanSearch,
-    items: ['Positivity', 'Staining intensity', 'Related research scoring metrics'],
-  },
-  {
-    group: 'HER2',
-    a: '168, 85, 247',
-    icon: Crosshair,
-    items: ['Membrane intensity', 'Completeness'],
-  },
-  {
-    group: 'Ki-67',
-    a: '244, 114, 182',
-    icon: Flame,
-    items: ['Global proliferation', 'Regional hotspots'],
-  },
-  {
     group: 'H&E',
     a: '59, 130, 246',
     icon: Percent,
-    items: ['Tumor area', 'Tumor percentage', 'Relevant tissue compartments'],
+    items: ['Tumor segmentation', 'Tumor-budding analysis'],
+  },
+  {
+    group: 'Mismatch repair',
+    a: '236, 72, 153',
+    icon: ScanSearch,
+    items: ['MLH1', 'PMS2', 'MSH2', 'MSH6', 'Retained or lost expression'],
+  },
+  {
+    group: 'Immune cells',
+    a: '94, 234, 212',
+    icon: Users,
+    items: ['CD3 and CD8 in the tumor core', 'CD3 and CD8 at the invasive margin'],
+  },
+  {
+    group: 'Molecular linkage',
+    a: '168, 85, 247',
+    icon: Crosshair,
+    items: ['Molecular MSI information where available'],
   },
 ];
 
-const TME_MARKERS = ['PanCK', 'CD3', 'CD8', 'FOXP3', 'CD68'];
+const TME_MARKERS = ['CD3', 'CD8', 'FOXP3', 'CD68'];
 
 const TME_CELLS = [
-  { label: 'Cytotoxic T cells', a: '94, 234, 212' },
-  { label: 'Regulatory T cells', a: '59, 130, 246' },
-  { label: 'Macrophages', a: '168, 85, 247' },
+  { label: 'CD3-positive T cells', a: '94, 234, 212' },
+  { label: 'CD8-positive lymphocytes', a: '59, 130, 246' },
+  { label: 'FOXP3-positive regulatory T cells', a: '196, 181, 253' },
+  { label: 'CD68-positive macrophages', a: '168, 85, 247' },
 ];
 
 const TME_OUTPUTS = [
-  'Intratumoral CD8 density',
-  'Stromal CD8 density',
+  'Tumor-core immunity',
+  'Invasive-margin immunity',
   'Immune exclusion',
-  'Treg/CD8 relationships',
-  'Macrophage distribution',
-  'Overall breast tumor microenvironment profile',
+  'Tumor–immune proximity',
+  'Cellular neighborhood features',
 ];
 
-const MOLECULAR_TARGETS = ['PIK3CA', 'TP53', 'HRD-associated morphology'];
+const MOLECULAR_TARGETS = ['MSI-H/dMMR', 'BRAF V600E', 'KRAS', 'NRAS'];
 
 const MOLECULAR_OUTPUTS = [
-  { label: 'Probability-based outputs', icon: Gauge, a: '168, 85, 247' },
+  { label: 'Molecular probability scores', icon: Gauge, a: '168, 85, 247' },
   { label: 'Confidence estimates', icon: BrainCircuit, a: '59, 130, 246' },
-  { label: 'Predictive heatmaps', icon: Flame, a: '236, 72, 153' },
+  { label: 'Tissue heatmaps', icon: Flame, a: '236, 72, 153' },
 ];
 
-const TREATMENT_COHORTS = ['HER2-positive', 'Triple-negative', 'Neoadjuvant'];
+const TREATMENT_COHORTS = ['Anti-EGFR', 'Immunotherapy'];
 
 const TREATMENT_FEATURES = [
-  { label: 'Morphology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'ER/PR/HER2/Ki-67 features', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Immune spatial information', icon: Network, a: '94, 234, 212' },
-  { label: 'Molecular results', icon: Dna, a: '59, 130, 246' },
-  { label: 'Clinical variables', icon: FlaskConical, a: '147, 197, 253' },
+  { label: 'H&E morphology', icon: Microscope, a: '168, 85, 247' },
+  { label: 'MMR expression', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'MSI, RAS and BRAF status', icon: Dna, a: '59, 130, 246' },
+  { label: 'Immune spatial features', icon: Network, a: '94, 234, 212' },
+  { label: 'Clinical metadata', icon: FlaskConical, a: '147, 197, 253' },
+];
+
+/* For Biopharma */
+const BIOPHARMA_AUDIENCES = [
+  { label: 'Pharmaceutical companies', icon: Building2, a: '168, 85, 247' },
+  { label: 'Biotechnology companies', icon: FlaskConical, a: '236, 72, 153' },
+  { label: 'CROs', icon: ClipboardList, a: '94, 234, 212' },
+  { label: 'Academic research groups', icon: Microscope, a: '59, 130, 246' },
+];
+
+const BIOPHARMA_SUPPORT = [
+  'Retrospective tissue studies',
+  'Biomarker quantification',
+  'Spatial tumor microenvironment analysis',
+  'Molecular phenotype research',
+  'Cohort characterization',
+  'Multimodal biomarker-development programs',
+];
+
+const BIOPHARMA_MODELS = [
+  'Archived FFPE cohorts',
+  'Retrospective clinical-trial tissue',
+  'Biomarker discovery studies',
+  'Molecular enrichment projects',
+  'Tumor microenvironment research',
+  'Therapy-specific multimodal models',
+];
+
+/* Our Initial Oncology Programs */
+const PROGRAMS = [
+  {
+    title: 'Breast Cancer',
+    icon: ScanSearch,
+    a: '236, 72, 153',
+    body: 'Quantitative ER, PR, HER2 and Ki-67 analysis combined with spatial immune profiling and morphology-derived molecular research.',
+  },
+  {
+    title: 'NSCLC',
+    icon: Layers,
+    a: '59, 130, 246',
+    body: 'Integrated H&E, PD-L1, tumor microenvironment and genomic intelligence for lung cancer biomarker research.',
+  },
+  {
+    title: 'Colorectal Cancer',
+    icon: Dna,
+    a: '168, 85, 247',
+    body: 'MMR, tumor budding, CD3/CD8 spatial analysis and morphology-derived MSI, BRAF and RAS research.',
+  },
 ];
 
 /* ================================================================ */
 
-export default function OMBrest() {
+export default function OMColorectal() {
   const rootRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -319,13 +368,13 @@ export default function OMBrest() {
 
     const ctx = gsap.context(() => {
       if (prefersReduced) {
-        gsap.set('[data-reveal], .ob-hero-copy > *, .ob-stage', { autoAlpha: 1, y: 0, scale: 1 });
+        gsap.set('[data-reveal], .oc-hero-copy > *, .oc-stage', { autoAlpha: 1, y: 0, scale: 1 });
         return;
       }
       gsap
         .timeline({ defaults: { ease: 'power3.out' } })
-        .from('.ob-hero-copy > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1 }, 0.15)
-        .from('.ob-stage', { autoAlpha: 0, y: 30, scale: 0.96, duration: 1.05 }, 0.35);
+        .from('.oc-hero-copy > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1 }, 0.15)
+        .from('.oc-stage', { autoAlpha: 0, y: 30, scale: 0.96, duration: 1.05 }, 0.35);
 
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.from(el, {
@@ -355,37 +404,37 @@ export default function OMBrest() {
       <Navbar />
 
       <style>{`
-        .ob-card {
+        .oc-card {
           background-color: rgba(11, 16, 32, 0.55);
           border-color: rgba(255, 255, 255, 0.09);
           box-shadow: 0 30px 70px -44px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04);
           transition: border-color 380ms ease-out, box-shadow 380ms ease-out;
         }
-        .ob-card:hover {
+        .oc-card:hover {
           border-color: rgba(var(--a), 0.34);
           box-shadow:
             0 30px 70px -44px rgba(0, 0, 0, 0.9),
             0 0 40px -14px rgba(var(--a), 0.35),
             0 0 60px -24px rgba(var(--b), 0.3);
         }
-        .ob-card-glow {
+        .oc-card-glow {
           background-image:
             radial-gradient(48% 60% at 100% 0%, rgba(var(--a), 0.13) 0%, rgba(0, 0, 0, 0) 72%),
             radial-gradient(44% 56% at 0% 100%, rgba(var(--b), 0.08) 0%, rgba(0, 0, 0, 0) 74%);
         }
-        .ob-tile {
+        .oc-tile {
           border-color: rgba(255, 255, 255, 0.09);
           background-color: rgba(255, 255, 255, 0.04);
           transition: border-color 300ms ease-out, background-color 300ms ease-out, box-shadow 300ms ease-out, transform 300ms ease-out;
         }
-        .ob-tile:hover {
+        .oc-tile:hover {
           border-color: rgba(var(--t), 0.4);
           background-color: rgba(255, 255, 255, 0.06);
           box-shadow: 0 0 34px -14px rgba(var(--t), 0.55);
           transform: translateY(-2px);
         }
         @media (prefers-reduced-motion: reduce) {
-          .ob-tile:hover { transform: none; }
+          .oc-tile:hover { transform: none; }
         }
       `}</style>
 
@@ -413,21 +462,21 @@ export default function OMBrest() {
 
           <div className="relative z-10 mx-auto max-w-[1400px] px-6 pb-20 pt-[122px] lg:px-10 lg:pb-28 lg:pt-[168px]">
             <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
-              <div className="ob-hero-copy w-full min-w-0 max-w-2xl lg:max-w-none">
-                <Eyebrow>Products · Breast Program</Eyebrow>
+              <div className="oc-hero-copy w-full min-w-0 max-w-2xl lg:max-w-none">
+                <Eyebrow>Products · Colorectal Program</Eyebrow>
 
                 <h1 className="mt-7 break-words font-serif text-[2.6rem] font-semibold leading-[1.06] tracking-[-0.015em] text-white sm:text-[3.4rem] lg:text-[3.9rem]">
-                  OM Breast™
+                  OM Colorectal™
                 </h1>
 
                 <p className="mt-4 font-serif text-[1.25rem] font-medium italic leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#93C5FD] sm:text-[1.5rem]">
-                  Integrated computational breast cancer research
+                  Multimodal AI for Colorectal Cancer Tissue, Immune and Molecular Stratification
                 </p>
 
                 <p className={`mt-7 max-w-xl ${bodyText} sm:text-[17px]`}>
-                  <Hl>OM Breast™</Hl> combines digital pathology, quantitative IHC, immune spatial
-                  profiling and molecular information to create an{' '}
-                  <Hl>integrated computational representation of breast cancer tissue</Hl>.
+                  <Hl>OM Colorectal™</Hl> combines digital histopathology, mismatch-repair IHC,
+                  spatial immune profiling and molecular information to characterize{' '}
+                  <Hl>colorectal cancer across multiple biological layers</Hl>.
                 </p>
 
                 {/* Section index */}
@@ -459,8 +508,8 @@ export default function OMBrest() {
                 </nav>
               </div>
 
-              {/* Hero visual — the four data layers feeding one representation */}
-              <div className="ob-stage relative w-full min-w-0">
+              {/* Hero visual — the four data layers feeding one research platform */}
+              <div className="oc-stage relative w-full min-w-0">
                 <div className="relative overflow-hidden rounded-[26px] border border-white/[0.12] bg-[#0B1020]/70 p-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:p-5">
                   <div
                     className="pointer-events-none absolute inset-0"
@@ -473,23 +522,11 @@ export default function OMBrest() {
                   <div className="relative flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-2 font-sans text-[12px] font-semibold text-white/85">
                       <Layers className="h-4 w-4 text-[#C4B5FD]" strokeWidth={1.8} aria-hidden="true" />
-                      Breast cancer tissue
+                      Colorectal tissue
                     </span>
                     <span className="font-sans text-[11px] font-medium text-white/45">
                       Illustrative schematic
                     </span>
-                  </div>
-
-                  <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/[0.09]">
-                    <img
-                      src={breastImg}
-                      width={872}
-                      height={286}
-                      alt="Breast cancer tissue section used across the OM Breast program"
-                      loading="eager"
-                      decoding="async"
-                      className="block h-auto w-full"
-                    />
                   </div>
 
                   <div className="relative mt-4">
@@ -503,10 +540,10 @@ export default function OMBrest() {
 
                     <FlowArrow />
 
-                    <div className="ob-tile rounded-xl border px-4 py-3.5" style={{ '--t': '124, 58, 237' }}>
-                      <GroupLabel>Integrated representation</GroupLabel>
+                    <div className="oc-tile rounded-xl border px-4 py-3.5" style={{ '--t': '124, 58, 237' }}>
+                      <GroupLabel>Multiple biological layers</GroupLabel>
                       <p className="mt-2 break-words font-sans text-[13.5px] font-medium leading-[1.6] text-white/85">
-                        A single breast cancer specimen studied simultaneously at multiple levels
+                        Omic Mind characterizes colorectal cancer around the same specimen
                       </p>
                     </div>
                   </div>
@@ -528,10 +565,10 @@ export default function OMBrest() {
             {/* Program design — the markers the program is built around */}
             <article
               data-reveal
-              className="ob-card relative overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+              className="oc-card relative overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
               style={{ '--a': '59, 130, 246', '--b': '124, 58, 237' }}
             >
-              <span className="ob-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+              <span className="oc-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
               <span
                 className="pointer-events-none absolute inset-x-0 top-0 h-px"
                 style={{
@@ -545,17 +582,10 @@ export default function OMBrest() {
                 <div className="min-w-0">
                   <GroupLabel>Program design</GroupLabel>
                   <p className={`mt-4 ${bodyText}`}>
-                    The program is designed around routine <Hl>H&amp;E morphology</Hl> together with
-                    major breast cancer biomarkers including <Hl>ER</Hl>, <Hl>PR</Hl>,{' '}
-                    <Hl>HER2</Hl> and <Hl>Ki-67</Hl>. Extended translational studies can incorporate
-                    PD-L1, PanCK, CD3, CD8, FOXP3 and CD68, while genomic information can include
-                    alterations and phenotypes such as PIK3CA, TP53, BRCA1/2 and HRD-related
-                    features.
-                  </p>
-                  <p className={`mt-5 ${bodyText}`}>
-                    This allows a single breast cancer specimen to be studied simultaneously at
-                    multiple levels: tissue morphology, biomarker expression, tumor proliferation,
-                    immune composition, spatial organization and molecular biology.
+                    <Hl>CRC</Hl> provides a strong setting for multimodal AI because tumor
+                    morphology, mismatch-repair biology, tumor budding, immune infiltration and
+                    genomic alterations such as <Hl>MSI, BRAF and RAS</Hl> can all contribute
+                    meaningful translational information.
                   </p>
 
                   <ul className="mt-7 grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -595,7 +625,7 @@ export default function OMBrest() {
               </div>
             </article>
 
-            {/* 01 — Quantitative Breast Biomarkers */}
+            {/* 01 — Quantitative CRC Biomarkers */}
             <Section
               section={s1}
               aside={
@@ -605,7 +635,7 @@ export default function OMBrest() {
                     return (
                       <li
                         key={q.group}
-                        className="ob-tile flex min-w-0 flex-col rounded-2xl border p-4"
+                        className="oc-tile flex min-w-0 flex-col rounded-2xl border p-4"
                         style={{ '--t': q.a }}
                       >
                         <span
@@ -640,21 +670,25 @@ export default function OMBrest() {
               }
             >
               <p className={bodyText}>
-                Through <Hl>Biomarker Quant™</Hl>, Omic Mind can quantify ER and PR positivity,
-                staining intensity and related research scoring metrics. HER2 analysis can assess
-                membrane intensity and completeness, while Ki-67 analysis can estimate global
-                proliferation and identify regional hotspots.
+                <Hl>Biomarker Quant™</Hl> can perform H&amp;E-based tumor segmentation and
+                tumor-budding analysis while providing structured assessment of the{' '}
+                <Hl>four key mismatch-repair proteins</Hl>: MLH1, PMS2, MSH2 and MSH6.
               </p>
               <p className={bodyText}>
-                H&amp;E analysis can additionally quantify <Hl>tumor area</Hl>,{' '}
-                <Hl>tumor percentage</Hl> and <Hl>relevant tissue compartments</Hl>.
+                The system can characterize <Hl>retained or lost expression patterns</Hl> and link
+                these results with molecular MSI information where available.
+              </p>
+              <p className={bodyText}>
+                <Hl>CD3</Hl> and <Hl>CD8</Hl> measurements can also be quantified separately within
+                the tumor core and invasive margin.
               </p>
               <p className="font-sans text-[14px] leading-[1.7] text-white/60 [text-wrap:pretty]">
-                These capabilities are part of the current OM Breast™ architecture.
+                Tumor-core and invasive-margin CD3/CD8 quantification is already part of the
+                existing OM Colorectal™ specification.
               </p>
             </Section>
 
-            {/* 02 — Breast Tumor Microenvironment */}
+            {/* 02 — CRC Tumor Microenvironment */}
             <Section
               section={s2}
               aside={
@@ -676,7 +710,7 @@ export default function OMBrest() {
                       {TME_CELLS.map((c) => (
                         <li key={c.label} className="min-w-0">
                           <div
-                            className="ob-tile flex items-center gap-3 rounded-xl border px-4 py-3"
+                            className="oc-tile flex items-center gap-3 rounded-xl border px-4 py-3"
                             style={{ '--t': c.a }}
                           >
                             <span
@@ -693,8 +727,8 @@ export default function OMBrest() {
                     </ul>
 
                     <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                      <Tile icon={Target} group="Compartment" label="Tumor nests" a="236, 72, 153" className="h-full" />
-                      <Tile icon={Shapes} group="Compartment" label="Surrounding stroma" a="59, 130, 246" className="h-full" />
+                      <Tile icon={Target} group="Compartment" label="Tumor core" a="236, 72, 153" className="h-full" />
+                      <Tile icon={Shapes} group="Compartment" label="Invasive margin" a="59, 130, 246" className="h-full" />
                     </div>
                   </div>
 
@@ -712,26 +746,31 @@ export default function OMBrest() {
               }
             >
               <p className={bodyText}>
-                <Hl>Spatial TME™</Hl> extends breast cancer analysis into the immune
-                microenvironment. Using markers such as PanCK, CD3, CD8, FOXP3 and CD68, Omic Mind
-                can map cytotoxic T cells, regulatory T cells and macrophages relative to tumor and
-                stromal compartments. This can distinguish immune cells that{' '}
-                <Hl>penetrate tumor nests</Hl> from those that{' '}
-                <Hl>remain confined to surrounding stroma</Hl>.
+                <Hl>Spatial TME™</Hl> can map immune-cell organization across different colorectal
+                tumor compartments.
               </p>
               <p className={bodyText}>
-                Potential outputs include intratumoral CD8 density, stromal CD8 density, immune
-                exclusion, Treg/CD8 relationships, macrophage distribution and an overall breast
-                tumor microenvironment profile.
+                Rather than generating a single immune-cell measurement for the entire tissue
+                section, Omic Mind can quantify <Hl>CD3</Hl> and <Hl>CD8</Hl> density within the{' '}
+                <Hl>tumor core</Hl> and <Hl>invasive margin</Hl> and analyze how these cells are
+                organized spatially relative to malignant tissue.
               </p>
               <p className={bodyText}>
-                This capability can be particularly valuable for translational research in{' '}
-                <Hl>triple-negative</Hl> and <Hl>HER2-positive</Hl> breast cancer, where
-                tumor–immune biology is an important research area.
+                Extended panels can incorporate FOXP3 and CD68 to study regulatory T cells and
+                macrophages.
+              </p>
+              <p className={bodyText}>
+                The resulting CRC spatial profile may include tumor-core immunity, invasive-margin
+                immunity, immune exclusion, tumor–immune proximity and cellular neighborhood
+                features.
+              </p>
+              <p className={bodyText}>
+                Tumor budding can also be analyzed in relation to local immune architecture,
+                providing an additional link between morphology and tumor microenvironment biology.
               </p>
             </Section>
 
-            {/* 03 — Breast Molecular Intelligence */}
+            {/* 03 — CRC Molecular Intelligence */}
             <Section
               section={s3}
               aside={
@@ -751,7 +790,7 @@ export default function OMBrest() {
                     <Tile
                       icon={ShieldCheck}
                       group="Ground truth"
-                      label="Validated molecular results"
+                      label="Validated PCR, NGS or IHC"
                       a="94, 234, 212"
                     />
 
@@ -780,35 +819,35 @@ export default function OMBrest() {
                       Research positioning
                     </span>
                     <p className="mt-4 break-words font-serif text-[1.35rem] font-semibold italic leading-[1.3] text-white sm:text-[1.5rem]">
-                      Without replacing confirmatory molecular testing.
+                      Retrospective cohort enrichment and image-derived biomarker discovery.
                     </p>
                   </div>
                 </div>
               }
             >
               <p className={bodyText}>
-                <Hl>Molecular Predict™</Hl> can investigate whether routine breast H&amp;E
-                morphology contains image-derived signatures associated with molecular phenotypes.
+                <Hl>Molecular Predict™</Hl> can investigate morphology associated with{' '}
+                <Hl>MSI-H/dMMR</Hl>, <Hl>BRAF V600E</Hl> and <Hl>KRAS/NRAS</Hl> molecular states.
+                These targets are already part of the existing colorectal architecture.
               </p>
               <p className={bodyText}>
-                Initial models can focus on <Hl>PIK3CA</Hl>, <Hl>TP53</Hl> and{' '}
-                <Hl>HRD-associated morphology</Hl>, using validated molecular results as ground
-                truth.
+                H&amp;E images can be paired with validated PCR, NGS or IHC ground truth during
+                model development.
               </p>
               <p className={bodyText}>
-                The platform can return probability-based outputs with confidence estimates and
-                predictive heatmaps, supporting molecular enrichment and retrospective research
-                without replacing confirmatory molecular testing.
+                The system can then produce molecular probability scores, confidence estimates and
+                tissue heatmaps for research applications such as retrospective cohort enrichment
+                and image-derived biomarker discovery.
               </p>
             </Section>
 
-            {/* 04 — Breast Treatment Research */}
+            {/* 04 — CRC Treatment Research */}
             <Section
               section={s4}
               aside={
                 <div className="flex flex-col gap-4">
                   <div className="rounded-2xl border border-white/[0.09] bg-[#02050B]/60 p-4 sm:p-5">
-                    <GroupLabel>Defined treatment cohorts</GroupLabel>
+                    <GroupLabel>Defined research cohorts</GroupLabel>
                     <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
                       {TREATMENT_COHORTS.map((c) => (
                         <Tag key={c} a="236, 72, 153">
@@ -843,31 +882,167 @@ export default function OMBrest() {
                       Study design
                     </span>
                     <p className="mt-4 break-words font-serif text-[1.35rem] font-semibold italic leading-[1.3] text-white sm:text-[1.5rem]">
-                      Therapy-specific research studies.
+                      Treatment-response research, not therapy selection.
                     </p>
                   </div>
                 </div>
               }
             >
               <p className={bodyText}>
-                The <Hl>Treatment Predict™</Hl> layer can later be developed using clinically
-                annotated breast cancer cohorts containing defined treatment and outcome
-                information.
+                <Hl>Treatment Predict™</Hl> can later be applied to clearly defined CRC treatment
+                cohorts containing reliable therapy and outcome information.
               </p>
               <p className={bodyText}>
-                Potential co-development studies may investigate multimodal features associated with
-                response in defined HER2-positive, triple-negative or neoadjuvant treatment cohorts.
-                Such models would combine morphology, ER/PR/HER2/Ki-67 features, immune spatial
-                information, molecular results and clinical variables.
+                Research programs may investigate multimodal features within molecularly defined{' '}
+                <Hl>anti-EGFR</Hl> or <Hl>immunotherapy</Hl> cohorts, combining H&amp;E morphology,
+                MMR expression, MSI/RAS/BRAF status, immune spatial features and clinical metadata.
               </p>
               <p className={bodyText}>
-                These programs should be developed as{' '}
+                Until specific models are trained and validated, this capability should remain
+                positioned as{' '}
                 <span className="rounded-md bg-[#EC4899]/15 px-1.5 py-0.5 font-semibold text-[#F9A8D4]">
-                  therapy-specific research studies
-                </span>{' '}
-                rather than generic breast cancer response prediction.
+                  treatment-response research and pharma co-development
+                </span>
+                , not as a validated therapy-selection system.
               </p>
             </Section>
+
+            {/* For Biopharma */}
+            <article
+              id="for-biopharma"
+              data-reveal
+              className="oc-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+              style={{ '--a': '124, 58, 237', '--b': '236, 72, 153' }}
+            >
+              <span className="oc-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+              <span
+                className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(90deg, rgba(0,0,0,0), rgba(124,58,237,0.7), rgba(236,72,153,0.5), rgba(0,0,0,0))',
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14">
+                <div className="min-w-0">
+                  <GroupLabel>For Biopharma</GroupLabel>
+                  <h2 className="mt-4 break-words font-serif text-[1.85rem] font-semibold leading-[1.14] tracking-[-0.012em] text-white sm:text-[2.2rem]">
+                    Built for Translational Oncology and Biomarker Co-Development
+                  </h2>
+
+                  <div className="mt-7 flex flex-col gap-5">
+                    <p className={bodyText}>
+                      <Hl>Omic Mind</Hl> is designed to support pharmaceutical companies,
+                      biotechnology companies, CROs and academic research groups working across
+                      oncology drug development and translational research.
+                    </p>
+                    <p className={bodyText}>
+                      The platform can support retrospective tissue studies, biomarker
+                      quantification, spatial tumor microenvironment analysis, molecular phenotype
+                      research, cohort characterization and multimodal biomarker-development
+                      programs.
+                    </p>
+                    <p className={bodyText}>
+                      By linking tissue morphology, quantitative IHC, spatial biology and molecular
+                      information within one <Hl>specimen-centric platform</Hl>, Omic Mind aims to
+                      provide a unified infrastructure for studying the biological complexity of
+                      cancer.
+                    </p>
+                  </div>
+
+                  <ul className="mt-7 grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2">
+                    {BIOPHARMA_AUDIENCES.map((x) => (
+                      <li key={x.label} className="min-w-0">
+                        <Tile icon={x.icon} label={x.label} a={x.a} className="h-full" />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="min-w-0 lg:self-center">
+                  <div className="rounded-2xl border border-white/[0.09] bg-[#02050B]/60 p-4 sm:p-5">
+                    <div className="flex flex-col gap-5">
+                      <div>
+                        <GroupLabel>Platform support</GroupLabel>
+                        <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
+                          {BIOPHARMA_SUPPORT.map((s) => (
+                            <Tag key={s} a="94, 234, 212">
+                              {s}
+                            </Tag>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <FlowArrow />
+
+                      <div>
+                        <GroupLabel>Potential collaboration models</GroupLabel>
+                        <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
+                          {BIOPHARMA_MODELS.map((m) => (
+                            <Tag key={m} a="168, 85, 247">
+                              {m}
+                            </Tag>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* Our Initial Oncology Programs */}
+            <article
+              id="oncology-programs"
+              data-reveal
+              className="oc-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+              style={{ '--a': '236, 72, 153', '--b': '124, 58, 237' }}
+            >
+              <span className="oc-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+              <span
+                className="pointer-events-none absolute inset-x-0 top-0 h-px"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(90deg, rgba(0,0,0,0), rgba(236,72,153,0.7), rgba(124,58,237,0.5), rgba(0,0,0,0))',
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="relative">
+                <GroupLabel>Programs</GroupLabel>
+                <h2 className="mt-4 break-words font-serif text-[1.85rem] font-semibold leading-[1.14] tracking-[-0.012em] text-white sm:text-[2.2rem]">
+                  Our Initial Oncology Programs
+                </h2>
+
+                <ul className="mt-8 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
+                  {PROGRAMS.map((p) => {
+                    const Icon = p.icon;
+                    return (
+                      <li
+                        key={p.title}
+                        className="oc-tile flex min-w-0 flex-col rounded-2xl border p-5"
+                        style={{ '--t': p.a }}
+                      >
+                        <span
+                          className="flex h-10 w-10 items-center justify-center rounded-[12px] border border-white/[0.12]"
+                          style={{ backgroundColor: `rgba(${p.a}, 0.14)` }}
+                          aria-hidden="true"
+                        >
+                          <Icon className="h-[18px] w-[18px]" style={{ color: `rgb(${p.a})` }} strokeWidth={1.8} />
+                        </span>
+                        <span className="mt-4 break-words font-serif text-[1.25rem] font-semibold leading-snug text-white">
+                          {p.title}
+                        </span>
+                        <p className="mt-3 break-words font-sans text-[13.5px] font-normal leading-[1.7] text-white/70 [text-wrap:pretty]">
+                          {p.body}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </article>
           </div>
         </section>
       </main>

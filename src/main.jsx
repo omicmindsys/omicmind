@@ -12,6 +12,8 @@ import SpatialTme from './pages/SpatialTme.jsx'
 import MolecularPredict from './pages/MolecularPredict.jsx'
 import TreatmentPredict from './pages/TreatmentPredict.jsx'
 import OMBrest from './pages/OMBrest.jsx'
+import OMLung from './pages/OMLung.jsx'
+import OMColorectal from './pages/OMColorectal.jsx'
 import { usePathname } from './router.jsx'
 import './index.css'
 
@@ -34,6 +36,8 @@ function Root() {
   if (route === '/platform/molecular-predict') return <MolecularPredict />
   if (route === '/platform/treatment-response-predict') return <TreatmentPredict />
   if (route === '/platform/om-breast') return <OMBrest />
+  if (route === '/platform/om-lung') return <OMLung />
+  if (route === '/platform/om-colorectal') return <OMColorectal />
   if (route === '/company/about') return <AboutOmicMind />
   return <App />
 }

@@ -36,8 +36,8 @@ const NAV_ITEMS = [
     label: 'Products',
     items: [
       { label: 'OM Breast', href: '/platform/om-breast' },
-      'OM Lung Immune',
-      'Lung IO-Resistance',
+      { label: 'OM Lung Immune', href: '/platform/om-lung' },
+      { label: 'Colorectal Cancer', href: '/platform/om-colorectal' },
       { label: 'Breast Cancer', href: '/solutions/breast-cancer' },
       { label: 'Lung Cancer', href: '/solutions/lung-cancer' },
       'Precision Oncology',

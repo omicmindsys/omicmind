@@ -23,7 +23,6 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
-import breastImg from '../assets/breastcancer.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,7 +86,7 @@ function Hl({ children }) {
    an icon + short label. Layout helper only. */
 function Tile({ icon: Icon, label, group, a = '168, 85, 247', className = '' }) {
   return (
-    <div className={`ob-tile rounded-xl border px-4 py-3.5 ${className}`} style={{ '--t': a }}>
+    <div className={`ol-tile rounded-xl border px-4 py-3.5 ${className}`} style={{ '--t': a }}>
       {group && <GroupLabel>{group}</GroupLabel>}
       <p
         className={`flex items-start gap-2.5 font-sans text-[13.5px] font-semibold leading-snug text-white ${
@@ -116,10 +115,10 @@ function Section({ section, children, aside }) {
     <article
       id={section.id}
       data-reveal
-      className="ob-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+      className="ol-card relative scroll-mt-28 overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
       style={{ '--a': section.a, '--b': section.b }}
     >
-      <span className="ob-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+      <span className="ol-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
       <span
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{
@@ -181,101 +180,101 @@ const bodyText =
 ================================================================ */
 
 const SECTIONS = [
-  { id: 'quantitative-biomarkers', n: '01', title: 'Quantitative Breast Biomarkers', icon: Gauge, a: '124, 58, 237', b: '168, 85, 247' },
-  { id: 'tumor-microenvironment', n: '02', title: 'Breast Tumor Microenvironment', icon: Network, a: '94, 234, 212', b: '59, 130, 246' },
-  { id: 'molecular-intelligence', n: '03', title: 'Breast Molecular Intelligence', icon: Dna, a: '168, 85, 247', b: '236, 72, 153' },
-  { id: 'treatment-research', n: '04', title: 'Breast Treatment Research', icon: BrainCircuit, a: '236, 72, 153', b: '59, 130, 246' },
+  { id: 'quantitative-biomarkers', n: '01', title: 'Quantitative Lung Biomarkers', icon: Gauge, a: '124, 58, 237', b: '168, 85, 247' },
+  { id: 'tumor-microenvironment', n: '02', title: 'Lung Tumor Microenvironment', icon: Network, a: '94, 234, 212', b: '59, 130, 246' },
+  { id: 'molecular-intelligence', n: '03', title: 'Lung Molecular Intelligence', icon: Dna, a: '168, 85, 247', b: '236, 72, 153' },
+  { id: 'treatment-research', n: '04', title: 'Lung Treatment Research', icon: BrainCircuit, a: '236, 72, 153', b: '59, 130, 246' },
 ];
 
 /* The four data layers named in the opening paragraph */
 const LAYERS = [
-  { label: 'Digital pathology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'Quantitative IHC', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Immune spatial profiling', icon: Network, a: '94, 234, 212' },
+  { label: 'H&E morphology', icon: Microscope, a: '168, 85, 247' },
+  { label: 'PD-L1 analysis', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'Tumor microenvironment profiling', icon: Network, a: '94, 234, 212' },
   { label: 'Molecular information', icon: Dna, a: '59, 130, 246' },
 ];
 
 const BIOMARKER_GROUPS = [
-  { group: 'Major breast cancer biomarkers', a: '236, 72, 153', items: ['ER', 'PR', 'HER2', 'Ki-67'] },
-  { group: 'Extended translational studies', a: '94, 234, 212', items: ['PD-L1', 'PanCK', 'CD3', 'CD8', 'FOXP3', 'CD68'] },
-  { group: 'Genomic information', a: '59, 130, 246', items: ['PIK3CA', 'TP53', 'BRCA1/2', 'HRD-related features'] },
+  { group: 'Central lung biomarkers', a: '236, 72, 153', items: ['PD-L1', 'CD8 density'] },
+  { group: 'Additional translational panels', a: '94, 234, 212', items: ['PanCK', 'CD3', 'CD8', 'FOXP3', 'CD68'] },
+  { group: 'Genomic driver alterations', a: '59, 130, 246', items: ['EGFR', 'KRAS', 'KRAS G12C', 'ALK', 'ROS1'] },
 ];
 
-/* The six levels a single specimen can be studied at */
+/* The levels a single specimen can be studied at */
 const LEVELS = [
   { label: 'Tissue morphology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'Biomarker expression', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Tumor proliferation', icon: Activity, a: '244, 114, 182' },
+  { label: 'Immune-checkpoint biomarkers', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'Tumor content', icon: Activity, a: '244, 114, 182' },
   { label: 'Immune composition', icon: Users, a: '94, 234, 212' },
-  { label: 'Spatial organization', icon: Shapes, a: '59, 130, 246' },
-  { label: 'Molecular biology', icon: Dna, a: '124, 58, 237' },
+  { label: 'Spatial immune features', icon: Shapes, a: '59, 130, 246' },
+  { label: 'Genomic driver alterations', icon: Dna, a: '124, 58, 237' },
 ];
 
 const QUANT_READOUTS = [
   {
-    group: 'ER / PR',
-    a: '236, 72, 153',
-    icon: ScanSearch,
-    items: ['Positivity', 'Staining intensity', 'Related research scoring metrics'],
-  },
-  {
-    group: 'HER2',
-    a: '168, 85, 247',
-    icon: Crosshair,
-    items: ['Membrane intensity', 'Completeness'],
-  },
-  {
-    group: 'Ki-67',
-    a: '244, 114, 182',
-    icon: Flame,
-    items: ['Global proliferation', 'Regional hotspots'],
-  },
-  {
     group: 'H&E',
     a: '59, 130, 246',
     icon: Percent,
-    items: ['Tumor area', 'Tumor percentage', 'Relevant tissue compartments'],
+    items: ['Tumor areas', 'Tumor content', 'NSCLC histological patterns'],
+  },
+  {
+    group: 'PD-L1',
+    a: '236, 72, 153',
+    icon: ScanSearch,
+    items: ['Quantitative analysis', 'PD-L1 scoring'],
+  },
+  {
+    group: 'Immune cells',
+    a: '94, 234, 212',
+    icon: Users,
+    items: ['CD8 density', 'CD8 immune-exclusion analysis'],
+  },
+  {
+    group: 'Histological patterns',
+    a: '168, 85, 247',
+    icon: Crosshair,
+    items: ['Adenocarcinoma-versus-squamous assistance'],
   },
 ];
 
 const TME_MARKERS = ['PanCK', 'CD3', 'CD8', 'FOXP3', 'CD68'];
 
 const TME_CELLS = [
-  { label: 'Cytotoxic T cells', a: '94, 234, 212' },
-  { label: 'Regulatory T cells', a: '59, 130, 246' },
-  { label: 'Macrophages', a: '168, 85, 247' },
+  { label: 'CD8-positive lymphocytes', a: '94, 234, 212' },
+  { label: 'FOXP3-positive regulatory T cells', a: '59, 130, 246' },
+  { label: 'CD68-positive macrophages', a: '168, 85, 247' },
 ];
 
 const TME_OUTPUTS = [
-  'Intratumoral CD8 density',
-  'Stromal CD8 density',
+  'CD8 infiltration',
   'Immune exclusion',
-  'Treg/CD8 relationships',
-  'Macrophage distribution',
-  'Overall breast tumor microenvironment profile',
+  'Tumor-to-immune distance',
+  'Treg distribution',
+  'Macrophage localization',
+  'Inflamed, excluded or desert immune phenotypes',
 ];
 
-const MOLECULAR_TARGETS = ['PIK3CA', 'TP53', 'HRD-associated morphology'];
+const MOLECULAR_TARGETS = ['EGFR', 'KRAS', 'KRAS G12C', 'ALK', 'ROS1'];
 
 const MOLECULAR_OUTPUTS = [
-  { label: 'Probability-based outputs', icon: Gauge, a: '168, 85, 247' },
-  { label: 'Confidence estimates', icon: BrainCircuit, a: '59, 130, 246' },
-  { label: 'Predictive heatmaps', icon: Flame, a: '236, 72, 153' },
+  { label: 'Molecular probabilities', icon: Gauge, a: '168, 85, 247' },
+  { label: 'Confidence scores', icon: BrainCircuit, a: '59, 130, 246' },
+  { label: 'Predictive tissue heatmaps', icon: Flame, a: '236, 72, 153' },
 ];
 
-const TREATMENT_COHORTS = ['HER2-positive', 'Triple-negative', 'Neoadjuvant'];
+const TREATMENT_COHORTS = ['Immunotherapy', 'Targeted therapy'];
 
 const TREATMENT_FEATURES = [
-  { label: 'Morphology', icon: Microscope, a: '168, 85, 247' },
-  { label: 'ER/PR/HER2/Ki-67 features', icon: ScanSearch, a: '236, 72, 153' },
-  { label: 'Immune spatial information', icon: Network, a: '94, 234, 212' },
-  { label: 'Molecular results', icon: Dna, a: '59, 130, 246' },
-  { label: 'Clinical variables', icon: FlaskConical, a: '147, 197, 253' },
+  { label: 'Pathology', icon: Microscope, a: '168, 85, 247' },
+  { label: 'PD-L1', icon: ScanSearch, a: '236, 72, 153' },
+  { label: 'Spatial immune features', icon: Network, a: '94, 234, 212' },
+  { label: 'Genomic information', icon: Dna, a: '59, 130, 246' },
+  { label: 'Treatment and clinical outcomes', icon: FlaskConical, a: '147, 197, 253' },
 ];
 
 /* ================================================================ */
 
-export default function OMBrest() {
+export default function OMLung() {
   const rootRef = useRef(null);
   const lenisRef = useRef(null);
 
@@ -319,13 +318,13 @@ export default function OMBrest() {
 
     const ctx = gsap.context(() => {
       if (prefersReduced) {
-        gsap.set('[data-reveal], .ob-hero-copy > *, .ob-stage', { autoAlpha: 1, y: 0, scale: 1 });
+        gsap.set('[data-reveal], .ol-hero-copy > *, .ol-stage', { autoAlpha: 1, y: 0, scale: 1 });
         return;
       }
       gsap
         .timeline({ defaults: { ease: 'power3.out' } })
-        .from('.ob-hero-copy > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1 }, 0.15)
-        .from('.ob-stage', { autoAlpha: 0, y: 30, scale: 0.96, duration: 1.05 }, 0.35);
+        .from('.ol-hero-copy > *', { autoAlpha: 0, y: 26, duration: 0.9, stagger: 0.1 }, 0.15)
+        .from('.ol-stage', { autoAlpha: 0, y: 30, scale: 0.96, duration: 1.05 }, 0.35);
 
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.from(el, {
@@ -355,37 +354,37 @@ export default function OMBrest() {
       <Navbar />
 
       <style>{`
-        .ob-card {
+        .ol-card {
           background-color: rgba(11, 16, 32, 0.55);
           border-color: rgba(255, 255, 255, 0.09);
           box-shadow: 0 30px 70px -44px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04);
           transition: border-color 380ms ease-out, box-shadow 380ms ease-out;
         }
-        .ob-card:hover {
+        .ol-card:hover {
           border-color: rgba(var(--a), 0.34);
           box-shadow:
             0 30px 70px -44px rgba(0, 0, 0, 0.9),
             0 0 40px -14px rgba(var(--a), 0.35),
             0 0 60px -24px rgba(var(--b), 0.3);
         }
-        .ob-card-glow {
+        .ol-card-glow {
           background-image:
             radial-gradient(48% 60% at 100% 0%, rgba(var(--a), 0.13) 0%, rgba(0, 0, 0, 0) 72%),
             radial-gradient(44% 56% at 0% 100%, rgba(var(--b), 0.08) 0%, rgba(0, 0, 0, 0) 74%);
         }
-        .ob-tile {
+        .ol-tile {
           border-color: rgba(255, 255, 255, 0.09);
           background-color: rgba(255, 255, 255, 0.04);
           transition: border-color 300ms ease-out, background-color 300ms ease-out, box-shadow 300ms ease-out, transform 300ms ease-out;
         }
-        .ob-tile:hover {
+        .ol-tile:hover {
           border-color: rgba(var(--t), 0.4);
           background-color: rgba(255, 255, 255, 0.06);
           box-shadow: 0 0 34px -14px rgba(var(--t), 0.55);
           transform: translateY(-2px);
         }
         @media (prefers-reduced-motion: reduce) {
-          .ob-tile:hover { transform: none; }
+          .ol-tile:hover { transform: none; }
         }
       `}</style>
 
@@ -413,21 +412,21 @@ export default function OMBrest() {
 
           <div className="relative z-10 mx-auto max-w-[1400px] px-6 pb-20 pt-[122px] lg:px-10 lg:pb-28 lg:pt-[168px]">
             <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
-              <div className="ob-hero-copy w-full min-w-0 max-w-2xl lg:max-w-none">
-                <Eyebrow>Products · Breast Program</Eyebrow>
+              <div className="ol-hero-copy w-full min-w-0 max-w-2xl lg:max-w-none">
+                <Eyebrow>Products · Lung Program</Eyebrow>
 
                 <h1 className="mt-7 break-words font-serif text-[2.6rem] font-semibold leading-[1.06] tracking-[-0.015em] text-white sm:text-[3.4rem] lg:text-[3.9rem]">
-                  OM Breast™
+                  OM Lung™
                 </h1>
 
                 <p className="mt-4 font-serif text-[1.25rem] font-medium italic leading-[1.3] text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#93C5FD] sm:text-[1.5rem]">
-                  Integrated computational breast cancer research
+                  Multimodal AI for NSCLC Tissue, Immune and Molecular Intelligence
                 </p>
 
                 <p className={`mt-7 max-w-xl ${bodyText} sm:text-[17px]`}>
-                  <Hl>OM Breast™</Hl> combines digital pathology, quantitative IHC, immune spatial
-                  profiling and molecular information to create an{' '}
-                  <Hl>integrated computational representation of breast cancer tissue</Hl>.
+                  <Hl>OM Lung™</Hl> combines H&amp;E morphology, PD-L1 analysis, tumor
+                  microenvironment profiling and molecular information to create an{' '}
+                  <Hl>integrated research platform for non-small cell lung cancer</Hl>.
                 </p>
 
                 {/* Section index */}
@@ -459,8 +458,8 @@ export default function OMBrest() {
                 </nav>
               </div>
 
-              {/* Hero visual — the four data layers feeding one representation */}
-              <div className="ob-stage relative w-full min-w-0">
+              {/* Hero visual — the four data layers feeding one research platform */}
+              <div className="ol-stage relative w-full min-w-0">
                 <div className="relative overflow-hidden rounded-[26px] border border-white/[0.12] bg-[#0B1020]/70 p-4 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:p-5">
                   <div
                     className="pointer-events-none absolute inset-0"
@@ -473,23 +472,11 @@ export default function OMBrest() {
                   <div className="relative flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-2 font-sans text-[12px] font-semibold text-white/85">
                       <Layers className="h-4 w-4 text-[#C4B5FD]" strokeWidth={1.8} aria-hidden="true" />
-                      Breast cancer tissue
+                      NSCLC tissue
                     </span>
                     <span className="font-sans text-[11px] font-medium text-white/45">
                       Illustrative schematic
                     </span>
-                  </div>
-
-                  <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/[0.09]">
-                    <img
-                      src={breastImg}
-                      width={872}
-                      height={286}
-                      alt="Breast cancer tissue section used across the OM Breast program"
-                      loading="eager"
-                      decoding="async"
-                      className="block h-auto w-full"
-                    />
                   </div>
 
                   <div className="relative mt-4">
@@ -503,10 +490,10 @@ export default function OMBrest() {
 
                     <FlowArrow />
 
-                    <div className="ob-tile rounded-xl border px-4 py-3.5" style={{ '--t': '124, 58, 237' }}>
-                      <GroupLabel>Integrated representation</GroupLabel>
+                    <div className="ol-tile rounded-xl border px-4 py-3.5" style={{ '--t': '124, 58, 237' }}>
+                      <GroupLabel>Integrated research platform</GroupLabel>
                       <p className="mt-2 break-words font-sans text-[13.5px] font-medium leading-[1.6] text-white/85">
-                        A single breast cancer specimen studied simultaneously at multiple levels
+                        Omic Mind brings these layers together around the same specimen
                       </p>
                     </div>
                   </div>
@@ -528,10 +515,10 @@ export default function OMBrest() {
             {/* Program design — the markers the program is built around */}
             <article
               data-reveal
-              className="ob-card relative overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
+              className="ol-card relative overflow-hidden rounded-[28px] border p-6 backdrop-blur-xl sm:p-9 lg:p-12"
               style={{ '--a': '59, 130, 246', '--b': '124, 58, 237' }}
             >
-              <span className="ob-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
+              <span className="ol-card-glow pointer-events-none absolute inset-0 rounded-[28px]" aria-hidden="true" />
               <span
                 className="pointer-events-none absolute inset-x-0 top-0 h-px"
                 style={{
@@ -545,17 +532,10 @@ export default function OMBrest() {
                 <div className="min-w-0">
                   <GroupLabel>Program design</GroupLabel>
                   <p className={`mt-4 ${bodyText}`}>
-                    The program is designed around routine <Hl>H&amp;E morphology</Hl> together with
-                    major breast cancer biomarkers including <Hl>ER</Hl>, <Hl>PR</Hl>,{' '}
-                    <Hl>HER2</Hl> and <Hl>Ki-67</Hl>. Extended translational studies can incorporate
-                    PD-L1, PanCK, CD3, CD8, FOXP3 and CD68, while genomic information can include
-                    alterations and phenotypes such as PIK3CA, TP53, BRCA1/2 and HRD-related
-                    features.
-                  </p>
-                  <p className={`mt-5 ${bodyText}`}>
-                    This allows a single breast cancer specimen to be studied simultaneously at
-                    multiple levels: tissue morphology, biomarker expression, tumor proliferation,
-                    immune composition, spatial organization and molecular biology.
+                    <Hl>NSCLC</Hl> is highly suited to multimodal analysis because tissue
+                    morphology, immune-checkpoint biomarkers and genomic driver alterations each
+                    provide distinct biological information. Omic Mind brings these layers together
+                    around the <Hl>same specimen</Hl>.
                   </p>
 
                   <ul className="mt-7 grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -595,7 +575,7 @@ export default function OMBrest() {
               </div>
             </article>
 
-            {/* 01 — Quantitative Breast Biomarkers */}
+            {/* 01 — Quantitative Lung Biomarkers */}
             <Section
               section={s1}
               aside={
@@ -605,7 +585,7 @@ export default function OMBrest() {
                     return (
                       <li
                         key={q.group}
-                        className="ob-tile flex min-w-0 flex-col rounded-2xl border p-4"
+                        className="ol-tile flex min-w-0 flex-col rounded-2xl border p-4"
                         style={{ '--t': q.a }}
                       >
                         <span
@@ -640,21 +620,24 @@ export default function OMBrest() {
               }
             >
               <p className={bodyText}>
-                Through <Hl>Biomarker Quant™</Hl>, Omic Mind can quantify ER and PR positivity,
-                staining intensity and related research scoring metrics. HER2 analysis can assess
-                membrane intensity and completeness, while Ki-67 analysis can estimate global
-                proliferation and identify regional hotspots.
+                <Hl>Biomarker Quant™</Hl> can analyze H&amp;E tissue to identify tumor areas,
+                estimate tumor content and support research classification of major{' '}
+                <Hl>NSCLC histological patterns</Hl>.
               </p>
               <p className={bodyText}>
-                H&amp;E analysis can additionally quantify <Hl>tumor area</Hl>,{' '}
-                <Hl>tumor percentage</Hl> and <Hl>relevant tissue compartments</Hl>.
+                A central component of <Hl>OM Lung™</Hl> is quantitative analysis of{' '}
+                <Hl>PD-L1</Hl>, together with immune-cell measurements such as CD8 density.
+              </p>
+              <p className={bodyText}>
+                Additional translational panels may include PanCK, CD3, CD8, FOXP3 and CD68.
               </p>
               <p className="font-sans text-[14px] leading-[1.7] text-white/60 [text-wrap:pretty]">
-                These capabilities are part of the current OM Breast™ architecture.
+                The current lung architecture already includes adenocarcinoma-versus-squamous
+                assistance, PD-L1 scoring and CD8 immune-exclusion analysis.
               </p>
             </Section>
 
-            {/* 02 — Breast Tumor Microenvironment */}
+            {/* 02 — Lung Tumor Microenvironment */}
             <Section
               section={s2}
               aside={
@@ -676,7 +659,7 @@ export default function OMBrest() {
                       {TME_CELLS.map((c) => (
                         <li key={c.label} className="min-w-0">
                           <div
-                            className="ob-tile flex items-center gap-3 rounded-xl border px-4 py-3"
+                            className="ol-tile flex items-center gap-3 rounded-xl border px-4 py-3"
                             style={{ '--t': c.a }}
                           >
                             <span
@@ -694,7 +677,7 @@ export default function OMBrest() {
 
                     <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                       <Tile icon={Target} group="Compartment" label="Tumor nests" a="236, 72, 153" className="h-full" />
-                      <Tile icon={Shapes} group="Compartment" label="Surrounding stroma" a="59, 130, 246" className="h-full" />
+                      <Tile icon={Shapes} group="Compartment" label="Stromal compartments" a="59, 130, 246" className="h-full" />
                     </div>
                   </div>
 
@@ -712,26 +695,28 @@ export default function OMBrest() {
               }
             >
               <p className={bodyText}>
-                <Hl>Spatial TME™</Hl> extends breast cancer analysis into the immune
-                microenvironment. Using markers such as PanCK, CD3, CD8, FOXP3 and CD68, Omic Mind
-                can map cytotoxic T cells, regulatory T cells and macrophages relative to tumor and
-                stromal compartments. This can distinguish immune cells that{' '}
-                <Hl>penetrate tumor nests</Hl> from those that{' '}
-                <Hl>remain confined to surrounding stroma</Hl>.
+                <Hl>Spatial TME™</Hl> can characterize where immune cells are located relative to
+                NSCLC tumor tissue.
               </p>
               <p className={bodyText}>
-                Potential outputs include intratumoral CD8 density, stromal CD8 density, immune
-                exclusion, Treg/CD8 relationships, macrophage distribution and an overall breast
-                tumor microenvironment profile.
+                The platform can distinguish CD8-positive lymphocytes located{' '}
+                <Hl>within tumor nests</Hl> from those concentrated at tumor boundaries or{' '}
+                <Hl>restricted to stromal compartments</Hl>. FOXP3-positive regulatory T cells and
+                CD68-positive macrophages can also be mapped relative to tumor and cytotoxic T-cell
+                populations.
               </p>
               <p className={bodyText}>
-                This capability can be particularly valuable for translational research in{' '}
-                <Hl>triple-negative</Hl> and <Hl>HER2-positive</Hl> breast cancer, where
-                tumor–immune biology is an important research area.
+                Potential outputs include CD8 infiltration, immune exclusion, tumor-to-immune
+                distance, Treg distribution, macrophage localization and inflamed, excluded or
+                desert immune phenotypes.
+              </p>
+              <p className={bodyText}>
+                This provides a richer description of the tumor immune environment than PD-L1
+                measurement alone.
               </p>
             </Section>
 
-            {/* 03 — Breast Molecular Intelligence */}
+            {/* 03 — Lung Molecular Intelligence */}
             <Section
               section={s3}
               aside={
@@ -751,7 +736,7 @@ export default function OMBrest() {
                     <Tile
                       icon={ShieldCheck}
                       group="Ground truth"
-                      label="Validated molecular results"
+                      label="Molecular testing"
                       a="94, 234, 212"
                     />
 
@@ -780,35 +765,35 @@ export default function OMBrest() {
                       Research positioning
                     </span>
                     <p className="mt-4 break-words font-serif text-[1.35rem] font-semibold italic leading-[1.3] text-white sm:text-[1.5rem]">
-                      Without replacing confirmatory molecular testing.
+                      Molecular testing remains the ground-truth reference.
                     </p>
                   </div>
                 </div>
               }
             >
               <p className={bodyText}>
-                <Hl>Molecular Predict™</Hl> can investigate whether routine breast H&amp;E
-                morphology contains image-derived signatures associated with molecular phenotypes.
+                <Hl>Molecular Predict™</Hl> can investigate whether H&amp;E morphology contains
+                detectable signatures associated with major <Hl>NSCLC genomic alterations</Hl>.
               </p>
               <p className={bodyText}>
-                Initial models can focus on <Hl>PIK3CA</Hl>, <Hl>TP53</Hl> and{' '}
-                <Hl>HRD-associated morphology</Hl>, using validated molecular results as ground
-                truth.
+                Initial research targets can include <Hl>EGFR</Hl> and <Hl>KRAS</Hl>, including
+                KRAS G12C where case numbers allow, with exploratory work in ALK and ROS1. These
+                targets are already identified in the current OM Lung™ architecture.
               </p>
               <p className={bodyText}>
-                The platform can return probability-based outputs with confidence estimates and
-                predictive heatmaps, supporting molecular enrichment and retrospective research
-                without replacing confirmatory molecular testing.
+                H&amp;E-derived molecular probabilities can be presented alongside confidence scores
+                and predictive tissue heatmaps while molecular testing remains the ground-truth
+                reference.
               </p>
             </Section>
 
-            {/* 04 — Breast Treatment Research */}
+            {/* 04 — Lung Treatment Research */}
             <Section
               section={s4}
               aside={
                 <div className="flex flex-col gap-4">
                   <div className="rounded-2xl border border-white/[0.09] bg-[#02050B]/60 p-4 sm:p-5">
-                    <GroupLabel>Defined treatment cohorts</GroupLabel>
+                    <GroupLabel>Defined research cohorts</GroupLabel>
                     <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
                       {TREATMENT_COHORTS.map((c) => (
                         <Tag key={c} a="236, 72, 153">
@@ -843,29 +828,29 @@ export default function OMBrest() {
                       Study design
                     </span>
                     <p className="mt-4 break-words font-serif text-[1.35rem] font-semibold italic leading-[1.3] text-white sm:text-[1.5rem]">
-                      Therapy-specific research studies.
+                      Dedicated models developed and validated first.
                     </p>
                   </div>
                 </div>
               }
             >
               <p className={bodyText}>
-                The <Hl>Treatment Predict™</Hl> layer can later be developed using clinically
-                annotated breast cancer cohorts containing defined treatment and outcome
-                information.
+                <Hl>Treatment Predict™</Hl> can subsequently support defined NSCLC research cohorts
+                in which pathology, PD-L1, spatial immune features and genomic information are
+                linked with treatment and clinical outcomes.
               </p>
               <p className={bodyText}>
-                Potential co-development studies may investigate multimodal features associated with
-                response in defined HER2-positive, triple-negative or neoadjuvant treatment cohorts.
-                Such models would combine morphology, ER/PR/HER2/Ki-67 features, immune spatial
-                information, molecular results and clinical variables.
+                Potential projects may include retrospective analysis of immunotherapy or
+                targeted-therapy cohorts, but treatment-specific claims should only be made once{' '}
+                <Hl>dedicated models have been developed and validated</Hl>.
               </p>
               <p className={bodyText}>
-                These programs should be developed as{' '}
+                The objective is to provide pharmaceutical partners with a{' '}
                 <span className="rounded-md bg-[#EC4899]/15 px-1.5 py-0.5 font-semibold text-[#F9A8D4]">
-                  therapy-specific research studies
+                  multimodal framework
                 </span>{' '}
-                rather than generic breast cancer response prediction.
+                for exploring new treatment-associated biomarkers rather than simply relying on a
+                single tissue marker.
               </p>
             </Section>
           </div>
