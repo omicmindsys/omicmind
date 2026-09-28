@@ -17,21 +17,21 @@ const BRAND = {
 };
 
 const LABEL = {
-  fontFamily: 'Inter, system-ui, sans-serif',
+  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
   fontSize: 9,
   fontWeight: 600,
   letterSpacing: '0.02em',
 };
 
 const CAPTION = {
-  fontFamily: 'Inter, system-ui, sans-serif',
+  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
   fontSize: 7.5,
   fontWeight: 700,
   letterSpacing: '0.09em',
 };
 
 const VALUE = {
-  fontFamily: 'Inter, system-ui, sans-serif',
+  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
   fontSize: 9.5,
   fontWeight: 700,
   letterSpacing: '0.01em',

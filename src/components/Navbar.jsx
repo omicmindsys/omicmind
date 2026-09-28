@@ -155,7 +155,9 @@ if (glow) gsap.set(glow, { opacity: 0.55 });
   );
 }
 
-export default function Navbar() {
+/* `background` overrides the navbar's fill with a solid colour (the home page
+   passes its Hero beige); other pages omit it and keep the dark glass. */
+export default function Navbar({ background } = {}) {
   const navRef = useRef(null);
   const rowRef = useRef(null);
   const logoRef = useRef(null);
@@ -179,7 +181,7 @@ export default function Navbar() {
     const ctx = gsap.context(() => {
       // Resting (top of page) navbar look
       gsap.set(navRef.current, {
-        backgroundColor: 'rgba(5,8,22,0.65)',
+        backgroundColor: background || 'rgba(5,8,22,0.65)',
         borderBottomColor: 'rgba(255,255,255,0.08)',
         boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
       });
@@ -215,7 +217,7 @@ export default function Navbar() {
         .to(
           navRef.current,
           {
-            backgroundColor: 'rgba(5,8,22,0.88)',
+            backgroundColor: background || 'rgba(5,8,22,0.88)',
             borderBottomColor: 'rgba(255,255,255,0.10)',
             boxShadow: '0 8px 30px rgba(0,0,0,0.25), 0 1px 0 rgba(139,92,246,0.06)',
           },
@@ -386,8 +388,12 @@ export default function Navbar() {
         className="fixed inset-x-0 top-0 z-[200] w-full border-b"
         style={{
           willChange: 'background-color, box-shadow, transform',
-          backdropFilter: 'blur(16px) saturate(150%)',
-          WebkitBackdropFilter: 'blur(16px) saturate(150%)',
+          ...(background
+            ? {}
+            : {
+                backdropFilter: 'blur(16px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(150%)',
+              }),
         }}
       >
         <div

@@ -12,27 +12,20 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================================================================
    Hero composition
 
-   The frame is split in two on a plain white ground: the copy reads down
+   The frame is split in two on a warm beige ground: the copy reads down
    the left, the footage holds the right, and neither is ever laid over the
    other — which is what lets the text be read at full contrast and the
    footage be seen at full clarity, instead of each compromising the other.
    Depth comes from three planes moving at three rates: footage, floating
    instrumentation, copy.
 
-   The palette is inverted from what it was, and it had to be: every value
-   here was picked to carry white type on near-black. Left as it stood, the
-   copy would have gone from legible to invisible the moment the ground
-   turned. The brand violet and pink are unchanged as hues — they are simply
-   taken at the weights that hold against white rather than against black.
+   The ground is beige, so the palette is the light-ground one: every value
+   here carries dark type on beige. Type that was white, and glass that was
+   a few percent white, would have gone invisible the moment the ground
+   turned, so both were re-weighted. The brand violet and pink are unchanged
+   as hues — they are simply taken at the weights that hold against beige
+   rather than against near-black.
 ================================================================ */
-
-/* Floating readout panels. Each declares its own breakpoint: the frame
-   gets more crowded as it gets wider, never the other way round. */
-const PANELS = [
- 
-  
-  
-];
 
 /* Molecular data particles — the finest layer, deliberately low-contrast
    and kept clear of the middle of the frame. */
@@ -122,7 +115,6 @@ const KEYWORDS = [
     ),
   },
   {
-    
     label: 'Pathology Foundation Models',
     desc: 'Learning morphology, biomarkers and disease phenotypes',
     // Whole-slide scan frame with tissue detail
@@ -136,7 +128,6 @@ const KEYWORDS = [
     ),
   },
   {
-    
     label: 'Multimodal Biomarker Intelligence',
     desc: 'Integrating pathology, spatial biology and multiomics',
     // Scored expression bars with a rising trend
@@ -150,7 +141,6 @@ const KEYWORDS = [
     ),
   },
   {
-    
     label: 'Treatment & Trial Intelligence',
     desc: 'Supporting response modelling and cohort stratification',
     // Helix threaded through an interaction network
@@ -167,7 +157,6 @@ const KEYWORDS = [
     ),
   },
   {
-    
     label: 'Therapeutics Discovery',
     desc: 'Translating patient-derived insights into drug-target hypotheses',
     // Clinical cross reading out a response curve
@@ -187,6 +176,7 @@ export default function Hero() {
   const contentRef = useRef(null);
   const fxRef = useRef(null);
   const mediaRef = useRef(null);
+  const frameRef = useRef(null);
 
   /* The footage must always open on its own first frame: a browser that
      restores a media position across a soft reload, or a source that has
@@ -340,6 +330,38 @@ export default function Hero() {
           0
         );
 
+        /* ---------- Scroll tilt on the footage frame ----------
+           Driven by scroll velocity rather than position, so the frame only
+           leans while the page is moving (Lenis smooths the scroll, so
+           velocities run low — hence the small divisor) and eases back to level once it
+           stops. Only the video frame tilts — not the copy, not the pathway
+           cards beneath it. Capped at 4.5deg so it reads as depth, not motion. */
+        const frame = frameRef.current;
+        if (frame) {
+          gsap.set(frame, { transformPerspective: 1400, transformOrigin: '50% 50%' });
+          const tiltX = gsap.quickTo(frame, 'rotationX', { duration: 1.1, ease: 'power3.out' });
+          const tiltY = gsap.quickTo(frame, 'rotationY', { duration: 1.1, ease: 'power3.out' });
+          const lift = gsap.quickTo(frame, 'y', { duration: 1.1, ease: 'power3.out' });
+          const settle = gsap.delayedCall(0.15, () => {
+            tiltX(0);
+            tiltY(0);
+            lift(0);
+          }).pause();
+
+          ScrollTrigger.create({
+            trigger: heroRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            onUpdate: (self) => {
+              const v = gsap.utils.clamp(-1, 1, self.getVelocity() / 900);
+              tiltX(v * 4.5);
+              tiltY(v * -2);
+              lift(v * -20);
+              settle.restart(true);
+            },
+          });
+        }
+
         // Instrumentation: leaves faster than the footage, slower than the copy
         scrollTl.fromTo(
           fxRef.current,
@@ -422,14 +444,16 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative w-full flex items-center bg-[#050816] overflow-hidden"
+      className="relative w-full flex items-center bg-[#E8DFD2] overflow-hidden"
       style={{
         perspective: '1200px', // Enables 3D space for the layered elements
-        /* Depth, and nothing else: two very wide, very faint pools — one
-           navy, one violet — so the ground reads as lit space rather than
-           as a flat black rectangle. Neither reaches the type. */
+        /* Warm beige ground. The two faint pools that sat here before were
+           mixed toward near-black and turned muddy the moment the ground
+           went light, so the depth is carried by one shallow diagonal
+           instead — a touch lighter at the top-left, a touch deeper at the
+           bottom-right. `bg-[#E8DFD2]` above is the flat fallback. */
         backgroundImage:
-          'radial-gradient(58% 46% at 20% 16%, rgba(23,42,94,0.55) 0%, rgba(5,8,22,0) 68%), radial-gradient(54% 44% at 84% 76%, rgba(58,26,120,0.42) 0%, rgba(5,8,22,0) 70%)',
+          'linear-gradient(135deg, #F0E9DF 0%, #E4D9CA 100%)',
       }}
     >
 
@@ -467,25 +491,6 @@ export default function Hero() {
             }}
           />
         ))}
-
-        {PANELS.map((p) => (
-          <div
-            key={p.label}
-            className={`hero-panel absolute opacity-0 ${p.pos} ${p.show} items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.07] px-4 py-3 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)] backdrop-blur-xl backdrop-saturate-150`}
-          >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#7C3AED] to-[#EC4899] shadow-[0_8px_20px_-6px_rgba(168,85,247,0.9)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-white" />
-            </span>
-            <span className="flex flex-col leading-tight">
-              <span className="font-sans text-[12px] font-semibold tracking-[0.01em] text-white">
-                {p.label}
-              </span>
-              <span className="font-sans text-[10.5px] font-medium tracking-[0.06em] text-gray-300/80">
-                {p.meta}
-              </span>
-            </span>
-          </div>
-        ))}
       </div>
 
       {/* ---------- Content ----------
@@ -504,37 +509,30 @@ export default function Hero() {
             style={{ transformStyle: 'preserve-3d' }}
           >
             {/* Eyebrow — the small label the entrance timeline animates
-                first, directly above the headline. Was previously referenced
-                by the GSAP timeline but missing from the markup, which is
-                what produced the "GSAP target .hero-eyebrow not found"
-                console warning. */}
-            <span className="hero-eyebrow inline-flex items-center gap-2 opacity-0 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#C4B5FD] backdrop-blur-xl">
+                first, directly above the headline. */}
+            <span className="hero-eyebrow inline-flex items-center gap-2 opacity-0 rounded-full border border-[#7C3AED]/25 bg-white/60 px-4 py-1.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#6D28D9] backdrop-blur-xl">
               <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
               AI-Powered Biomarker Intelligence
             </span>
 
             {/* Headline */}
             <h1
-              className="mt-8 font-serif font-semibold text-[#F8FAFC] tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[3.1rem] xl:text-[3.6rem]"
+              className="mt-8 font-serif font-semibold text-[#111827] tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[3.1rem] xl:text-[3.6rem]"
             >
               <span className="hero-line block opacity-0">From Tissue to Validated</span>
-              
-                
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
-                  Biomarker and therapeutic intelligence
-                </span>{' '}
-                
-              
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
+                Biomarker and therapeutic intelligence
+              </span>{' '}
             </h1>
 
             {/* Editorial rule */}
             <span
-              className="hero-rule mt-9 block h-px w-40 origin-left rounded-full opacity-0 bg-gradient-to-r from-[#A855F7] via-[#E879F9] to-transparent"
+              className="hero-rule mt-9 block h-px w-40 origin-left rounded-full opacity-0 bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-transparent"
               aria-hidden="true"
             />
 
             {/* Description */}
-            <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-slate-300 opacity-0">
+            <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-slate-700 opacity-0">
               A specimen-centric AI platform integrating digital pathology, biomarker quantification, spatial biology and multiomics to support translational research, patient stratification and biomarker development.
             </p>
 
@@ -582,11 +580,11 @@ export default function Hero() {
                   type="button"
                   onMouseEnter={(e) => ctaHover(e, true)}
                   onMouseLeave={(e) => ctaHover(e, false)}
-                  className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-slate-100 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl transition-colors duration-300 hover:border-white/30 hover:bg-white/[0.11]"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-slate-900/20 bg-white/60 px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-[#1F2937] shadow-[0_10px_30px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-colors duration-300 hover:border-slate-900/35 hover:bg-white/80"
                 >
                   Explore Platform
                   <ArrowRight
-                    className="h-5 w-5 text-[#C4B5FD] transition-transform duration-300 ease-out group-hover:translate-x-1"
+                    className="h-5 w-5 text-[#7C3AED] transition-transform duration-300 ease-out group-hover:translate-x-1"
                     strokeWidth={2.25}
                   />
                 </button>
@@ -605,7 +603,7 @@ export default function Hero() {
                       aria-hidden="true"
                     />
                   )}
-                  <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
+                  <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
                     {m}
                   </span>
                 </React.Fragment>
@@ -621,39 +619,24 @@ export default function Hero() {
               as the footage's own caption rather than as a second block that
               happens to be nearby.
 
-              The frame itself is a plain one: a rounded, clipped frame with a
-              hairline edge, holding the video on `object-cover` so it fills
-              the box at its own proportions — cropped at the edges, never
-              stretched, never letterboxed. The box is stated as an aspect
-              ratio rather than a height, so the column's width decides how
-              tall it stands and the frame stays exact at every size — one
-              landscape rectangle at `16 / 9`, at every width, which is also
-              the ratio that takes the least off the sides of the footage.
+              The frame is a rounded, clipped box with a hairline edge, holding
+              the video on `object-cover` at a fixed `16 / 9` ratio — cropped
+              at the edges, never stretched, never letterboxed. The video
+              inside it is laid out a little past that rectangle and pinned to
+              one corner, which is what keeps the generator's mark out of
+              view; `LOGO_CROP` above carries the whole of that.
 
-              The video inside it is laid out a little past that rectangle and
-              pinned to one corner, which is what keeps the generator's mark
-              out of view; `LOGO_CROP` above carries the whole of that, and
-              the reasoning with it.
-
-              Against white the frame has to state its own edge, and states it
-              quietly: a hairline slate rule, corners rounded just enough to
-              soften them, and a wide low-opacity shadow that lifts the
-              rectangle off the page without darkening anything around it.
-              Nothing is laid over the footage — no scrim, no gradient, no
-              blur, no filter, and no transform beyond the level drift on the
-              wrapper — so what shows is the footage at its own resolution.
-
-              From `lg` up it leaves the row's centre line and sits to the top
-              instead, dropped by the same `mt-8` the headline carries so the
-              two begin together. The copy column is much the taller of the
-              two, so holding the frame high is what keeps the pair reading as
-              one composition rather than as a small block adrift beside a
-              long one. */}
+              From `lg` up it sits to the top of the row, dropped by the same
+              `mt-8` the headline carries so the two begin together. */}
           <div
             ref={mediaRef}
             className="hero-media relative w-full min-w-0 opacity-0 lg:mt-8 lg:self-start"
           >
-            <div className="relative w-full overflow-hidden rounded-lg border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.9)] sm:rounded-xl">
+            <div
+              ref={frameRef}
+              className="relative w-full overflow-hidden rounded-lg border border-slate-900/10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)] sm:rounded-xl lg:rounded-2xl"
+              style={{ willChange: 'transform' }}
+            >
               <div className="relative aspect-video w-full overflow-hidden">
                 <video
                   ref={videoRef}
@@ -677,21 +660,18 @@ export default function Hero() {
                 />
               </div>
             </div>
+
             {/* ---------- Specimen pathway ----------
-                The five stages, read directly beneath the footage and inside
-                the same column, close enough that they belong to it. Stacked
-                one per row they would have handed back every bit of height
-                this pass set out to save, so they run two to a row from `sm`
-                up — five items into two columns leaves the last one short, and
-                it takes the full width rather than sitting beside a gap. One
-                per row only on the narrowest screens, where two would leave
-                nothing but wrapped words. */}
+                The five stages, directly beneath the footage and inside the
+                same column. Two to a row from `sm` up — the fifth takes the
+                full width rather than sitting beside a gap. One per row only
+                on the narrowest screens. */}
             <div className="mt-5 sm:mt-6">
               <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
                 {KEYWORDS.map((k, i) => (
                   <span
                     key={k.label}
-                    className={`hero-panel pointer-events-auto flex w-full items-start gap-3 rounded-xl border border-white/10 bg-white/[0.05] px-3.5 py-3.5 opacity-0 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.75)] backdrop-blur-md transition-colors duration-300 ease-out hover:border-white/25 hover:bg-white/[0.10] ${
+                    className={`hero-panel pointer-events-auto flex w-full items-start gap-3 rounded-xl border border-slate-900/10 bg-white/55 px-3.5 py-3.5 opacity-0 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors duration-300 ease-out hover:border-slate-900/20 hover:bg-white/75 ${
                       i === KEYWORDS.length - 1 ? 'sm:col-span-2' : ''
                     }`}
                   >
@@ -702,15 +682,15 @@ export default function Hero() {
                       {k.icon}
                     </span>
                     <span className="flex min-w-0 flex-col gap-1">
-                      <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-slate-100 lg:text-[12.5px]">
+                      <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-slate-800 lg:text-[12.5px]">
                         {k.step && (
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F9A8D4]">
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#DB2777]">
                             {k.step}.{' '}
                           </span>
                         )}
                         {k.label}
                       </span>
-                      <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-slate-400 lg:text-[10.5px]">
+                      <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-slate-600 lg:text-[10.5px]">
                         {k.desc}
                       </span>
                     </span>

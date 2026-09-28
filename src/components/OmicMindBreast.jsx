@@ -70,7 +70,7 @@ const VB_W = 320;
 const VB_H = 180;
 
 const CAPTION = {
-  fontFamily: 'Inter, system-ui, sans-serif',
+  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
   fontSize: 8.5,
   fontWeight: 600,
   letterSpacing: '0.07em',
