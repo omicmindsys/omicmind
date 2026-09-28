@@ -7,7 +7,6 @@ import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import OmicMindBreast from './components/OmicMindBreast.jsx'
 import FoundationModel from './components/FoundationModel.jsx'
-import OmicMindCore from './components/OmicMindCore.jsx'
 import OmicMindEcosystem from './components/OmicMindEcosystem.jsx'
 import Footer from './components/Footer.jsx'
 
@@ -105,9 +104,8 @@ function App() {
       {/* Re-writing the Suites wrapper correctly for standard flow */}
       <div ref={suitesWrapperRef} className="relative z-20 w-full bg-[#030712] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[3rem]">
         <OmicMindEcosystem />
-        
-        <OmicMindCore />
-                <FoundationModel />
+
+        <FoundationModel />
 
       </div>
       </main>

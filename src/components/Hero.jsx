@@ -84,7 +84,14 @@ const LOGO_CROP = {
 
 /* The readouts the platform produces — the site's own vocabulary, set as
    a quiet index rule beneath the calls to action. */
-const MODALITIES = ['Histopathology', 'IHC Analysis', 'Spatial Biology', 'Genomics'];
+const MODALITIES = [
+  'H&E',
+  'Quantitative Pathology',
+  'Molecular Prediction',
+  'Spatial TME',
+  'Therapy Response',
+  'Biomarker Discovery',
+];
 
 /* Line work matched to the icon set used across the site's sections, so the
    Hero speaks the same visual language as the chapters below it. */
@@ -598,10 +605,9 @@ export default function Hero() {
               {MODALITIES.map((m, i) => (
                 <React.Fragment key={m}>
                   {i > 0 && (
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#A855F7] to-[#EC4899] shadow-[0_0_10px_1px_rgba(168,85,247,0.55)]"
-                      aria-hidden="true"
-                    />
+                    <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
+                      →
+                    </span>
                   )}
                   <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
                     {m}

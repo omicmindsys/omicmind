@@ -497,112 +497,358 @@ function DrugVisual() {
    card's closing line and is framed on its own at the foot of the card. */
 const products = [
   {
-    title: 'Omic Mind ResponseAI',
-    subtitle: 'Multimodal Treatment Response & Patient Stratification Model',
+    title: 'OmicMind ResponseAI',
+    subtitle:
+      'OmicMind ResponseAI™ is a multimodal AI platform designed to predict which patients are most likely to respond to a specific cancer therapy by integrating pathology, molecular, clinical, and treatment-outcome data.',
     blocks: [
       {
-        label: 'Purpose',
-        body: 'Predict which patients are most likely to respond to a specific cancer therapy.',
+        label: 'Multimodal Intelligence',
+        body: 'ResponseAI™ combines H&E, IHC, NGS, clinical characteristics, treatment history, and longitudinal outcomes to identify patient-level patterns associated with therapeutic response and resistance.',
       },
       {
-        label: 'Inputs',
-        body: 'H&E + IHC + NGS + clinical data + treatment/outcome data.',
+        label: 'NSCLC',
+        body: [
+          'For non-small cell lung cancer, the model can integrate:',
+          'H&E + PD-L1 + CD3/CD8/FOXP3/CD68 + EGFR/KRAS/STK11/KEAP1/TP53 + clinical variables + treatment/outcomes',
+          'This enables a deeper view of the patient by connecting tumor morphology, immune microenvironment, molecular alterations, and clinical context.',
+        ],
       },
       {
-        label: 'Example — NSCLC',
-        body: 'H&E + PD-L1 + CD3/CD8/FOXP3/CD68 + EGFR/KRAS/STK11/KEAP1/TP53 + clinical variables.',
+        body: 'Omic ResponseAI™ generates actionable patient and biological insights, including:',
+        list: [
+          'Therapy response probability',
+          'Responder / non-responder stratification',
+          'Patient risk groups',
+          'Multimodal biomarker signatures',
+          'Potential PFS / OS risk scores',
+          'Response and resistance patterns',
+        ],
       },
       {
-        label: 'Outputs',
-        body: 'Response probability, responder/non-responder stratification, risk groups, biomarker signature and potentially PFS/OS risk scores.',
-      },
-      {
-        label: 'Pharma Use',
-        body: 'Clinical-trial enrichment, retrospective trial analysis, biomarker discovery, drug-response stratification and companion-diagnostic hypothesis generation.',
+        label: 'Built for Biopharma',
+        body: 'ResponseAI™ can support the drug-development lifecycle through clinical-trial enrichment, retrospective trial analysis, patient stratification, drug-response modeling, biomarker discovery, and companion-diagnostic hypothesis generation.',
       },
     ],
-    question: '“Which patient is most likely to respond to this drug?”',
+    question:
+      'Which patient is most likely to respond to this therapy and what biological signals explain the response?',
     cta: 'Explore ResponseAI',
     Visual: ClinicalVisual,
   },
   {
-    title: 'Omic Mind SpatialTME',
+    title: 'OmicMind SpatialTME',
     subtitle: 'AI Tumor Microenvironment & Immunotherapy Biomarker Model',
     blocks: [
       {
-        label: 'Purpose',
-        body: 'Understand the spatial relationship between tumor cells and the immune microenvironment and identify patterns associated with immunotherapy response.',
+        body: 'OmicMind SpatialTME™ uses AI to decode the spatial architecture of the tumor microenvironment and identify tumor–immune patterns associated with immunotherapy response.',
       },
       {
         label: 'Inputs',
-        body: 'H&E + IHC/multiplex IHC, with NGS/outcome data optionally added for validation.',
+        body: 'H&E + IHC / Multiplex IHC, with optional NGS and clinical outcome data for multimodal validation.',
       },
       {
-        label: 'Example',
-        body: 'H&E + PanCK + PD-L1 + CD3 + CD8 + FOXP3 + CD68.',
-      },
-      {
-        label: 'AI Analysis',
-        body: 'The AI identifies tumor, stroma and immune cells and measures immune-cell density, tumor infiltration, immune exclusion, cell-to-cell distances and spatial neighborhoods.',
-      },
-      {
-        label: 'Outputs',
-        body: 'Inflamed / excluded / desert phenotype, CD8 infiltration score, immune-exclusion score, Treg/CD8 ratio, macrophage signature and composite spatial TME biomarker.',
-      },
-      {
-        label: 'Pharma Use',
-        body: 'Immunotherapy development, mechanism-of-action studies, combination-therapy selection, translational research and novel biomarker discovery.',
-      },
-    ],
-    question:
-      '“What is happening inside this patient’s tumor microenvironment, and why might the therapy work or fail?”',
-    cta: 'Explore SpatialTME',
-    Visual: BiomarkerVisual,
-  },
-  {
-    title: 'Omic Mind HistoMolecular',
-    subtitle: 'H&E-to-Molecular Biomarker Prediction Model',
-    blocks: [
-      {
-        label: 'Purpose',
-        body: 'Use routine H&E morphology to predict the probability of molecular alterations or clinically relevant molecular phenotypes.',
-      },
-      {
-        label: 'Primary Input',
-        body: 'H&E WSI.',
-      },
-      {
-        label: 'Ground Truth',
-        body: 'NGS/PCR/FISH/IHC results.',
-      },
-      {
-        label: 'Examples',
-        items: [
-          { term: 'NSCLC', text: 'EGFR, KRAS, selected molecular signatures.' },
-          { term: 'CRC', text: 'MSI/dMMR, BRAF, KRAS.' },
-          { term: 'Breast', text: 'Selected HER2/HR/HRD-associated phenotypes.' },
+        label: 'Core Panel',
+        body: [
+          'H&E + PanCK + PD-L1 + CD3 + CD8 + FOXP3 + CD68',
+          'The model identifies and characterizes tumor, stromal, and immune cells, quantifying their spatial organization and interactions, including:',
+        ],
+        list: [
+          'Immune-cell density and distribution',
+          'Tumor infiltration',
+          'Immune exclusion',
+          'Cell-to-cell proximity and distances',
+          'Spatial neighborhoods',
+          'Tumor–immune interactions',
         ],
       },
       {
         label: 'Outputs',
-        body: 'Biomarker probability, confidence score, predictive heatmap and high/medium/low likelihood classification.',
+        body: 'SpatialTME™ generates quantitative spatial biomarkers, including:',
+        list: [
+          'Inflamed / Excluded / Desert phenotypes',
+          'CD8+ infiltration score',
+          'Immune-exclusion score',
+          'Treg / CD8+ ratio',
+          'Macrophage signature',
+          'Composite spatial TME biomarker',
+        ],
       },
       {
-        label: 'Important Positioning',
-        body: 'Initially position this as RUO screening/enrichment rather than a replacement for confirmatory molecular testing.',
-      },
-      {
-        label: 'Pharma Use',
-        body: 'Molecular prescreening, trial enrichment, biomarker discovery, retrospective cohort analysis and development of image-derived biomarkers.',
+        label: 'Pharma Applications',
+        body: 'Designed to support immunotherapy development, mechanism-of-action studies, combination-therapy selection, translational research, patient stratification, and novel biomarker discovery.',
       },
     ],
-    question: '“What molecular biology can we infer directly from the H&E slide?”',
-    cta: 'Explore HistoMolecular',
+    question:
+      'How does the spatial organization of the tumor microenvironment influence immunotherapy response?',
+    cta: 'Explore SpatialTME',
+    Visual: BiomarkerVisual,
+  },
+  {
+    title: 'OmicMind HistoQuant',
+    subtitle: 'AI-Powered Quantitative Histopathology & Tissue Intelligence',
+    blocks: [
+      {
+        body: 'OmicMind HistoQuant™ transforms routine H&E and IHC pathology into quantitative, spatially resolved data — converting tissue morphology into measurable biological features for clinical research, biomarker discovery, and AI-powered pathology.',
+      },
+      {
+        label: 'Inputs',
+        body: 'H&E | IHC | Multiplex IHC | Whole-Slide Images (WSI)',
+      },
+      {
+        label: 'AI Analysis',
+        body: [
+          'HistoQuant™ automatically identifies and quantifies tumor, stromal, immune, and other cellular compartments, extracting high-dimensional morphological and spatial features.',
+          'The platform measures:',
+        ],
+        list: [
+          'Cell and tissue composition',
+          'Cell density and distribution',
+          'Tumor–stroma architecture',
+          'Nuclear and cellular morphology',
+          'IHC expression and intensity',
+          'Cellular proximity and spatial relationships',
+          'Tumor heterogeneity',
+          'Tissue-level morphological signatures',
+        ],
+      },
+      {
+        label: 'Outputs',
+        body: [
+          'HistoQuant™ converts pathology images into structured quantitative data, including:',
+          'Cell counts | Density scores | Morphological features | IHC expression profiles | Spatial features | Tissue composition | Quantitative pathology signatures',
+          'These features form the computational foundation for downstream molecular, spatial, clinical, and treatment-response models.',
+        ],
+      },
+      {
+        label: 'Research & Pharma Applications',
+        body: 'HistoQuant™ enables quantitative pathology, cohort characterization, biomarker development, translational research, clinical-trial analysis, treatment-response research, and AI model development.',
+      },
+    ],
+    question: '“What measurable biological information can we extract from the tissue?”',
+    cta: 'Explore HistoQuant',
+    Visual: DrugVisual,
+  },
+  {
+    title: 'OmicMind Biomarker & Drug Discovery',
+    trademark: false,
+    subtitle: 'From Patient Biology to Therapeutic Innovation',
+    blocks: [
+      {
+        body: 'OmicMind integrates pathology, molecular, spatial, clinical, and treatment-response intelligence to discover novel biomarkers, therapeutic targets, and opportunities for precision drug development.',
+      },
+      {
+        label: 'Multimodal Discovery',
+        body: [
+          'OmicMind connects signals across:',
+          'H&E + IHC + Spatial TME + NGS + Clinical Data + Treatment & Outcomes',
+          'to identify biological patterns associated with disease, treatment response, resistance, and patient outcomes.',
+        ],
+      },
+      {
+        label: 'Biomarker Discovery',
+        body: 'Discover and characterize:',
+        list: [
+          'Predictive and prognostic biomarkers',
+          'Multimodal biomarker signatures',
+          'Response and resistance signatures',
+          'Patient subgroups',
+          'Image-derived molecular biomarkers',
+          'Companion-diagnostic hypotheses',
+        ],
+      },
+      {
+        label: 'Therapeutic Discovery',
+        body: 'Translate these biological insights into:',
+        list: [
+          'Novel therapeutic targets',
+          'Mechanisms of response and resistance',
+          'Drug-response signatures',
+          'Combination-therapy opportunities',
+          'Patient populations for targeted therapies',
+          'Drug repurposing opportunities',
+        ],
+      },
+      {
+        label: 'Pharma Applications',
+        body: 'Support target discovery, translational research, biomarker-led drug development, clinical-trial strategy, patient stratification, combination-therapy research, and precision medicine programs.',
+      },
+    ],
+    question: '“What biological signals can reveal the next biomarker, target, or therapeutic opportunity?”',
+    coda: {
+      label: 'The OmicMind Discovery Flywheel',
+      chain: 'Tissue → Biology → Biomarkers → Response → Mechanism → Targets → Therapeutics',
+      body: 'OmicMind turns increasingly rich biological and clinical data into a continuous discovery engine for precision medicine and drug development.',
+    },
+    cta: 'Explore Discovery',
+    Visual: DrugVisual,
+  },
+  {
+    eyebrow: 'ADC Module',
+    title: 'OmicMind ADC ResponseAI',
+    subtitle: 'AI-Powered ADC Response & Patient Stratification Model',
+    blocks: [
+      {
+        body: 'OmicMind ADC ResponseAI™ integrates pathology, molecular, spatial, and clinical data to identify patients most likely to respond to antibody–drug conjugates and uncover biological features associated with response and resistance.',
+      },
+      {
+        label: 'Inputs',
+        body: [
+          'H&E + IHC / Multiplex IHC + NGS + Clinical Data + Treatment & Outcome Data',
+          'Key signals may include target-antigen expression, expression intensity, tumor heterogeneity, antigen-positive cell density, spatial distribution, tumor microenvironment, molecular alterations, and clinical characteristics.',
+        ],
+      },
+      {
+        label: 'AI Analysis',
+        body: 'The platform evaluates:',
+        list: [
+          'Target-antigen expression and distribution',
+          'Tumor heterogeneity',
+          'Antigen-positive cell density',
+          'Tumor–stroma architecture',
+          'Spatial tumor–immune interactions',
+          'Molecular and clinical features',
+          'Response and resistance-associated patterns',
+        ],
+      },
+      {
+        label: 'Outputs',
+        list: [
+          'ADC response probability',
+          'Responder / non-responder stratification',
+          'Target-expression score',
+          'Spatial target-distribution profile',
+          'Patient risk groups',
+          'Response and resistance signatures',
+          'Potential multimodal ADC biomarker',
+        ],
+      },
+      {
+        label: 'Pharma Applications',
+        body: 'Designed to support ADC clinical-trial enrichment, patient selection, retrospective trial analysis, target-expression assessment, biomarker discovery, response stratification, combination-therapy research, and companion-diagnostic hypothesis generation.',
+      },
+    ],
+    question:
+      '“Which patients are most likely to respond to this ADC — and what biological features drive that response?”',
+    cta: 'Explore ADC ResponseAI',
+    Visual: ClinicalVisual,
+  },
+  {
+    title: 'OmicMind Drug Development Intelligence',
+    subtitle: 'AI-Powered Translational & Clinical Development Intelligence',
+    blocks: [
+      {
+        body: [
+          'OmicMind Drug Development Intelligence™ connects patient biology, biomarkers, treatment response, clinical outcomes, and therapeutic mechanisms to help biopharma teams make better decisions across the drug-development lifecycle.',
+          'The platform integrates H&E + IHC + spatial biology + NGS + clinical data + treatment response + longitudinal outcomes to identify the patients, biomarkers, mechanisms, and therapeutic contexts most relevant to a drug program.',
+        ],
+      },
+      {
+        label: 'AI Intelligence',
+        body: 'OmicMind analyzes:',
+        list: [
+          'Patient and molecular subgroups',
+          'Biomarker-defined responder populations',
+          'Treatment response and resistance patterns',
+          'Tumor and immune microenvironment',
+          'Mechanism-of-action signatures',
+          'Potential combination opportunities',
+          'Clinical-trial enrichment opportunities',
+          'Translational biomarkers and pharmacodynamic signals',
+        ],
+      },
+      {
+        label: 'Outputs',
+        list: [
+          'Responder population profiles',
+          'Predictive biomarker signatures',
+          'Patient stratification models',
+          'Mechanism-of-action insights',
+          'Resistance hypotheses',
+          'Trial-enrichment strategies',
+          'Combination-therapy hypotheses',
+          'Translational biomarker candidates',
+        ],
+      },
+      {
+        label: 'Pharma Applications',
+        body: 'Designed to support target validation, translational research, clinical-trial design, patient enrichment, biomarker strategy, indication selection, combination-therapy development, retrospective trial analysis, and companion-diagnostic programs.',
+      },
+    ],
+    question:
+      '“For this drug, which patients should we treat, why will they respond, and how can we develop the program more efficiently?”',
+    cta: 'Explore Drug Development',
+    Visual: BiomarkerVisual,
+  },
+  {
+    title: 'OmicMind TrialAI',
+    subtitle: 'AI-Powered Clinical Trial Intelligence & Patient Enrichment',
+    blocks: [
+      {
+        body: 'OmicMind TrialAI™ uses multimodal patient intelligence to identify biomarker-defined populations, optimize trial cohorts, and connect the right patients with the right clinical studies.',
+      },
+      {
+        label: 'Inputs',
+        body: 'H&E + IHC + NGS + Spatial TME + Clinical Data + Treatment History + Outcomes + Trial Criteria',
+      },
+      {
+        label: 'AI Analysis',
+        body: 'TrialAI™ integrates patient biology with protocol requirements to identify:',
+        list: [
+          'Trial eligibility',
+          'Biomarker-defined patient populations',
+          'Potential responder subgroups',
+          'Inclusion/exclusion patterns',
+          'Treatment-response signatures',
+          'Patient risk and stratification profiles',
+          'Cohort characteristics and enrichment opportunities',
+        ],
+      },
+      {
+        label: 'Outputs',
+        list: [
+          'Patient–trial matching',
+          'Biomarker-defined cohorts',
+          'Responder enrichment scores',
+          'Eligibility intelligence',
+          'Patient stratification',
+          'Trial cohort analytics',
+          'Potential enrollment opportunities',
+        ],
+      },
+      {
+        label: 'Pharma Applications',
+        body: 'TrialAI™ can support clinical-trial feasibility, cohort design, patient enrichment, biomarker strategy, retrospective trial analysis, site and population planning, and precision-medicine trial development.',
+      },
+    ],
+    questionLabel: 'The Core Question',
+    question:
+      '“Which patients are most relevant for this trial — and which biological features define the optimal trial population?”',
+    coda: {
+      label: 'OmicMind Clinical Development Loop',
+      chain:
+        'Patient Biology → Biomarker → Response Prediction → Patient Enrichment → Clinical Trial → Outcomes → Model Learning',
+      body: 'From patient stratification to smarter clinical development.',
+    },
+    cta: 'Explore TrialAI',
     Visual: DrugVisual,
   },
 ];
 
-const ECOSYSTEM_FLOW = ['OmicMind Core', 'Clinical AI', 'Biomarker Discovery', 'Drug Discovery'];
+const ECOSYSTEM_FLOW = [
+  'Omic Mind AI Ecosystem',
+  'Clinical AI',
+  'Treatment Response',
+  'Biomarker Discovery',
+  'Drug Discovery',
+  'Clinical & Experimental Data',
+];
+
+const FOUNDATION_LAYER = [
+  'HistoQuant™',
+  'HistoMolecular™',
+  'SpatialTME™',
+  'ResponseAI™',
+  'Biomarker & Drug Discovery',
+];
 
 export default function OmicMindEcosystem() {
   const sectionRef = useRef(null);
@@ -800,7 +1046,8 @@ export default function OmicMindEcosystem() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-[#081225] pb-24 pt-20 lg:pb-32 lg:pt-24"
+      className="relative w-full overflow-hidden bg-[#F3EEE7] pb-24 pt-20 lg:pb-32 lg:pt-24"
+      style={{ backgroundImage: 'linear-gradient(135deg, #F7F3ED 0%, #EDE5DA 100%)' }}
     >
       {/* Hairline divider separating this chapter from the section above */}
       <div
@@ -817,7 +1064,7 @@ export default function OmicMindEcosystem() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(56% 42% at 22% 18%, rgba(30,58,138,0.36) 0%, rgba(8,18,37,0) 70%), radial-gradient(52% 40% at 80% 78%, rgba(124,58,237,0.20) 0%, rgba(8,18,37,0) 72%), radial-gradient(46% 34% at 52% 50%, rgba(236,72,153,0.10) 0%, rgba(8,18,37,0) 76%)',
+            'radial-gradient(56% 42% at 22% 18%, rgba(124,58,237,0.07) 0%, rgba(124,58,237,0) 70%), radial-gradient(52% 40% at 80% 78%, rgba(124,58,237,0.08) 0%, rgba(124,58,237,0) 72%), radial-gradient(46% 34% at 52% 50%, rgba(236,72,153,0.05) 0%, rgba(236,72,153,0) 76%)',
         }}
         aria-hidden="true"
       />
@@ -856,49 +1103,39 @@ export default function OmicMindEcosystem() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* ---------------- Header ---------------- */}
           <div ref={headerRef} className="mx-auto max-w-3xl text-center">
-            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#F8FAFC] sm:text-5xl lg:text-[3.5rem]">
+            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#17202A] sm:text-5xl lg:text-[3.5rem]">
               <span className="block">OmicMind</span>
-              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#E879F9] to-[#F9A8D4]">
+              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#A21CAF] to-[#BE185D]">
                 AI Ecosystem
               </span>
             </h2>
 
-            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-slate-300 sm:text-lg">
+            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-[#374151] sm:text-lg">
               From clinical intelligence to biomarker discovery and therapeutic innovation, OmicMind
               AI transforms biological data into actionable insights across the healthcare and life
               sciences ecosystem.
             </p>
 
             {/* Ecosystem flow: Core → Clinical → Biomarker → Drug */}
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
+            <div className="mt-9 flex flex-col items-center justify-center gap-y-2">
               {ECOSYSTEM_FLOW.map((step, i) => (
                 <React.Fragment key={step}>
                   <span
                     className={`rounded-full border px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] ${
                       i === 0
-                        ? 'border-[#A855F7]/40 bg-[#A855F7]/10 text-transparent bg-clip-text bg-gradient-to-r from-[#C4B5FD] to-[#F9A8D4]'
-                        : 'border-white/12 bg-white/[0.05] text-slate-300'
+                        ? 'border-[#A855F7]/40 bg-[#A855F7]/10 text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] to-[#BE185D]'
+                        : 'border-[#17202A]/15 bg-white/60 text-[#4B5563]'
                     }`}
                   >
                     {step}
                   </span>
                   {i < ECOSYSTEM_FLOW.length - 1 && (
-                    <svg
-                      width="14"
-                      height="8"
-                      viewBox="0 0 14 8"
-                      className="shrink-0"
+                    <span
+                      className="shrink-0 font-sans text-sm leading-none text-[rgba(124,58,237,0.45)]"
                       aria-hidden="true"
                     >
-                      <path
-                        d="M0 4h11M8.4 1.2L11.4 4l-3 2.8"
-                        fill="none"
-                        stroke="rgba(124,58,237,0.45)"
-                        strokeWidth="1.3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                      ↓
+                    </span>
                   )}
                 </React.Fragment>
               ))}
@@ -1018,13 +1255,22 @@ export default function OmicMindEcosystem() {
         {/* ---------------- Product cards ---------------- */}
         <div
           ref={gridRef}
-          className="mt-16 grid grid-cols-1 gap-7 md:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+          className="mt-16 grid grid-cols-1 gap-7 md:mt-20 md:grid-cols-2 lg:grid-cols-6 lg:gap-8"
         >
-          {products.map(({ title, subtitle, blocks, question, cta, Visual }, i) => (
+          {products.map(({ eyebrow, title, subtitle, blocks, question, questionLabel = 'Core Question', coda, trademark = true, cta, Visual }, i) => (
             <article
               key={title}
-              className={`eco-card group relative ${
-                i === 2 ? 'md:col-span-2 lg:col-span-1' : ''
+              className={`eco-card group relative lg:col-span-2 ${
+                /* A lone last card spans the 2-up row. On the 3-up grid (six
+                   half-columns, two per card) an unfilled last row is centred
+                   rather than hugging the left edge. */
+                i === products.length - 1 && products.length % 2 === 1 ? 'md:col-span-2' : ''
+              } ${
+                products.length % 3 === 1 && i === products.length - 1
+                  ? 'lg:col-start-3'
+                  : products.length % 3 === 2 && i === products.length - 2
+                    ? 'lg:col-start-2'
+                    : ''
               }`}
             >
               {/* Purple→pink gradient border, revealed on hover */}
@@ -1043,7 +1289,7 @@ export default function OmicMindEcosystem() {
                 aria-hidden="true"
               />
 
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] p-6 shadow-[0_2px_16px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-[380ms] ease-out group-hover:-translate-y-2 group-hover:border-transparent group-hover:bg-[#4A1115] group-hover:shadow-[0_26px_54px_-18px_rgba(124,58,237,0.3)] sm:p-7">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-[#131C2E] p-6 shadow-[0_2px_16px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-[380ms] ease-out group-hover:-translate-y-2 group-hover:border-transparent group-hover:bg-[#4A1115] group-hover:shadow-[0_26px_54px_-18px_rgba(124,58,237,0.3)] sm:p-7">
                 {/* Light sweep on hover */}
                 <div
                   className="pointer-events-none absolute inset-y-0 -left-full w-1/2 -skew-x-12 transition-transform duration-[900ms] ease-out group-hover:translate-x-[340%]"
@@ -1071,11 +1317,18 @@ export default function OmicMindEcosystem() {
                     The name keeps the section's serif display face; the model
                     line beneath it stays sans and quiet, so the two read as a
                     title and its subtitle rather than as two headings. */}
-                <h3 className="relative mt-7 font-serif text-[1.5rem] font-semibold leading-tight tracking-[-0.01em] text-[#F8FAFC]">
+                {eyebrow && (
+                  <p className="relative mt-7 font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
+                    {eyebrow}
+                  </p>
+                )}
+                <h3 className={`relative ${eyebrow ? 'mt-3' : 'mt-7'} font-serif text-[1.5rem] font-semibold leading-tight tracking-[-0.01em] text-[#F8FAFC]`}>
                   {title}
-                  <span className="align-super font-sans text-[0.6rem] font-medium text-slate-500">
-                    &trade;
-                  </span>
+                  {trademark && (
+                    <span className="align-super font-sans text-[0.6rem] font-medium text-slate-500">
+                      &trade;
+                    </span>
+                  )}
                 </h3>
 
                 <p className="relative mt-2.5 font-sans text-[13.5px] font-medium leading-snug text-slate-400 [text-wrap:pretty]">
@@ -1093,14 +1346,35 @@ export default function OmicMindEcosystem() {
                     (EGFR/KRAS/STK11/KEAP1/TP53) inside the card on a narrow
                     phone instead of pushing the page sideways. */}
                 <dl className="relative mt-6 space-y-4 border-t border-white/10 pt-5 [text-wrap:pretty]">
-                  {blocks.map(({ label, body: text, items }) => (
-                    <div key={label}>
-                      <dt className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
-                        {label}
-                      </dt>
-                      {text && (
-                        <dd className="mt-2 break-words font-sans text-[13.5px] leading-relaxed text-slate-300">
-                          {text}
+                  {blocks.map(({ label, body: text, items, list }, b) => (
+                    <div key={label ?? b}>
+                      {label && (
+                        <dt className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
+                          {label}
+                        </dt>
+                      )}
+                      {/* 'body' may be a single paragraph or several. */}
+                      {text &&
+                        [].concat(text).map((para, p) => (
+                          <dd
+                            key={p}
+                            className={`${label || p > 0 ? 'mt-2' : ''} break-words font-sans text-[13.5px] leading-relaxed text-slate-300`}
+                          >
+                            {para}
+                          </dd>
+                        ))}
+                      {list && (
+                        <dd>
+                          <ul className="mt-2 list-disc space-y-1 pl-4 marker:text-[#C4B5FD]">
+                            {list.map((entry) => (
+                              <li
+                                key={entry}
+                                className="break-words font-sans text-[13.5px] leading-relaxed text-slate-300"
+                              >
+                                {entry}
+                              </li>
+                            ))}
+                          </ul>
                         </dd>
                       )}
                       {items && (
@@ -1137,13 +1411,30 @@ export default function OmicMindEcosystem() {
                     }}
                   >
                     <p className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
-                      Core Question
+                      {questionLabel}
                     </p>
                     <p className="mt-2.5 font-serif text-[14.5px] italic leading-relaxed text-slate-100 [text-wrap:pretty]">
                       {question}
                     </p>
                   </div>
                 </div>
+
+                {/* ---- Coda ----
+                    Optional closing note set under the core question: a label,
+                    a chain line and a short line of prose. */}
+                {coda && (
+                  <div className="relative pt-6 [text-wrap:pretty]">
+                    <p className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#C4B5FD]">
+                      {coda.label}
+                    </p>
+                    <p className="mt-2 break-words font-sans text-[13.5px] font-semibold leading-relaxed text-slate-100">
+                      {coda.chain}
+                    </p>
+                    <p className="mt-2 break-words font-sans text-[13.5px] leading-relaxed text-slate-300">
+                      {coda.body}
+                    </p>
+                  </div>
+                )}
 
                 {/* ---- Call to action ----
                     Sits directly under the core question, which is the
@@ -1188,6 +1479,36 @@ export default function OmicMindEcosystem() {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* ---------------- Foundation layer ----------------
+            The chain the three models sit in, set after the cards in the
+            same pill-and-arrow vocabulary as the header's flow strip. The
+            row wraps on narrow screens rather than scrolling. */}
+        <div className="mx-auto mt-16 max-w-5xl text-center md:mt-20">
+          <p className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#4B5563]">
+            The Foundation Layer
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2.5">
+            {FOUNDATION_LAYER.map((step, i) => (
+              <React.Fragment key={step}>
+                <span className="rounded-full border border-[#17202A]/15 bg-white/60 px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] text-[#263238]">
+                  {step}
+                </span>
+                {i < FOUNDATION_LAYER.length - 1 && (
+                  <span
+                    className="shrink-0 font-sans text-sm leading-none text-[rgba(124,58,237,0.45)]"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          <p className="mt-6 font-serif text-lg italic leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#A21CAF] to-[#BE185D] sm:text-xl">
+            From tissue morphology to measurable biology — at scale.
+          </p>
         </div>
       </div>
     </section>

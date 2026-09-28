@@ -428,13 +428,19 @@ export default function Navbar({ background } = {}) {
                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
                         className={`group inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] transition-colors duration-300 xl:px-4 ${
                           openIndex === i
-                            ? 'bg-white/[0.07] text-white shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]'
-                            : 'text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
+                            ? `bg-white/[0.07] ${background ? 'text-black' : 'text-white'} shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]`
+                            : background
+                              ? 'text-black hover:bg-white/[0.06] hover:text-black'
+                              : 'text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
                         }`}
                       >
                         {item.label}
                         <ChevronDown
-                          className={`h-3.5 w-3.5 text-[#D9E2F2]/60 transition-transform duration-300 group-hover:text-white/80 ${
+                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
+                            background
+                              ? 'text-black group-hover:text-black'
+                              : 'text-[#D9E2F2]/60 group-hover:text-white/80'
+                          } ${
                             openIndex === i ? 'rotate-180' : ''
                           }`}
                           strokeWidth={2.25}
@@ -444,7 +450,9 @@ export default function Navbar({ background } = {}) {
                       <a
                         href={item.href}
                         onClick={item.label === 'Home' ? goHome : (e) => e.preventDefault()}
-                        className="inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] text-[#D9E2F2] transition-colors duration-300 hover:bg-white/[0.06] hover:text-white xl:px-4"
+                        className={`inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] transition-colors duration-300 hover:bg-white/[0.06] xl:px-4 ${
+                          background ? 'text-black hover:text-black' : 'text-[#D9E2F2] hover:text-white'
+                        }`}
                       >
                         {item.label}
                       </a>
