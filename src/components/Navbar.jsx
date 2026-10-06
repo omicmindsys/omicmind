@@ -55,7 +55,7 @@ const NAV_ITEMS = [
 ];
 
 /* Wordmark — pure text, no DNA glyph */
-function Logo({ onClick }) {
+function Logo({ onClick, light = false }) {
   const wrapRef = useRef(null);
 
   useEffect(() => {
@@ -91,10 +91,10 @@ function Logo({ onClick }) {
       className="group relative inline-flex shrink-0 items-baseline gap-[1px] outline-none"
     >
       <span className="logo-mark inline-flex items-baseline">
-        <span className="font-serif text-[1.6rem] font-semibold leading-none tracking-[-0.015em] text-white md:text-[1.75rem]">
+        <span className={`font-serif text-[1.6rem] leading-none transition-colors duration-300 md:text-[1.75rem] ${light ? 'font-medium tracking-[-0.03em] text-[#111827]' : 'font-semibold tracking-[-0.015em] text-white'}`}>
           OmicMind
         </span>
-        <span className="font-serif text-[1.6rem] font-semibold leading-none tracking-[-0.015em] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 md:text-[1.75rem]">
+        <span className={`font-serif text-[1.6rem] leading-none text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 md:text-[1.75rem] ${light ? 'font-medium tracking-[-0.03em]' : 'font-semibold tracking-[-0.015em]'}`}>
           .ai
         </span>
       </span>
@@ -103,8 +103,9 @@ function Logo({ onClick }) {
   );
 }
 
-/* Premium gradient pill CTA */
-function DemoButton({ className = '', onClick }) {
+/* Premium gradient pill CTA. `light` is the minimal variant for the light
+   home navbar: a solid near-black pill, no glow. */
+function DemoButton({ className = '', onClick, light = false }) {
   const btnRef = useRef(null);
 
   useEffect(() => {
@@ -141,12 +142,18 @@ if (glow) gsap.set(glow, { opacity: 0.55 });
 
   return (
     <div className={`relative inline-flex ${className}`}>
-      <span className="cta-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 blur-[14px]" />
+      {!light && (
+        <span className="cta-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 blur-[14px]" />
+      )}
       <button
         ref={btnRef}
         type="button"
         onClick={onClick}
-        className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 px-5 py-2.5 font-sans text-[0.875rem] font-semibold tracking-[0.01em] text-white shadow-[0_6px_20px_rgba(168,85,247,0.35)] outline-none ring-1 ring-inset ring-white/25"
+        className={
+          light
+            ? 'relative inline-flex items-center gap-2 rounded-full bg-[#111827] px-5 py-2.5 font-sans text-[0.875rem] font-medium tracking-[-0.005em] text-white outline-none transition-colors duration-300 hover:bg-[#6D28D9] focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40'
+            : 'relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 px-5 py-2.5 font-sans text-[0.875rem] font-semibold tracking-[0.01em] text-white shadow-[0_6px_20px_rgba(168,85,247,0.35)] outline-none ring-1 ring-inset ring-white/25'
+        }
       >
         Request Demo
         <ArrowRight className="cta-arrow h-4 w-4" strokeWidth={2.25} />
@@ -155,8 +162,11 @@ if (glow) gsap.set(glow, { opacity: 0.55 });
   );
 }
 
-/* `background` overrides the navbar's fill with a solid colour (the home page
-   passes its Hero beige); other pages omit it and keep the dark glass. */
+/* `background` gives the light, seamless variant (the home page passes its
+   hero's top colour): transparent at the top of the page so the hero runs
+   straight up behind it, then filled with `background` once scrolled — no
+   border, shadow or blur in either state. Other pages omit it and keep the
+   dark glass. */
 export default function Navbar({ background } = {}) {
   const navRef = useRef(null);
   const rowRef = useRef(null);
@@ -180,11 +190,16 @@ export default function Navbar({ background } = {}) {
 
     const ctx = gsap.context(() => {
       // Resting (top of page) navbar look
-      gsap.set(navRef.current, {
-        backgroundColor: background || 'rgba(5,8,22,0.65)',
-        borderBottomColor: 'rgba(255,255,255,0.08)',
-        boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
-      });
+      gsap.set(
+        navRef.current,
+        background
+          ? { backgroundColor: 'rgba(0,0,0,0)', borderBottomColor: 'rgba(0,0,0,0)', boxShadow: 'none' }
+          : {
+              backgroundColor: 'rgba(5,8,22,0.65)',
+              borderBottomColor: 'rgba(255,255,255,0.08)',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.18)',
+            }
+      );
       gsap.set(rowRef.current, { height: 84 });
 
       // Dropdown panels start hidden
@@ -216,11 +231,13 @@ export default function Navbar({ background } = {}) {
         .timeline({ paused: true, defaults: { duration: 0.45, ease: 'power2.out' } })
         .to(
           navRef.current,
-          {
-            backgroundColor: background || 'rgba(5,8,22,0.88)',
-            borderBottomColor: 'rgba(255,255,255,0.10)',
-            boxShadow: '0 8px 30px rgba(0,0,0,0.25), 0 1px 0 rgba(139,92,246,0.06)',
-          },
+          background
+            ? { backgroundColor: background }
+            : {
+                backgroundColor: 'rgba(5,8,22,0.88)',
+                borderBottomColor: 'rgba(255,255,255,0.10)',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.25), 0 1px 0 rgba(139,92,246,0.06)',
+              },
           0
         )
         .to(rowRef.current, { height: 68 }, 0);
@@ -402,7 +419,8 @@ export default function Navbar({ background } = {}) {
         >
           {/* Left — logo */}
           <div ref={logoRef} className="flex items-center">
-            <Logo onClick={goHome} />
+            {/* Dark wordmark on the light variant — except over the dark mobile drawer */}
+            <Logo onClick={goHome} light={Boolean(background) && !mobileOpen} />
           </div>
 
           {/* Center — desktop navigation */}
@@ -426,11 +444,15 @@ export default function Navbar({ background } = {}) {
                         type="button"
                         aria-expanded={openIndex === i}
                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                        className={`group inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] transition-colors duration-300 xl:px-4 ${
+                        className={`group inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] tracking-[-0.005em] transition-colors duration-300 xl:px-4 ${
+                          background ? 'font-normal' : 'font-medium'
+                        } ${
                           openIndex === i
-                            ? `bg-white/[0.07] ${background ? 'text-black' : 'text-white'} shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]`
+                            ? background
+                              ? 'bg-slate-900/[0.05] text-[#111827]'
+                              : 'bg-white/[0.07] text-white shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]'
                             : background
-                              ? 'text-black hover:bg-white/[0.06] hover:text-black'
+                              ? 'text-[#1F2937] hover:bg-slate-900/[0.04] hover:text-[#111827]'
                               : 'text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
                         }`}
                       >
@@ -438,20 +460,22 @@ export default function Navbar({ background } = {}) {
                         <ChevronDown
                           className={`h-3.5 w-3.5 transition-transform duration-300 ${
                             background
-                              ? 'text-black group-hover:text-black'
+                              ? 'text-slate-500 group-hover:text-[#111827]'
                               : 'text-[#D9E2F2]/60 group-hover:text-white/80'
                           } ${
                             openIndex === i ? 'rotate-180' : ''
                           }`}
-                          strokeWidth={2.25}
+                          strokeWidth={background ? 1.75 : 2.25}
                         />
                       </button>
                     ) : (
                       <a
                         href={item.href}
                         onClick={item.label === 'Home' ? goHome : (e) => e.preventDefault()}
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[0.005em] transition-colors duration-300 hover:bg-white/[0.06] xl:px-4 ${
-                          background ? 'text-black hover:text-black' : 'text-[#D9E2F2] hover:text-white'
+                        className={`inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] tracking-[-0.005em] transition-colors duration-300 xl:px-4 ${
+                          background
+                            ? 'font-normal text-[#1F2937] hover:bg-slate-900/[0.04] hover:text-[#111827]'
+                            : 'font-medium text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
                         }`}
                       >
                         {item.label}
@@ -512,7 +536,7 @@ export default function Navbar({ background } = {}) {
 
           {/* Right — CTA + hamburger */}
           <div ref={actionsRef} className="flex shrink-0 items-center gap-3">
-            <DemoButton className="hidden sm:inline-flex" />
+            <DemoButton className="hidden sm:inline-flex" light={Boolean(background)} />
 
             <button
               ref={burgerRef}
@@ -520,11 +544,15 @@ export default function Navbar({ background } = {}) {
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] transition-colors duration-300 hover:bg-white/[0.12] lg:hidden"
+              className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300 lg:hidden ${
+                background
+                  ? 'border-slate-900/10 bg-white/70 hover:bg-white'
+                  : 'border-white/10 bg-white/[0.06] hover:bg-white/[0.12]'
+              }`}
             >
               <span className="flex h-4 w-[22px] flex-col items-start justify-center gap-[5px]">
-                <span className="bar-top block h-[2px] w-[22px] rounded-full bg-[#D9E2F2]" />
-                <span className="bar-bottom block h-[2px] w-[15px] rounded-full bg-[#D9E2F2]" />
+                <span className={`bar-top block h-[2px] w-[22px] rounded-full ${background ? 'bg-[#1F2937]' : 'bg-[#D9E2F2]'}`} />
+                <span className={`bar-bottom block h-[2px] w-[15px] rounded-full ${background ? 'bg-[#1F2937]' : 'bg-[#D9E2F2]'}`} />
               </span>
             </button>
           </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Filename case matters: the asset ships as `Histopathology.mp4`, and a
@@ -12,19 +12,13 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================================================================
    Hero composition
 
-   The frame is split in two on a warm beige ground: the copy reads down
-   the left, the footage holds the right, and neither is ever laid over the
-   other — which is what lets the text be read at full contrast and the
-   footage be seen at full clarity, instead of each compromising the other.
-   Depth comes from three planes moving at three rates: footage, floating
-   instrumentation, copy.
-
-   The ground is beige, so the palette is the light-ground one: every value
-   here carries dark type on beige. Type that was white, and glass that was
-   a few percent white, would have gone invisible the moment the ground
-   turned, so both were re-weighted. The brand violet and pink are unchanged
-   as hues — they are simply taken at the weights that hold against beige
-   rather than against near-black.
+   Editorial and type-led, on a warm white ground: one large, regular-weight
+   headline carries the frame on its own, with generous space around it.
+   Beneath a hairline, the supporting copy and actions read down the left
+   and the footage holds the right — never laid over each other, so each is
+   seen at full clarity. Colour is used sparingly: near-black type, a single
+   violet accent, no glows. Depth comes from three planes moving at three
+   rates: footage, a few fine points, copy.
 ================================================================ */
 
 /* Molecular data particles — the finest layer, deliberately low-contrast
@@ -311,7 +305,7 @@ export default function Hero() {
             });
           });
 
-        float('.hero-panel', 8, 5);
+        // The pathway cells share hairline borders, so they hold still.
         float('.hero-node', 14, 3.8);
         float('.hero-dot', 10, 4.2);
 
@@ -437,47 +431,59 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  /* CTA hover: scale and glow, driven straight from GSAP so it matches the
+  /* CTA hover: a slight scale, driven straight from GSAP so it matches the
      easing of everything else on the page. */
   const ctaHover = (e, isEnter) => {
-    const btn = e.currentTarget;
-    const glow = btn.querySelector('.cta-glow');
-    gsap.to(btn, { scale: isEnter ? 1.04 : 1, duration: 0.45, ease: 'power3.out' });
-    if (glow) {
-      gsap.to(glow, { opacity: isEnter ? 0 : 0.5, duration: 0.5, ease: 'power2.out' });
-    }
+    gsap.to(e.currentTarget, { scale: isEnter ? 1.02 : 1, duration: 0.45, ease: 'power3.out' });
   };
 
   return (
     <section
       ref={heroRef}
-      className="relative w-full flex items-center bg-[#E8DFD2] overflow-hidden"
+      className="relative w-full overflow-hidden bg-[#F6F5F3]"
       style={{
         perspective: '1200px', // Enables 3D space for the layered elements
-        /* Warm beige ground. The two faint pools that sat here before were
-           mixed toward near-black and turned muddy the moment the ground
-           went light, so the depth is carried by one shallow diagonal
-           instead — a touch lighter at the top-left, a touch deeper at the
-           bottom-right. `bg-[#E8DFD2]` above is the flat fallback. */
-        backgroundImage:
-          'linear-gradient(135deg, #F0E9DF 0%, #E4D9CA 100%)',
+        /* Warm white ground: a soft warm grey at the top — the same #F6F5F3
+           the home navbar fills with once scrolled, so the two read as one
+           canvas — lifting to near-white and settling back to warm grey.
+           Kept flat on purpose: the type is the image here.
+           `bg-[#F6F5F3]` above is the flat fallback. */
+        backgroundImage: 'linear-gradient(180deg, #F6F5F3 0%, #FAFAF9 55%, #F3F2EF 100%)',
       }}
     >
 
-      {/* ---------- Floating instrumentation ---------- */}
+      {/* ---------- Background footage ----------
+          Full-bleed behind everything. Cropped with `LOGO_CROP` so the
+          generator's mark stays out of view; `videoRef` gives it the
+          autoplay and rewind handling set up above. */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <video
+          ref={videoRef}
+          src={histopathologyVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute object-cover"
+          style={{
+            ...LOGO_CROP.anchor,
+            width: LOGO_CROP.size,
+            height: LOGO_CROP.size,
+            objectPosition: LOGO_CROP.objectPosition,
+          }}
+        />
+      </div>
+
+      {/* ---------- Floating instrumentation ----------
+          Kept to a few fine, unlit points — motion without ornament. */}
       <div ref={fxRef} className="absolute inset-0 z-[5] pointer-events-none" aria-hidden="true">
         {DOTS.map((d, i) => (
           <span
             key={`dot-${i}`}
-            className="hero-dot absolute rounded-full opacity-0 bg-gradient-to-br from-[#A855F7] to-[#EC4899]"
-            data-o={d.o}
-            style={{
-              left: d.x,
-              top: d.y,
-              width: d.s,
-              height: d.s,
-              boxShadow: '0 0 12px 2px rgba(168,85,247,0.35)',
-            }}
+            className="hero-dot absolute rounded-full bg-[#7C3AED] opacity-0"
+            data-o={d.o * 0.6}
+            style={{ left: d.x, top: d.y, width: d.s, height: d.s }}
           />
         ))}
 
@@ -488,215 +494,130 @@ export default function Hero() {
             style={{
               left: n.x,
               top: n.y,
-              width: n.s,
-              height: n.s,
-              backgroundColor: n.tone === 'pink' ? '#EC4899' : '#A855F7',
-              boxShadow:
-                n.tone === 'pink'
-                  ? '0 0 0 5px rgba(236,72,153,0.12), 0 0 22px 5px rgba(236,72,153,0.4)'
-                  : '0 0 0 5px rgba(168,85,247,0.12), 0 0 22px 5px rgba(168,85,247,0.4)',
+              width: n.s * 0.7,
+              height: n.s * 0.7,
+              backgroundColor: n.tone === 'pink' ? '#DB2777' : '#7C3AED',
+              boxShadow: n.tone === 'pink' ? '0 0 0 5px rgba(219,39,119,0.08)' : '0 0 0 5px rgba(124,58,237,0.08)',
             }}
           />
         ))}
       </div>
 
       {/* ---------- Content ----------
-          One column below `lg`, two from `lg` up in even halves: the copy on
-          the left, the footage on the right, centred against each other. The
-          halves are `minmax(0, 1fr)` rather than a bare `1fr` so a long
-          unbroken word or a wide card can never push a track past its share
-          and set the page scrolling sideways. Stacked, each takes the full
-          width in turn — copy first, footage beneath it, which is the order
-          they are meant to be read in. */}
+          Editorial composition. The headline leads on its own, across about
+          60% of the frame, and breaks naturally. A hairline closes it; below,
+          the supporting copy and actions take the narrower left column and
+          the footage with its pathway the wider right one. Below `lg` it all
+          stacks in reading order: headline → copy → actions → footage. */}
       <div className="relative z-10 w-full">
-        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 items-center gap-12 px-6 py-16 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14 lg:px-10 lg:py-24 xl:gap-16">
-          <div
-            ref={contentRef}
-            className="w-full min-w-0 max-w-[42rem] lg:max-w-none"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {/* Eyebrow — the small label the entrance timeline animates
-                first, directly above the headline. */}
-            <span className="hero-eyebrow inline-flex items-center gap-2 opacity-0 rounded-full border border-[#7C3AED]/25 bg-white/60 px-4 py-1.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-[#6D28D9] backdrop-blur-xl">
-              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden="true" />
-              AI-Powered Biomarker Intelligence
-            </span>
-
-            {/* Headline */}
-            <h1
-              className="mt-8 font-serif font-semibold text-[#111827] tracking-[-0.02em] leading-[1.04] text-[2.75rem] sm:text-[3.6rem] lg:text-[3.1rem] xl:text-[3.6rem]"
-            >
-              <span className="hero-line block opacity-0">From Tissue to Validated</span>
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
-                Biomarker and therapeutic intelligence
-              </span>{' '}
-            </h1>
-
-            {/* Editorial rule */}
-            <span
-              className="hero-rule mt-9 block h-px w-40 origin-left rounded-full opacity-0 bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-transparent"
-              aria-hidden="true"
-            />
-
-            {/* Description */}
-            <p className="hero-reveal mt-8 max-w-xl font-sans text-lg lg:text-xl leading-relaxed tracking-[0.01em] text-slate-700 opacity-0">
-              A specimen-centric AI platform integrating digital pathology, biomarker quantification, spatial biology and multiomics to support translational research, patient stratification and biomarker development.
+        <div className="mx-auto w-full max-w-[1400px] px-6 pb-20 pt-32 sm:pt-36 lg:px-10 lg:pb-28 lg:pt-44">
+          <div ref={contentRef} style={{ transformStyle: 'preserve-3d' }}>
+            {/* Label */}
+            <p className="hero-eyebrow flex items-center gap-2.5 font-sans text-[13px] font-medium tracking-[0.01em] text-[#64748B] opacity-0">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C3AED]" aria-hidden="true" />
+              AI-powered biomarker intelligence
             </p>
 
-            {/* Calls to action */}
-            <div className="hero-reveal mt-9 flex flex-wrap items-center gap-4 opacity-0">
-              <MagneticButton>
-                <button
-                  type="button"
-                  onMouseEnter={(e) => ctaHover(e, true)}
-                  onMouseLeave={(e) => ctaHover(e, false)}
-                  className="group relative inline-flex items-center gap-2.5 rounded-full px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-white"
-                >
-                  <span
-                    className="cta-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#EC4899] opacity-50 blur-[18px]"
-                    aria-hidden="true"
-                  />
-                  {/* Dark-red hover halo: fades in as the purple glow above
-                      fades out, so the lit edge matches the hover surface. */}
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-full opacity-0 blur-[18px] transition-opacity duration-[350ms] ease-out group-hover:opacity-90"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #350B0E, #641820)' }}
-                    aria-hidden="true"
-                  />
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] ring-1 ring-inset ring-white/25"
-                    aria-hidden="true"
-                  />
-                  {/* Dark-red hover surface, layered over the normal gradient
-                      so the default look is untouched. */}
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-full opacity-0 ring-1 ring-inset ring-white/25 transition-opacity duration-[350ms] ease-out group-hover:opacity-100"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #350B0E, #641820)' }}
-                    aria-hidden="true"
-                  />
-                  <span className="relative">Request Demo</span>
-                  <ArrowRight
-                    className="relative h-5 w-5 transition-transform duration-300 ease-out group-hover:translate-x-1"
-                    strokeWidth={2.25}
-                  />
-                </button>
-              </MagneticButton>
-
-              <MagneticButton>
-                <button
-                  type="button"
-                  onMouseEnter={(e) => ctaHover(e, true)}
-                  onMouseLeave={(e) => ctaHover(e, false)}
-                  className="group inline-flex items-center gap-2.5 rounded-full border border-slate-900/20 bg-white/60 px-8 py-4 font-sans text-base font-semibold tracking-[0.01em] text-[#1F2937] shadow-[0_10px_30px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-colors duration-300 hover:border-slate-900/35 hover:bg-white/80"
-                >
-                  Explore Platform
-                  <ArrowRight
-                    className="h-5 w-5 text-[#7C3AED] transition-transform duration-300 ease-out group-hover:translate-x-1"
-                    strokeWidth={2.25}
-                  />
-                </button>
-              </MagneticButton>
-            </div>
-
-            {/* Index of readouts — set as Hero highlights: the four terms the
-                platform is known for, sized to be read from across the room and
-                painted in the brand gradient. */}
-            <div className="hero-reveal mt-10 flex flex-wrap items-center gap-x-3 gap-y-2.5 opacity-0 sm:gap-x-3.5">
-              {MODALITIES.map((m, i) => (
-                <React.Fragment key={m}>
-                  {i > 0 && (
-                    <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
-                      →
-                    </span>
-                  )}
-                  <span className="whitespace-nowrap font-sans text-[clamp(1.05rem,2.05vw,1.4rem)] font-extrabold leading-tight tracking-[-0.01em] text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#C026D3] to-[#DB2777]">
-                    {m}
-                  </span>
-                </React.Fragment>
-              ))}
-            </div>
+            {/* Headline */}
+            <h1 className="mt-7 font-sans text-[clamp(2.75rem,5.9vw,5.5rem)] font-normal leading-[1.06] tracking-[-0.04em] text-[#0B0D12] lg:max-w-[66%]">
+              <span className="hero-line block opacity-0">One intelligence engine.</span>
+              <span className="hero-line block opacity-0">From tissue to therapeutics.</span>
+            </h1>
           </div>
 
-          {/* ---------- The footage, and the pathway beneath it ----------
-              The right-hand column holds both, and holds them as one thing:
-              the frame, and directly under it the five stages of the pathway.
-              They enter together, drift together on the scroll and sit to the
-              top of the row together, which is what keeps the stages reading
-              as the footage's own caption rather than as a second block that
-              happens to be nearby.
+          {/* Hairline */}
+          <span
+            className="hero-rule mt-14 block h-px w-full origin-left bg-[#111827]/10 opacity-0 lg:mt-20"
+            aria-hidden="true"
+          />
 
-              The frame is a rounded, clipped box with a hairline edge, holding
-              the video on `object-cover` at a fixed `16 / 9` ratio — cropped
-              at the edges, never stretched, never letterboxed. The video
-              inside it is laid out a little past that rectangle and pinned to
-              one corner, which is what keeps the generator's mark out of
-              view; `LOGO_CROP` above carries the whole of that.
+          <div className="mt-10 grid grid-cols-1 gap-12 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 xl:gap-24">
+            <div className="min-w-0">
+              {/* Description */}
+              <p className="hero-reveal max-w-[30rem] font-sans text-[clamp(1.05rem,1.3vw,1.2rem)] font-normal leading-[1.6] tracking-[-0.01em] text-[#4B5563] opacity-0">
+                A specimen-centric AI platform integrating digital pathology, biomarker quantification, spatial biology and multiomics to support translational research, patient stratification and biomarker development.
+              </p>
 
-              From `lg` up it sits to the top of the row, dropped by the same
-              `mt-8` the headline carries so the two begin together. */}
-          <div
-            ref={mediaRef}
-            className="hero-media relative w-full min-w-0 opacity-0 lg:mt-8 lg:self-start"
-          >
-            <div
-              ref={frameRef}
-              className="relative w-full overflow-hidden rounded-lg border border-slate-900/10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)] sm:rounded-xl lg:rounded-2xl"
-              style={{ willChange: 'transform' }}
-            >
-              <div className="relative aspect-video w-full overflow-hidden">
-                <video
-                  ref={videoRef}
-                  src={histopathologyVideo}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  controls={false}
-                  onLoadedMetadata={(e) => {
-                    if (e.currentTarget.currentTime > 0) e.currentTarget.currentTime = 0;
-                  }}
-                  className="absolute object-cover"
-                  style={{
-                    ...LOGO_CROP.anchor,
-                    width: LOGO_CROP.size,
-                    height: LOGO_CROP.size,
-                    objectPosition: LOGO_CROP.objectPosition,
-                  }}
-                />
+              {/* Calls to action */}
+              <div className="hero-reveal mt-9 flex flex-wrap items-center gap-3 opacity-0">
+                <MagneticButton>
+                  <button
+                    type="button"
+                    onMouseEnter={(e) => ctaHover(e, true)}
+                    onMouseLeave={(e) => ctaHover(e, false)}
+                    className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111827] px-7 py-3.5 font-sans text-[15px] font-medium tracking-[-0.01em] text-white"
+                  >
+                    {/* Dark-red hover surface over the near-black pill. */}
+                    <span
+                      className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-[350ms] ease-out group-hover:opacity-100"
+                      style={{ backgroundImage: 'linear-gradient(135deg, #350B0E, #641820)' }}
+                      aria-hidden="true"
+                    />
+                    <span className="relative">Request Demo</span>
+                    <ArrowRight
+                      className="relative h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                      strokeWidth={1.75}
+                    />
+                  </button>
+                </MagneticButton>
+
+                <MagneticButton>
+                  <button
+                    type="button"
+                    onMouseEnter={(e) => ctaHover(e, true)}
+                    onMouseLeave={(e) => ctaHover(e, false)}
+                    className="group inline-flex items-center gap-2.5 rounded-full border border-[#111827]/15 px-7 py-3.5 font-sans text-[15px] font-normal tracking-[-0.01em] text-[#111827] transition-colors duration-300 hover:border-[#111827]/35"
+                  >
+                    Explore Platform
+                    <ArrowRight
+                      className="h-4 w-4 text-[#6D28D9] transition-transform duration-300 ease-out group-hover:translate-x-1"
+                      strokeWidth={1.75}
+                    />
+                  </button>
+                </MagneticButton>
               </div>
+
+              {/* Index of readouts — a quiet line of the platform's own vocabulary. */}
+              <p className="hero-reveal mt-12 max-w-[30rem] font-sans text-[13.5px] font-normal leading-[1.9] tracking-[-0.005em] text-[#64748B] opacity-0">
+                {MODALITIES.map((m, i) => (
+                  <React.Fragment key={m}>
+                    {i > 0 && (
+                      <>
+                        {' '}
+                        <span className="mx-1 text-[#7C3AED]/60" aria-hidden="true">
+                          →
+                        </span>{' '}
+                      </>
+                    )}
+                    <span className="whitespace-nowrap">{m}</span>
+                  </React.Fragment>
+                ))}
+              </p>
             </div>
 
-            {/* ---------- Specimen pathway ----------
-                The five stages, directly beneath the footage and inside the
-                same column. Two to a row from `sm` up — the fifth takes the
-                full width rather than sitting beside a gap. One per row only
-                on the narrowest screens. */}
-            <div className="mt-5 sm:mt-6">
-              <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+            {/* ---------- The pathway ----------
+                The right-hand column: the five stages, entering and drifting
+                together. */}
+            <div ref={mediaRef} className="hero-media relative w-full min-w-0 opacity-0">
+              {/* ---------- Specimen pathway ----------
+                  Hairline cells, two to a row from `sm` (the fifth spans the
+                  row), one per row on the narrowest screens. */}
+              <div className="mt-5 grid w-full grid-cols-1 gap-px overflow-hidden rounded-xl border border-[#111827]/10 bg-[#111827]/10 sm:mt-6 sm:grid-cols-2">
                 {KEYWORDS.map((k, i) => (
                   <span
                     key={k.label}
-                    className={`hero-panel pointer-events-auto flex w-full items-start gap-3 rounded-xl border border-slate-900/10 bg-white/55 px-3.5 py-3.5 opacity-0 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.28)] backdrop-blur-md transition-colors duration-300 ease-out hover:border-slate-900/20 hover:bg-white/75 ${
+                    className={`hero-panel flex w-full items-start gap-3 bg-[#F8F7F5] px-4 py-4 opacity-0 transition-colors duration-300 ease-out hover:bg-white ${
                       i === KEYWORDS.length - 1 ? 'sm:col-span-2' : ''
                     }`}
                   >
-                    <span
-                      className="mt-[1px] flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7C3AED] to-[#EC4899] text-white shadow-[0_8px_20px_-8px_rgba(168,85,247,0.9)]"
-                      aria-hidden="true"
-                    >
+                    <span className="mt-[1px] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#7C3AED]/20 text-[#6D28D9]" aria-hidden="true">
                       {k.icon}
                     </span>
                     <span className="flex min-w-0 flex-col gap-1">
-                      <span className="font-sans text-[13px] font-semibold leading-snug tracking-[0.01em] text-slate-800 lg:text-[12.5px]">
-                        {k.step && (
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#DB2777]">
-                            {k.step}.{' '}
-                          </span>
-                        )}
+                      <span className="font-sans text-[13.5px] font-medium leading-snug tracking-[-0.01em] text-[#111827]">
                         {k.label}
                       </span>
-                      <span className="font-sans text-[11px] font-normal leading-[1.45] tracking-[0.01em] text-slate-600 lg:text-[10.5px]">
+                      <span className="font-sans text-[12px] font-normal leading-[1.5] text-[#64748B]">
                         {k.desc}
                       </span>
                     </span>

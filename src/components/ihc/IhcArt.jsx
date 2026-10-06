@@ -18,28 +18,28 @@ const BRAND = {
 };
 
 const LABEL = {
-  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+  fontFamily: 'Inter, system-ui, sans-serif',
   fontSize: 9,
   fontWeight: 600,
   letterSpacing: '0.02em',
 };
 
 const CAPTION = {
-  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+  fontFamily: 'Inter, system-ui, sans-serif',
   fontSize: 7.5,
   fontWeight: 700,
   letterSpacing: '0.09em',
 };
 
 const VALUE = {
-  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+  fontFamily: 'Inter, system-ui, sans-serif',
   fontSize: 9.5,
   fontWeight: 700,
   letterSpacing: '0.01em',
 };
 
 const BIG = {
-  fontFamily: '"Plus Jakarta Sans", system-ui, sans-serif',
+  fontFamily: 'Inter, system-ui, sans-serif',
   fontSize: 20,
   fontWeight: 700,
   letterSpacing: '-0.015em',

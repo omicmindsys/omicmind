@@ -83,7 +83,7 @@ function App() {
     <>
       {/* Fixed navbar — kept outside <main> so its `position: fixed` is not
           captured by main's `perspective`/`overflow-hidden` containing block. */}
-      <Navbar background="#E8DFD2" />
+      <Navbar background="#F6F5F3" />
 
       <main ref={containerRef} className="relative min-h-screen w-full bg-[#030712] text-gray-50 selection:bg-purple-500/30 overflow-hidden" style={{ perspective: '1200px' }}>
 

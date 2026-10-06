@@ -16,10 +16,18 @@ body {
   padding: 0;
   background-color: var(--bg-color);
   color: var(--text-primary);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Every element takes the page's font unless a class sets one. */
+*,
+*::before,
+*::after {
+  font-family: inherit;
 }
 
 @layer utilities {
