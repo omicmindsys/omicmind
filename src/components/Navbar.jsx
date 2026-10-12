@@ -103,60 +103,38 @@ function Logo({ onClick, light = false }) {
   );
 }
 
-/* Premium gradient pill CTA. `light` is the minimal variant for the light
-   home navbar: a solid near-black pill, no glow. */
-function DemoButton({ className = '', onClick, light = false }) {
-  const btnRef = useRef(null);
-
-  useEffect(() => {
-    const el = btnRef.current;
-    if (!el) return;
-    const glow = el.querySelector('.cta-glow');
-    const arrow = el.querySelector('.cta-arrow');
-
-    const enter = () => {
-      gsap.to(el, { scale: 1.045, duration: 0.4, ease: 'power3.out' });
-      if (glow) gsap.to(glow, { opacity: 1, scale: 1.15, duration: 0.5, ease: 'power2.out' });
-if (arrow) gsap.to(arrow, { x: 3, duration: 0.4, ease: 'power3.out' });
-    };
-    const leave = () => {
-      gsap.to(el, { scale: 1, duration: 0.45, ease: 'power3.out' });
-      if (glow) gsap.to(glow, { opacity: 0.55, scale: 1, duration: 0.5, ease: 'power2.out' });
-if (arrow) gsap.to(arrow, { x: 0, duration: 0.4, ease: 'power3.out' });
-    };
-    const down = () => gsap.to(el, { scale: 0.97, duration: 0.15, ease: 'power2.out' });
-    const up = () => gsap.to(el, { scale: 1.045, duration: 0.25, ease: 'power2.out' });
-
-if (glow) gsap.set(glow, { opacity: 0.55 });
-    el.addEventListener('mouseenter', enter);
-    el.addEventListener('mouseleave', leave);
-    el.addEventListener('mousedown', down);
-    el.addEventListener('mouseup', up);
-    return () => {
-      el.removeEventListener('mouseenter', enter);
-      el.removeEventListener('mouseleave', leave);
-      el.removeEventListener('mousedown', down);
-      el.removeEventListener('mouseup', up);
-    };
-  }, []);
+/* Request Demo CTA — the same design as the homepage hero's Request Demo
+   button: a #7C3AED → #EC4899 pill with white medium-weight type, a deeper
+   #6D28D9 → #DB2777 surface that fades in on hover, the arrow nudging right,
+   and the same slight GSAP scale. Size and padding stay the navbar's own, and
+   it reads the same on the light and dark navbars, so `light` no longer
+   changes its look. */
+function DemoButton({ className = '', onClick }) {
+  const ctaHover = (e, isEnter) => {
+    gsap.to(e.currentTarget, { scale: isEnter ? 1.02 : 1, duration: 0.45, ease: 'power3.out' });
+  };
 
   return (
     <div className={`relative inline-flex ${className}`}>
-      {!light && (
-        <span className="cta-glow pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 blur-[14px]" />
-      )}
       <button
-        ref={btnRef}
         type="button"
         onClick={onClick}
-        className={
-          light
-            ? 'relative inline-flex items-center gap-2 rounded-full bg-[#111827] px-5 py-2.5 font-sans text-[0.875rem] font-medium tracking-[-0.005em] text-white outline-none transition-colors duration-300 hover:bg-[#6D28D9] focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40'
-            : 'relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 px-5 py-2.5 font-sans text-[0.875rem] font-semibold tracking-[0.01em] text-white shadow-[0_6px_20px_rgba(168,85,247,0.35)] outline-none ring-1 ring-inset ring-white/25'
-        }
+        onMouseEnter={(e) => ctaHover(e, true)}
+        onMouseLeave={(e) => ctaHover(e, false)}
+        className="group relative inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-sans text-[0.875rem] font-medium tracking-[-0.01em] text-white outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40"
+        style={{ backgroundImage: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)' }}
       >
-        Request Demo
-        <ArrowRight className="cta-arrow h-4 w-4" strokeWidth={2.25} />
+        {/* Deeper purple-to-pink hover surface over the brand gradient. */}
+        <span
+          className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-[350ms] ease-out group-hover:opacity-100"
+          style={{ backgroundImage: 'linear-gradient(135deg, #6D28D9 0%, #DB2777 100%)' }}
+          aria-hidden="true"
+        />
+        <span className="relative">Request Demo</span>
+        <ArrowRight
+          className="relative h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+          strokeWidth={1.75}
+        />
       </button>
     </div>
   );
@@ -405,6 +383,12 @@ export default function Navbar({ background } = {}) {
         className="fixed inset-x-0 top-0 z-[200] w-full border-b"
         style={{
           willChange: 'background-color, box-shadow, transform',
+          /* Pink-purple ground. The light variant takes a soft lavender-to-
+             blush wash, so its dark type keeps full contrast; the dark glass
+             takes a deep violet-to-plum tint over its blur, under white type. */
+          backgroundImage: background
+            ? 'linear-gradient(90deg, #F3EEFF 0%, #F8EEFB 50%, #FDEFF6 100%)'
+            : 'linear-gradient(90deg, rgba(76,29,149,0.55) 0%, rgba(109,40,217,0.35) 50%, rgba(157,23,77,0.45) 100%)',
           ...(background
             ? {}
             : {
@@ -536,7 +520,7 @@ export default function Navbar({ background } = {}) {
 
           {/* Right — CTA + hamburger */}
           <div ref={actionsRef} className="flex shrink-0 items-center gap-3">
-            <DemoButton className="hidden sm:inline-flex" light={Boolean(background)} />
+            <DemoButton className="hidden sm:inline-flex" />
 
             <button
               ref={burgerRef}

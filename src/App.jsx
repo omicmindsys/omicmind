@@ -8,6 +8,8 @@ import Hero from './components/Hero.jsx'
 import OmicMindBreast from './components/OmicMindBreast.jsx'
 import FoundationModel from './components/FoundationModel.jsx'
 import OmicMindEcosystem from './components/OmicMindEcosystem.jsx'
+import OncologyDiseaseAreas from './components/OncologyDiseaseAreas.jsx'
+import OmicMindCoreEngine from './components/OmicMindCoreEngine.jsx'
 import Footer from './components/Footer.jsx'
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,20 +28,24 @@ function App() {
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // 1. Lenis Smooth Scroll
-    const lenis = new Lenis({
+    // 1. Lenis Smooth Scroll — skipped for visitors who ask for reduced
+    // motion, who get the browser's native scrolling instead.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const lenis = prefersReducedMotion ? null : new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smooth: true,
     })
 
     // Integrate Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update)
-
-    gsap.ticker.add((time) => {
+    const tick = (time) => {
       lenis.raf(time * 1000)
-    })
-    gsap.ticker.lagSmoothing(0)
+    }
+    if (lenis) {
+      lenis.on('scroll', ScrollTrigger.update)
+      gsap.ticker.add(tick)
+      gsap.ticker.lagSmoothing(0)
+    }
 
     // 2. Global Mouse Spotlight Listener
     const handleMouseMove = (e) => {
@@ -50,21 +56,10 @@ function App() {
 
     // 3. Seamless Section Transitions (Continuous 3D Environment)
     const ctx = gsap.context(() => {
-      /* Overlap transition: Hero scales down and fades into the background.
-         It is scaled from its BOTTOM edge and given no `y` of its own, so the
-         seam with the section below never opens up — the two stay welded
-         together for the whole scrub while the depth/fade parallax plays. */
-      gsap.to(heroWrapperRef.current, {
-        scale: 0.9,
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: suitesWrapperRef.current,
-          start: 'top bottom', // When suites start entering from the bottom
-          end: 'top top',      // Until suites reach the top
-          scrub: true,
-        }
-      });
+      /* The Hero carries no scroll transition of its own: it used to scale
+         down and fade to transparent as the next section rose, which let the
+         page's near-black ground show through and read as the Hero turning
+         black. It now simply scrolls away in normal document flow. */
 
       /* The suites wrapper carries no transform of its own: any `y`/`z` offset
          here reads as a transient margin-top and tears a strip of bare page
@@ -73,7 +68,10 @@ function App() {
     }, containerRef);
 
     return () => {
-      lenis.destroy();
+      if (lenis) {
+        gsap.ticker.remove(tick);
+        lenis.destroy();
+      }
       window.removeEventListener('mousemove', handleMouseMove);
       ctx.revert();
     }
@@ -103,7 +101,18 @@ function App() {
 
       {/* Re-writing the Suites wrapper correctly for standard flow */}
       <div ref={suitesWrapperRef} className="relative z-20 w-full bg-[#030712] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[3rem]">
+        {/* Oncology disease areas, directly under the Hero. It is drawn on the
+            same dark ground and in the same centred container it had inside
+            the Foundation Model section, so it reads exactly as before. */}
+        <section className="relative w-full overflow-hidden rounded-t-[3rem] bg-[#0B1020] pb-24 lg:pb-32">
+          <div className="relative z-10 mx-auto max-w-7xl px-6">
+            <OncologyDiseaseAreas />
+          </div>
+        </section>
+
         <OmicMindEcosystem />
+
+        <OmicMindCoreEngine />
 
         <FoundationModel />
 

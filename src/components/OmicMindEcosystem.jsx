@@ -9,26 +9,65 @@ import ProductCarousel from './products/ProductCarousel.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ECOSYSTEM_FLOW = [
-  'Omic Mind AI Ecosystem',
-  'Clinical AI',
-  'Treatment Response',
-  'Biomarker Discovery',
-  'Drug Discovery',
-  'Clinical & Experimental Data',
-];
+/* Foundation Layer flow chart: three tissue modules branch from the layer
+   and merge into the trunk that feeds the AI Products. */
+const FOUNDATION_BRANCHES = ['HistoQuant™', 'HistoMolecular™', 'SpatialTME™'];
+const FOUNDATION_TRUNK = ['ResponseAI™', 'Biomarker & Drug Discovery™'];
 
-const FOUNDATION_LAYER = [
-  'HistoQuant™',
-  'HistoMolecular™',
-  'SpatialTME™',
-  'ResponseAI™',
-  'Biomarker & Drug Discovery',
-];
+const FLOW_STROKE = 'rgba(124,58,237,0.35)';
+
+function FlowLine({ className = '' }) {
+  return <span className={`w-px bg-[rgba(124,58,237,0.35)] ${className}`} aria-hidden="true" />;
+}
+
+/* A short connector ending in a chevron, pointing into the next node */
+function FlowArrow() {
+  return (
+    <span className="flex flex-col items-center" aria-hidden="true">
+      <FlowLine className="block h-6" />
+      <svg viewBox="0 0 10 6" className="-mt-px h-1.5 w-2.5">
+        <path
+          d="M1 1l4 4 4-4"
+          fill="none"
+          stroke={FLOW_STROKE}
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function FlowNode({ children }) {
+  return (
+    <div
+      className="foundation-node w-full max-w-[280px] rounded-2xl p-px"
+      style={{
+        backgroundImage:
+          'linear-gradient(150deg, rgba(124,58,237,0.35) 0%, rgba(23,32,42,0.10) 50%, rgba(236,72,153,0.30) 100%)',
+      }}
+    >
+      <div className="rounded-[15px] bg-[#FBF8F4] px-5 py-3 text-center font-serif text-[1.05rem] font-semibold leading-snug tracking-[-0.01em] text-[#17202A]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* The chart's two ends: the layer it starts from and the products it feeds */
+function FlowLabel({ children }) {
+  return (
+    <span className="foundation-node rounded-full border border-[#A855F7]/40 bg-[#A855F7]/10 px-4 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.14em]">
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] to-[#BE185D]">
+        {children}
+      </span>
+    </span>
+  );
+}
 
 export default function OmicMindEcosystem() {
   const sectionRef = useRef(null);
-  const headerRef = useRef(null);
   /* `plateRef` is only ever read from — it is the box the scroll position is
      measured against. Nothing is written to it, so the slide it wraps cannot
      move. The only things written to on this section's plate are the two clip
@@ -36,22 +75,13 @@ export default function OmicMindEcosystem() {
   const plateRef = useRef(null);
   const heCurtainRef = useRef(null);
   const cellCurtainRef = useRef(null);
+  const foundationRef = useRef(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
       if (prefersReducedMotion) return;
-
-      // Header fade-up
-      gsap.from(headerRef.current.children, {
-        y: 50,
-        opacity: 0,
-        duration: 1.1,
-        ease: 'power3.out',
-        stagger: 0.15,
-        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
-      });
 
       /* ---- The two views draw down; the slide does not move ----
          Neither overlay is transformed at all — nothing here rotates, flips,
@@ -91,6 +121,16 @@ export default function OmicMindEcosystem() {
           { attr: { height: 310.7 }, ease: 'none' },
           0
         );
+
+      // Foundation Layer modules fade up in chain order
+      gsap.from('.foundation-node', {
+        y: 36,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.1,
+        scrollTrigger: { trigger: foundationRef.current, start: 'top 80%' },
+      });
 
       // Drifting background particles
       gsap.utils.toArray('.eco-dust').forEach((dot, i) => {
@@ -160,54 +200,10 @@ export default function OmicMindEcosystem() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        {/* ---------------- Header and specimen plate ----------------
-            Two columns from `lg`, where each half still clears ~580px: the
-            chapter's copy and its flow strip on the left, the reference
-            specimen on the right, centred against each other. Below `lg` the
-            grid collapses and the plate falls beneath the copy, in that
-            order. The product cards below keep the full width. */}
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* ---------------- Header ---------------- */}
-          <div ref={headerRef} className="mx-auto max-w-3xl text-center">
-            <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] text-[#17202A] sm:text-5xl lg:text-[3.5rem]">
-              <span className="block">OmicMind</span>
-              <span className="block italic text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#A21CAF] to-[#BE185D]">
-                AI Ecosystem
-              </span>
-            </h2>
-
-            <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-[#374151] sm:text-lg">
-              From clinical intelligence to biomarker discovery and therapeutic innovation, OmicMind
-              AI transforms biological data into actionable insights across the healthcare and life
-              sciences ecosystem.
-            </p>
-
-            {/* Ecosystem flow: Core → Clinical → Biomarker → Drug */}
-            <div className="mt-9 flex flex-col items-center justify-center gap-y-2">
-              {ECOSYSTEM_FLOW.map((step, i) => (
-                <React.Fragment key={step}>
-                  <span
-                    className={`rounded-full border px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] ${
-                      i === 0
-                        ? 'border-[#A855F7]/40 bg-[#A855F7]/10 text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] to-[#BE185D]'
-                        : 'border-[#17202A]/15 bg-white/60 text-[#4B5563]'
-                    }`}
-                  >
-                    {step}
-                  </span>
-                  {i < ECOSYSTEM_FLOW.length - 1 && (
-                    <span
-                      className="shrink-0 font-sans text-sm leading-none text-[rgba(124,58,237,0.45)]"
-                      aria-hidden="true"
-                    >
-                      ↓
-                    </span>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-
+        {/* ---------------- Specimen plate ----------------
+            Centred on its own above the product cards, which keep the full
+            width. */}
+        <div>
           {/* ---------------- Specimen plate ----------------
               The same 1px-padding gradient shell the rest of the site frames
               its imagery with, so the brand ramp sits on the plate's edge and
@@ -218,7 +214,7 @@ export default function OmicMindEcosystem() {
               and still at every scroll position. The ref on it is read-only —
               it is the box the overlays' scroll position is measured against,
               nothing more. */}
-          <div className="mx-auto w-full max-w-2xl lg:max-w-none">
+          <div className="mx-auto w-full max-w-2xl">
             <div
               ref={plateRef}
               className="relative rounded-[24px] p-px shadow-[0_18px_44px_-26px_rgba(76,29,149,0.5)]"
@@ -318,40 +314,53 @@ export default function OmicMindEcosystem() {
           </div>
         </div>
 
+        {/* ---------------- The Foundation Layer ----------------
+            A flow chart set directly above the product carousel, ending in
+            the arrow that hands off to it. From `md` the three tissue
+            modules branch off one bus and merge back into ResponseAI™;
+            below `md` the same nodes stack in a single column, so every
+            connector stays vertical and nothing can overflow. */}
+        <div ref={foundationRef} className="mx-auto mt-16 w-full max-w-3xl md:mt-20">
+          <div className="flex flex-col items-center">
+            <FlowLabel>Foundation Layer</FlowLabel>
+            {/* Root → bus (the column arrows take this role below `md`) */}
+            <FlowLine className="hidden h-6 md:block" />
+          </div>
+
+          <div className="relative grid grid-cols-1 md:grid-cols-3">
+            <span
+              className="pointer-events-none absolute left-[16.667%] right-[16.667%] top-0 hidden h-px bg-[rgba(124,58,237,0.35)] md:block"
+              aria-hidden="true"
+            />
+            <span
+              className="pointer-events-none absolute bottom-0 left-[16.667%] right-[16.667%] hidden h-px bg-[rgba(124,58,237,0.35)] md:block"
+              aria-hidden="true"
+            />
+            {FOUNDATION_BRANCHES.map((name) => (
+              <div key={name} className="flex flex-col items-center md:px-3">
+                <FlowArrow />
+                <FlowNode>{name}</FlowNode>
+                <FlowLine className="hidden min-h-6 flex-1 md:block" />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col items-center">
+            {FOUNDATION_TRUNK.map((name) => (
+              <React.Fragment key={name}>
+                <FlowArrow />
+                <FlowNode>{name}</FlowNode>
+              </React.Fragment>
+            ))}
+            <FlowArrow />
+            <FlowLabel>AI Products</FlowLabel>
+          </div>
+        </div>
+
         {/* ---------------- AI Products ----------------
             Horizontal carousel that expands in place into each product's
             story. Content lives in products/productsData.js. */}
         <ProductCarousel />
-
-        {/* ---------------- Foundation layer ----------------
-            The chain the three models sit in, set after the cards in the
-            same pill-and-arrow vocabulary as the header's flow strip. The
-            row wraps on narrow screens rather than scrolling. */}
-        <div className="mx-auto mt-16 max-w-5xl text-center md:mt-20">
-          <p className="font-sans text-[10.5px] font-semibold uppercase leading-none tracking-[0.14em] text-[#4B5563]">
-            The Foundation Layer
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2.5">
-            {FOUNDATION_LAYER.map((step, i) => (
-              <React.Fragment key={step}>
-                <span className="rounded-full border border-[#17202A]/15 bg-white/60 px-3.5 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.12em] text-[#263238]">
-                  {step}
-                </span>
-                {i < FOUNDATION_LAYER.length - 1 && (
-                  <span
-                    className="shrink-0 font-sans text-sm leading-none text-[rgba(124,58,237,0.45)]"
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-          <p className="mt-6 font-serif text-lg italic leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-[#6D28D9] via-[#A21CAF] to-[#BE185D] sm:text-xl">
-            From tissue morphology to measurable biology — at scale.
-          </p>
-        </div>
       </div>
     </section>
   );

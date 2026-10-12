@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WorkflowJourney from './WorkflowJourney.jsx';
-import OncologyDiseaseAreas from './OncologyDiseaseAreas.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -139,11 +138,6 @@ export default function FoundationModel() {
             The seven-stage chain, opening the section. It carries its own
             heading and its own ground. */}
         <WorkflowJourney />
-
-        {/* ---------- Oncology disease areas ----------
-            The exploration layer, sitting directly under the workflow.
-            It carries its own heading and ground. */}
-        <OncologyDiseaseAreas />
       </div>
     </section>
   );
