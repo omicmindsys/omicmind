@@ -10,6 +10,7 @@ import FoundationModel from './components/FoundationModel.jsx'
 import OmicMindEcosystem from './components/OmicMindEcosystem.jsx'
 import OncologyDiseaseAreas from './components/OncologyDiseaseAreas.jsx'
 import OmicMindCoreEngine from './components/OmicMindCoreEngine.jsx'
+import OmicMindCoreFlow from './components/OmicMindCoreFlow.jsx'
 import Footer from './components/Footer.jsx'
 
 gsap.registerPlugin(ScrollTrigger);
@@ -113,6 +114,8 @@ function App() {
         <OmicMindEcosystem />
 
         <OmicMindCoreEngine />
+
+        <OmicMindCoreFlow />
 
         <FoundationModel />
 

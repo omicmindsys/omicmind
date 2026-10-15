@@ -140,6 +140,26 @@ function DemoButton({ className = '', onClick }) {
   );
 }
 
+/* The Request Demo button's look, shared by the navbar's own items: the
+   #7C3AED → #EC4899 fill under white medium-weight type, the deeper
+   #6D28D9 → #DB2777 surface fading in on hover (or while a menu is open),
+   and the same slight GSAP scale. Each item keeps its own size and padding. */
+const DEMO_GRADIENT = { backgroundImage: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)' };
+const demoItemHover = (e, isEnter) => {
+  gsap.to(e.currentTarget, { scale: isEnter ? 1.02 : 1, duration: 0.45, ease: 'power3.out' });
+};
+function DemoHoverSurface({ active = false }) {
+  return (
+    <span
+      className={`pointer-events-none absolute inset-0 rounded-full transition-opacity duration-[350ms] ease-out group-hover:opacity-100 ${
+        active ? 'opacity-100' : 'opacity-0'
+      }`}
+      style={{ backgroundImage: 'linear-gradient(135deg, #6D28D9 0%, #DB2777 100%)' }}
+      aria-hidden="true"
+    />
+  );
+}
+
 /* `background` gives the light, seamless variant (the home page passes its
    hero's top colour): transparent at the top of the page so the hero runs
    straight up behind it, then filled with `background` once scrolled — no
@@ -428,41 +448,31 @@ export default function Navbar({ background } = {}) {
                         type="button"
                         aria-expanded={openIndex === i}
                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                        className={`group inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] tracking-[-0.005em] transition-colors duration-300 xl:px-4 ${
-                          background ? 'font-normal' : 'font-medium'
-                        } ${
-                          openIndex === i
-                            ? background
-                              ? 'bg-slate-900/[0.05] text-[#111827]'
-                              : 'bg-white/[0.07] text-white shadow-[0_0_20px_-6px_rgba(139,92,246,0.45)]'
-                            : background
-                              ? 'text-[#1F2937] hover:bg-slate-900/[0.04] hover:text-[#111827]'
-                              : 'text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
-                        }`}
+                        onMouseEnter={(e) => demoItemHover(e, true)}
+                        onMouseLeave={(e) => demoItemHover(e, false)}
+                        className="group relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[-0.01em] text-white outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40 xl:px-4"
+                        style={DEMO_GRADIENT}
                       >
-                        {item.label}
+                        <DemoHoverSurface active={openIndex === i} />
+                        <span className="relative">{item.label}</span>
                         <ChevronDown
-                          className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                            background
-                              ? 'text-slate-500 group-hover:text-[#111827]'
-                              : 'text-[#D9E2F2]/60 group-hover:text-white/80'
-                          } ${
+                          className={`relative h-3.5 w-3.5 text-white transition-transform duration-300 ${
                             openIndex === i ? 'rotate-180' : ''
                           }`}
-                          strokeWidth={background ? 1.75 : 2.25}
+                          strokeWidth={1.75}
                         />
                       </button>
                     ) : (
                       <a
                         href={item.href}
                         onClick={item.label === 'Home' ? goHome : (e) => e.preventDefault()}
-                        className={`inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] tracking-[-0.005em] transition-colors duration-300 xl:px-4 ${
-                          background
-                            ? 'font-normal text-[#1F2937] hover:bg-slate-900/[0.04] hover:text-[#111827]'
-                            : 'font-medium text-[#D9E2F2] hover:bg-white/[0.06] hover:text-white'
-                        }`}
+                        onMouseEnter={(e) => demoItemHover(e, true)}
+                        onMouseLeave={(e) => demoItemHover(e, false)}
+                        className="group relative inline-flex items-center rounded-full px-3.5 py-2 font-sans text-[0.875rem] font-medium tracking-[-0.01em] text-white outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40 xl:px-4"
+                        style={DEMO_GRADIENT}
                       >
-                        {item.label}
+                        <DemoHoverSurface />
+                        <span className="relative">{item.label}</span>
                       </a>
                     )}
 
@@ -569,16 +579,18 @@ export default function Navbar({ background } = {}) {
                           type="button"
                           aria-expanded={accOpen === i}
                           onClick={() => setAccOpen(accOpen === i ? null : i)}
-                          className="flex w-full items-center justify-between py-4 text-left"
+                          className="group relative flex w-full items-center justify-between rounded-full px-5 py-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40"
+                          style={DEMO_GRADIENT}
                         >
-                          <span className="font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-white">
+                          <DemoHoverSurface active={accOpen === i} />
+                          <span className="relative font-sans text-[1.0625rem] font-medium tracking-[-0.01em] text-white">
                             {item.label}
                           </span>
                           <ChevronDown
-                            className={`h-5 w-5 text-[#D9E2F2]/60 transition-transform duration-300 ${
+                            className={`relative h-5 w-5 text-white transition-transform duration-300 ${
                               accOpen === i ? 'rotate-180' : ''
                             }`}
-                            strokeWidth={2.25}
+                            strokeWidth={1.75}
                           />
                         </button>
                         <div
@@ -623,9 +635,11 @@ export default function Navbar({ background } = {}) {
                           e.preventDefault();
                           setMobileOpen(false);
                         }}
-                        className="block py-4 font-sans text-[1.0625rem] font-semibold tracking-[-0.005em] text-white"
+                        className="group relative block rounded-full px-5 py-4 font-sans text-[1.0625rem] font-medium tracking-[-0.01em] text-white outline-none focus-visible:ring-2 focus-visible:ring-[#6D28D9]/40"
+                        style={DEMO_GRADIENT}
                       >
-                        {item.label}
+                        <DemoHoverSurface />
+                        <span className="relative">{item.label}</span>
                       </a>
                     )}
                   </li>

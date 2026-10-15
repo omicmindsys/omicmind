@@ -20,12 +20,11 @@ gsap.registerPlugin(ScrollTrigger);
 ------------------------------------------------------------------ */
 const MODULES = [
   {
-    eyebrow: 'Breast Cancer Pack',
-    title: 'OM Breast',
-    trademark: true,
+    eyebrow: 'Breast Cancer',
+    title: 'Decode Breast Tumor Biology',
     description:
-      'AI-powered breast cancer pathology intelligence for biomarker quantification, spatial immune profiling, molecular phenotype prediction, and treatment-response research.',
-    tags: ['H&E', 'IHC', 'Biomarkers', 'Spatial', 'Molecular'],
+      'Quantify key biomarkers and connect tissue morphology with molecular phenotypes and treatment-response signals.',
+    tags: ['ER/PR/HER2', 'Biomarker Profiling', 'Spatial TME', 'Response Research'],
     purposeLabel: 'Focus',
     purpose: 'Full-panel biomarker quantification and spatial immune profiling in invasive breast carcinoma.',
     /* The complete panel, shown in the card's detail view. */
@@ -63,15 +62,11 @@ const MODULES = [
     to: '#A78BFA',
   },
   {
-    eyebrow: 'RESEARCH',
-    title: 'OM LUNG IMMUNE',
-    features: [
-      'Histologic subtype assistance',
-      'Assay-specific PD-L1 TPS',
-      'CD8 spatial density',
-      'Inflamed, excluded and desert phenotypes',
-      'Cohort export for translational research',
-    ],
+    eyebrow: 'Lung Cancer',
+    title: 'Stratify Lung Cancer Biology',
+    description:
+      'Integrate morphology, PD-L1, immune architecture and molecular profiles to uncover signatures associated with therapy response and resistance.',
+    tags: ['PD-L1', 'Spatial TME', 'Molecular Prediction', 'Immunotherapy Response'],
     purposeLabel: 'Commercial Purpose',
     purpose: 'Enter pharma biomarker and IO workflows.',
     highlight: 'Flagship asset',
@@ -79,15 +74,11 @@ const MODULES = [
     to: '#E879F9',
   },
   {
-    eyebrow: 'FLAGSHIP ASSET',
-    title: 'LUNG IO-RESISTANCE',
-    features: [
-      'Outcome-linked pretreatment cohort',
-      'Spatial resistance signature',
-      'Locked external validation',
-      'Patent and prospective protocol',
-      'Mechanism and wet-lab confirmation',
-    ],
+    eyebrow: 'Colorectal Cancer',
+    title: 'Reveal Colorectal Tumor Biology',
+    description:
+      'Learn morphology and tumor–immune patterns associated with MSI/dMMR, key molecular alterations and therapeutic response.',
+    tags: ['MSI/dMMR', 'KRAS/BRAF', 'Spatial Immunity', 'Response Stratification'],
     purposeLabel: 'Fundraising Purpose',
     purpose: 'Demonstrate an asset, not merely software.',
     from: '#D946EF',
@@ -319,7 +310,7 @@ function ModuleCard({
             </p>
           )}
           {tags && (
-            <ul className="relative mt-4 flex flex-wrap gap-1.5" aria-label="Data modalities">
+            <ul className="relative mt-4 flex flex-wrap gap-1.5" aria-label="Key capabilities">
               {tags.map((t) => (
                 <li
                   key={t}

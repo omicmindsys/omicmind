@@ -163,7 +163,7 @@ const PRODUCTS = [
     rgb: '96, 165, 250',
     visual: (
       <div className="relative h-full w-full">
-        <div className="absolute inset-[6%] overflow-hidden rounded-full border border-[#60A5FA]/40 shadow-[0_0_22px_-4px_rgba(96,165,250,0.55)]">
+        <div className="absolute inset-[6%] overflow-hidden rounded-full border border-[#60A5FA]/40 shadow-[0_6px_16px_-8px_rgba(37,99,235,0.35)]">
           <img
             src={quantIhc}
             alt=""
@@ -173,7 +173,7 @@ const PRODUCTS = [
             style={{ objectPosition: '18% 30%', transform: 'scale(1.9)', transformOrigin: '18% 30%' }}
           />
         </div>
-        <svg viewBox="0 0 40 30" className="absolute -bottom-1 -right-1 h-[44%] w-[56%] rounded-md border border-[#60A5FA]/40 bg-[#0B1020]/90 p-1">
+        <svg viewBox="0 0 40 30" className="absolute -bottom-1 -right-1 h-[44%] w-[56%] rounded-md border border-[#DDE3EE] bg-white/95 p-1 shadow-[0_4px_12px_-6px_rgba(23,32,51,0.25)]">
           <path d="M3 27h34" stroke="#94A3B8" strokeOpacity="0.5" strokeWidth="0.8" />
           <rect x="6" y="17" width="5" height="10" rx="1" fill="#60A5FA" />
           <rect x="14" y="10" width="5" height="17" rx="1" fill="#818CF8" />
@@ -197,10 +197,10 @@ const PRODUCTS = [
         </defs>
         <path d="M28 6c0 17 24 17 24 34S28 57 28 74" stroke="url(#omc-p-helix)" strokeWidth="2.4" />
         <path d="M52 6c0 17-24 17-24 34s24 17 24 34" stroke="url(#omc-p-helix)" strokeWidth="2.4" strokeOpacity="0.75" />
-        <g stroke="#C4B5FD" strokeOpacity="0.7" strokeWidth="1.6">
+        <g stroke="#8B5CF6" strokeOpacity="0.55" strokeWidth="1.6">
           <path d="M31 13h18M35 21h10M35 59h10M31 67h18M33 31h14M33 49h14" />
         </g>
-        <g fill="#F8FAFC">
+        <g fill="#7C3AED">
           <circle cx="31" cy="13" r="1.8" /><circle cx="49" cy="13" r="1.8" />
           <circle cx="31" cy="67" r="1.8" /><circle cx="49" cy="67" r="1.8" />
         </g>
@@ -218,11 +218,11 @@ const PRODUCTS = [
           [26, 26, '#60A5FA'], [32, 20, '#60A5FA'], [20, 32, '#60A5FA'], [30, 31, '#60A5FA'], [24, 22, '#60A5FA'],
           [52, 24, '#E879F9'], [58, 30, '#E879F9'], [50, 31, '#E879F9'], [56, 20, '#E879F9'],
           [40, 52, '#A78BFA'], [34, 57, '#A78BFA'], [46, 58, '#A78BFA'], [40, 62, '#A78BFA'], [47, 50, '#A78BFA'], [33, 49, '#A78BFA'],
-          [22, 50, '#F472B6'], [60, 50, '#60A5FA'], [40, 38, '#F8FAFC'],
+          [22, 50, '#F472B6'], [60, 50, '#60A5FA'], [40, 38, '#172033'],
         ].map(([x, y, c], i) => (
           <circle key={i} cx={x} cy={y} r={i === 17 ? 2.4 : 3.2} fill={c} fillOpacity={i === 17 ? 1 : 0.85} />
         ))}
-        <g stroke="#E2E8F0" strokeOpacity="0.25" strokeWidth="0.8">
+        <g stroke="#526078" strokeOpacity="0.35" strokeWidth="0.8">
           <path d="M40 38L28 27M40 38L53 27M40 38l0 14" />
         </g>
       </svg>
@@ -267,7 +267,7 @@ const PRODUCTS = [
           <path d="M34 37 20 20M46 37l14-17" />
         </g>
         {/* Linkers and payloads */}
-        <g stroke="#E2E8F0" strokeOpacity="0.6" strokeWidth="1.2">
+        <g stroke="#94A3B8" strokeOpacity="0.8" strokeWidth="1.2">
           <path d="M28 32l-10 4M52 32l10 4M40 58h-12M40 58h12" />
         </g>
         <g fill="#F472B6">
@@ -298,7 +298,7 @@ const PRODUCTS = [
         </g>
         <circle cx="40" cy="38" r="20" stroke="#F472B6" strokeOpacity="0.35" strokeDasharray="2 4" />
         <circle cx="55" cy="18" r="6" fill="#F472B6" />
-        <path d="M52.4 18l2 2 3.4-3.8" stroke="#0B1020" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M52.4 18l2 2 3.4-3.8" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -334,9 +334,9 @@ function CoreVisual() {
     <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden="true">
       <defs>
         <radialGradient id="omc-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#A855F7" stopOpacity="0.55" />
-          <stop offset="45%" stopColor="#6366F1" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#0B1020" stopOpacity="0" />
+          <stop offset="0%" stopColor="#A855F7" stopOpacity="0.22" />
+          <stop offset="45%" stopColor="#6366F1" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#F5F7FA" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="omc-ring" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#60A5FA" />
@@ -374,7 +374,7 @@ function CoreVisual() {
         <path d="M203 108 C232 94 272 104 282 134 C306 142 314 174 300 194 C314 214 306 248 280 256 C272 284 236 296 212 282 C207 288 203 290 203 290 Z" />
       </g>
       {/* Gyri */}
-      <g fill="none" stroke="#C4B5FD" strokeOpacity="0.35" strokeWidth="1.2" strokeLinecap="round">
+      <g fill="none" stroke="#7C3AED" strokeOpacity="0.3" strokeWidth="1.2" strokeLinecap="round">
         <path d="M140 140 C156 150 170 140 184 150" />
         <path d="M118 190 C136 182 150 196 170 188" />
         <path d="M134 240 C150 230 168 244 186 236" />
@@ -384,7 +384,7 @@ function CoreVisual() {
       </g>
 
       {/* Neural mesh */}
-      <g stroke="#E9D5FF" strokeOpacity="0.4" strokeWidth="0.9">
+      <g stroke="#8B5CF6" strokeOpacity="0.32" strokeWidth="0.9">
         {MESH_EDGES.map(([a, b], i) => (
           <line key={i} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} />
         ))}
@@ -392,8 +392,8 @@ function CoreVisual() {
       <g>
         {MESH_POINTS.map(([x, y], i) => (
           <g key={i}>
-            <circle cx={x} cy={y} r="5" fill={i % 3 === 0 ? '#60A5FA' : i % 3 === 1 ? '#A78BFA' : '#F472B6'} opacity="0.5" filter="url(#omc-soft)" />
-            <circle className="omc-node" style={{ animationDelay: `${(i % 6) * 0.45}s` }} cx={x} cy={y} r="2.3" fill="#F8FAFC" />
+            <circle cx={x} cy={y} r="5" fill={i % 3 === 0 ? '#60A5FA' : i % 3 === 1 ? '#A78BFA' : '#F472B6'} opacity="0.35" filter="url(#omc-soft)" />
+            <circle className="omc-node" style={{ animationDelay: `${(i % 6) * 0.45}s` }} cx={x} cy={y} r="2.3" fill="#6D28D9" />
           </g>
         ))}
       </g>
@@ -405,14 +405,14 @@ function Capability({ cap, side }) {
   const right = side === 'right';
   return (
     <li
-      className={`omc-cap relative flex items-center gap-3.5 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3.5 backdrop-blur-sm lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none ${
+      className={`omc-cap relative flex items-center gap-3.5 rounded-2xl border border-[#DDE3EE] bg-white px-4 py-3.5 shadow-[0_8px_24px_-18px_rgba(23,32,51,0.25)] backdrop-blur-sm lg:border-0 lg:shadow-none lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none ${
         right ? '' : 'lg:flex-row-reverse lg:text-right'
       }`}
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#A78BFA]/30 bg-gradient-to-br from-[#3B82F6]/15 via-[#8B5CF6]/15 to-[#EC4899]/15 text-[#C4B5FD] shadow-[0_0_18px_-6px_rgba(167,139,250,0.6)]">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#A78BFA]/30 bg-gradient-to-br from-[#3B82F6]/15 via-[#8B5CF6]/15 to-[#EC4899]/15 bg-white text-[#7C3AED] shadow-[0_6px_16px_-8px_rgba(124,58,237,0.35)]">
         {cap.icon}
       </span>
-      <span className="font-sans text-[15px] font-medium leading-snug tracking-[-0.01em] text-[#E2E8F0]">
+      <span className="font-sans text-[15px] font-medium leading-snug tracking-[-0.01em] text-[#172033]">
         {cap.title}
       </span>
       {/* Hairline reaching toward the core, desktop only */}
@@ -476,7 +476,7 @@ export default function OmicMindCoreEngine() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden rounded-t-[3rem] bg-[#070B1A] pb-24 pt-24 lg:pb-32 lg:pt-32"
+      className="relative w-full overflow-hidden rounded-t-[3rem] bg-[#F5F7FA] pb-24 pt-24 lg:pb-32 lg:pt-32"
     >
       <style>{`
         .omc-spin { transform-origin: 200px 200px; animation: omc-spin 40s linear infinite; }
@@ -498,15 +498,15 @@ export default function OmicMindCoreEngine() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(48% 36% at 50% 62%, rgba(124,58,237,0.16) 0%, rgba(124,58,237,0) 70%), radial-gradient(40% 30% at 12% 12%, rgba(59,130,246,0.12) 0%, rgba(59,130,246,0) 70%), radial-gradient(40% 30% at 88% 14%, rgba(236,72,153,0.10) 0%, rgba(236,72,153,0) 70%)',
+            'radial-gradient(48% 36% at 50% 62%, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0) 70%), radial-gradient(40% 30% at 12% 12%, rgba(59,130,246,0.05) 0%, rgba(59,130,246,0) 70%), radial-gradient(40% 30% at 88% 14%, rgba(236,72,153,0.05) 0%, rgba(236,72,153,0) 70%), linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%)',
         }}
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 opacity-[0.5]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(148,163,184,1) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,1) 1px, transparent 1px)',
+            'linear-gradient(rgba(221,227,238,1) 1px, transparent 1px), linear-gradient(90deg, rgba(221,227,238,1) 1px, transparent 1px)',
           backgroundSize: '56px 56px',
           maskImage: 'radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%)',
           WebkitMaskImage: 'radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%)',
@@ -518,18 +518,18 @@ export default function OmicMindCoreEngine() {
         {/* ---------------- Header ---------------- */}
         <div className="omc-head mx-auto max-w-3xl text-center">
           <h2 className="font-serif text-4xl font-semibold leading-[1.12] tracking-[-0.01em] sm:text-5xl lg:text-[3.25rem]">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#A78BFA] to-[#F0ABFC]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#DB2777]">
               OmicMind Core™
             </span>
           </h2>
-          <p className="mt-5 font-sans text-lg font-medium leading-snug tracking-[-0.01em] text-[#F8FAFC] sm:text-xl">
+          <p className="mt-5 font-sans text-lg font-medium leading-snug tracking-[-0.01em] text-[#172033] sm:text-xl">
             The Multimodal Intelligence Engine Behind Every OmicMind Application
           </p>
           <span
             className="mx-auto mt-7 block h-px w-40 rounded-full bg-gradient-to-r from-transparent via-[#A855F7] to-transparent"
             aria-hidden="true"
           />
-          <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-[#BFDBFE]/80 sm:text-[17px]">
+          <p className="mx-auto mt-7 max-w-2xl font-sans text-base leading-relaxed text-[#526078] sm:text-[17px]">
             OmicMind Core connects tissue morphology with spatial, molecular, and clinical biology to
             learn patterns associated with biomarkers, therapeutic response, and patient outcomes.
           </p>
@@ -542,9 +542,10 @@ export default function OmicMindCoreEngine() {
               key={d.title}
               className="omc-card relative flex h-full flex-col rounded-2xl border p-5 backdrop-blur-sm"
               style={{
-                borderColor: `rgba(${d.rgb}, 0.35)`,
-                backgroundImage: `linear-gradient(160deg, rgba(${d.rgb}, 0.10) 0%, rgba(11,16,32,0.6) 60%)`,
-                boxShadow: `0 0 0 1px rgba(${d.rgb}, 0.04), 0 18px 40px -24px rgba(${d.rgb}, 0.55)`,
+                borderColor: '#DDE3EE',
+                backgroundColor: '#FFFFFF',
+                backgroundImage: `linear-gradient(160deg, rgba(${d.rgb}, 0.08) 0%, rgba(255,255,255,0) 55%)`,
+                boxShadow: `0 14px 34px -22px rgba(23,32,51,0.22), 0 10px 28px -24px rgba(${d.rgb}, 0.5)`,
               }}
             >
               <span
@@ -553,16 +554,16 @@ export default function OmicMindCoreEngine() {
               >
                 {d.icon}
               </span>
-              <h3 className="mt-4 font-sans text-[17px] font-semibold tracking-[-0.01em] text-[#F8FAFC]">
+              <h3 className="mt-4 font-sans text-[17px] font-semibold tracking-[-0.01em] text-[#172033]">
                 {d.title}
               </h3>
-              <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-[#BFDBFE]/75">{d.lead}</p>
+              <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-[#526078]">{d.lead}</p>
               {d.tags && (
                 <div className="mt-3.5 flex flex-wrap gap-1.5">
                   {d.tags.map((t) => (
                     <span
                       key={t}
-                      className="rounded-full border px-2.5 py-1 font-sans text-[11.5px] font-medium text-[#F8FAFC]/85"
+                      className="rounded-full border px-2.5 py-1 font-sans text-[11.5px] font-medium text-[#172033]/80"
                       style={{ borderColor: `rgba(${d.rgb}, 0.3)`, backgroundColor: `rgba(${d.rgb}, 0.08)` }}
                     >
                       {t}
@@ -573,7 +574,7 @@ export default function OmicMindCoreEngine() {
               {/* Port the pathway leaves from, desktop only */}
               <span
                 className="absolute -bottom-[5px] left-1/2 hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full lg:block"
-                style={{ backgroundColor: `rgb(${d.rgb})`, boxShadow: `0 0 12px 2px rgba(${d.rgb}, 0.7)` }}
+                style={{ backgroundColor: `rgb(${d.rgb})`, boxShadow: `0 0 0 3px #FFFFFF, 0 0 8px 1px rgba(${d.rgb}, 0.45)` }}
                 aria-hidden="true"
               />
             </li>
@@ -606,14 +607,14 @@ export default function OmicMindCoreEngine() {
                 stroke={`url(#omc-path-${i})`}
                 strokeWidth="1.6"
                 vectorEffect="non-scaling-stroke"
-                style={{ filter: `drop-shadow(0 0 4px rgba(${DOMAINS[i].rgb}, 0.7))` }}
+                style={{ filter: `drop-shadow(0 0 3px rgba(${DOMAINS[i].rgb}, 0.35))` }}
               />
               <path
                 className="omc-flow"
                 d={p}
                 fill="none"
-                stroke="#F8FAFC"
-                strokeOpacity="0.8"
+                stroke="#FFFFFF"
+                strokeOpacity="0.9"
                 strokeWidth="1.6"
                 strokeLinecap="round"
                 vectorEffect="non-scaling-stroke"
@@ -622,7 +623,7 @@ export default function OmicMindCoreEngine() {
           ))}
         </svg>
         <span
-          className="mx-auto mt-6 block h-14 w-px bg-gradient-to-b from-[#60A5FA] via-[#A78BFA] to-[#F472B6] shadow-[0_0_10px_rgba(167,139,250,0.8)] lg:hidden"
+          className="mx-auto mt-6 block h-14 w-px bg-gradient-to-b from-[#60A5FA] via-[#A78BFA] to-[#F472B6] shadow-[0_0_6px_rgba(167,139,250,0.35)] lg:hidden"
           aria-hidden="true"
         />
 
@@ -642,7 +643,7 @@ export default function OmicMindCoreEngine() {
               <CoreVisual />
             </div>
             <p className="-mt-4 font-serif text-2xl font-semibold tracking-[-0.01em]">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#C4B5FD] to-[#F9A8D4]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#DB2777]">
                 OmicMind Core™
               </span>
             </p>
@@ -670,17 +671,17 @@ export default function OmicMindCoreEngine() {
               className="omc-prod group rounded-2xl p-px"
               style={{
                 backgroundImage:
-                  'linear-gradient(160deg, rgba(96,165,250,0.6) 0%, rgba(167,139,250,0.45) 50%, rgba(232,121,249,0.6) 100%)',
-                boxShadow: `0 18px 40px -26px rgba(${p.rgb}, 0.8)`,
+                  'linear-gradient(160deg, rgba(96,165,250,0.45) 0%, #DDE3EE 50%, rgba(232,121,249,0.45) 100%)',
+                boxShadow: `0 16px 36px -24px rgba(23,32,51,0.22), 0 14px 30px -26px rgba(${p.rgb}, 0.55)`,
               }}
             >
               <div
                 className="flex h-full flex-col items-center rounded-[15px] px-3 pb-5 pt-5 text-center sm:px-4"
                 style={{
-                  backgroundImage: `radial-gradient(80% 55% at 50% 30%, rgba(${p.rgb}, 0.16) 0%, rgba(${p.rgb}, 0) 70%), linear-gradient(180deg, #0D1328 0%, #0A0F22 100%)`,
+                  backgroundImage: `radial-gradient(80% 55% at 50% 30%, rgba(${p.rgb}, 0.10) 0%, rgba(${p.rgb}, 0) 70%), linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)`,
                 }}
               >
-                <p className="font-sans text-[15px] font-semibold tracking-[-0.01em] text-[#F8FAFC]">
+                <p className="font-sans text-[15px] font-semibold tracking-[-0.01em] text-[#172033]">
                   {p.name}
                 </p>
                 <div className="my-4 h-[72px] w-[72px] transition-transform duration-500 ease-out group-hover:scale-105 sm:h-20 sm:w-20" aria-hidden="true">
@@ -691,7 +692,7 @@ export default function OmicMindCoreEngine() {
                   style={{ backgroundColor: `rgba(${p.rgb}, 0.6)` }}
                   aria-hidden="true"
                 />
-                <p className="font-sans text-[13px] leading-snug text-[#BFDBFE]/80">{p.label}</p>
+                <p className="font-sans text-[13px] leading-snug text-[#526078]">{p.label}</p>
               </div>
             </li>
           ))}
@@ -701,12 +702,12 @@ export default function OmicMindCoreEngine() {
         <div className="omc-close mx-auto mt-16 max-w-3xl text-center lg:mt-20">
           <div className="flex items-center justify-center gap-4 sm:gap-6">
             <span className="h-px max-w-[120px] flex-1 bg-gradient-to-r from-transparent to-[#A78BFA]/60" aria-hidden="true" />
-            <p className="font-sans text-[15px] font-semibold uppercase tracking-[0.2em] text-[#F8FAFC] sm:text-lg sm:tracking-[0.24em]">
+            <p className="font-sans text-[15px] font-semibold uppercase tracking-[0.2em] text-[#172033] sm:text-lg sm:tracking-[0.24em]">
               One Core. Multiple Possibilities.
             </p>
             <span className="h-px max-w-[120px] flex-1 bg-gradient-to-l from-transparent to-[#A78BFA]/60" aria-hidden="true" />
           </div>
-          <p className="mt-4 font-sans text-[11.5px] font-medium uppercase tracking-[0.22em] text-[#BFDBFE]/60 sm:text-[12.5px] sm:tracking-[0.28em]">
+          <p className="mt-4 font-sans text-[11.5px] font-medium uppercase tracking-[0.22em] text-[#526078] sm:text-[12.5px] sm:tracking-[0.28em]">
             A Healthier Tomorrow Through Deeper Biology
           </p>
         </div>

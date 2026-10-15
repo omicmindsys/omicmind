@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -39,17 +39,106 @@ function FlowArrow() {
   );
 }
 
-function FlowNode({ children }) {
+/* Hover / focus for the architecture cards. The lift sits on `.eco-card`,
+   inside `.foundation-node`, because GSAP's entrance writes an inline
+   transform on the outer node that would override it. The purple-pink
+   border is a second gradient layer faded in over the resting one, and a
+   soft lavender band sweeps the face once. Touch devices skip the hover
+   state; keyboard focus gets the same treatment; reduced motion keeps the
+   colour and shadow changes but drops the movement. */
+const ECO_CARD_CSS = `
+  .eco-card {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease-out;
+    box-shadow: 0 1px 2px rgba(23, 32, 42, 0.04);
+  }
+  .eco-card-accent { opacity: 0; transition: opacity 280ms ease-out; }
+  .eco-card-sheen {
+    transform: translateX(-120%);
+    opacity: 0;
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms ease-out;
+  }
+  .eco-card:focus-visible { outline: none; }
+  @media (hover: hover) {
+    .eco-card:hover { transform: translateY(-5px); box-shadow: 0 16px 32px -18px rgba(124, 58, 237, 0.38), 0 6px 14px -10px rgba(236, 72, 153, 0.18); }
+    .eco-card:hover .eco-card-accent { opacity: 1; }
+    .eco-card:hover .eco-card-sheen { transform: translateX(120%); opacity: 1; }
+  }
+  .eco-card:focus-visible { transform: translateY(-5px); box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.35), 0 16px 32px -18px rgba(124, 58, 237, 0.38); }
+  .eco-card:focus-visible .eco-card-accent { opacity: 1; }
+  .eco-card:focus-visible .eco-card-sheen { transform: translateX(120%); opacity: 1; }
+  /* The sequential wave: on the active card, a pink-to-purple border, face
+     tint and shadow fade in, slide from pink to purple, and fade back out
+     inside one run, so the card ends in its resting look. */
+  .eco-live-layer { opacity: 0; background-size: 300% 100%; background-position: 0% 50%; }
+  .eco-card.is-live .eco-live-layer {
+    animation: eco-live-fade 820ms ease-in-out both, eco-live-shift 820ms ease-in-out both;
+  }
+  @keyframes eco-live-fade { 0% { opacity: 0; } 22% { opacity: 1; } 72% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes eco-live-shift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+  @media (prefers-reduced-motion: reduce) {
+    .eco-card, .eco-card:hover, .eco-card:focus-visible { transform: none !important; }
+    .eco-card-sheen { display: none; }
+    .eco-card.is-live .eco-live-layer { animation: none; }
+  }
+`;
+
+/* Pink end on the left of each 300%-wide gradient, purple on the right, so
+   sliding the position across reads as pink turning to purple. */
+const LIVE_BORDER = 'linear-gradient(90deg, #EC4899 0%, #D946EF 35%, #A855F7 65%, #7C3AED 100%)';
+const LIVE_TINT =
+  'linear-gradient(90deg, rgba(236,72,153,0.16) 0%, rgba(217,70,239,0.14) 35%, rgba(168,85,247,0.14) 65%, rgba(124,58,237,0.16) 100%)';
+
+/* Architecture order the wave runs through: three branches, then the trunk. */
+const WAVE_ORDER = [...FOUNDATION_BRANCHES, ...FOUNDATION_TRUNK];
+const WAVE_STEP_MS = 1020; // 820ms transition + 200ms pause
+
+function FlowNode({ children, live = false }) {
   return (
-    <div
-      className="foundation-node w-full max-w-[280px] rounded-2xl p-px"
-      style={{
-        backgroundImage:
-          'linear-gradient(150deg, rgba(124,58,237,0.35) 0%, rgba(23,32,42,0.10) 50%, rgba(236,72,153,0.30) 100%)',
-      }}
-    >
-      <div className="rounded-[15px] bg-[#FBF8F4] px-5 py-3 text-center font-serif text-[1.05rem] font-semibold leading-snug tracking-[-0.01em] text-[#17202A]">
-        {children}
+    <div className="foundation-node w-full max-w-[280px]">
+      <div
+        tabIndex={0}
+        className={`eco-card relative rounded-2xl p-px ${live ? 'is-live' : ''}`}
+        style={{
+          backgroundImage:
+            'linear-gradient(150deg, rgba(124,58,237,0.35) 0%, rgba(23,32,42,0.10) 50%, rgba(236,72,153,0.30) 100%)',
+        }}
+      >
+        {/* Wave: soft pink-purple shadow under the active card */}
+        <span
+          className="eco-live-layer pointer-events-none absolute inset-0 rounded-2xl"
+          style={{ boxShadow: '0 14px 30px -14px rgba(168,85,247,0.5), 0 6px 16px -10px rgba(236,72,153,0.3)' }}
+          aria-hidden="true"
+        />
+        {/* Purple-pink border, faded in on hover / focus */}
+        <span
+          className="eco-card-accent pointer-events-none absolute inset-0 rounded-2xl"
+          style={{ backgroundImage: 'linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%)' }}
+          aria-hidden="true"
+        />
+        {/* Wave: pink-to-purple border */}
+        <span
+          className="eco-live-layer pointer-events-none absolute inset-0 rounded-2xl"
+          style={{ backgroundImage: LIVE_BORDER }}
+          aria-hidden="true"
+        />
+        <div className="relative overflow-hidden rounded-[15px] bg-[#FBF8F4] px-5 py-3 text-center font-serif text-[1.05rem] font-semibold leading-snug tracking-[-0.01em] text-[#17202A]">
+          {/* Wave: pink-to-purple tint across the face */}
+          <span
+            className="eco-live-layer pointer-events-none absolute inset-0"
+            style={{ backgroundImage: LIVE_TINT }}
+            aria-hidden="true"
+          />
+          {/* Lavender light passing across the face */}
+          <span
+            className="eco-card-sheen pointer-events-none absolute inset-y-0 left-0 w-full"
+            style={{
+              backgroundImage:
+                'linear-gradient(100deg, rgba(167,139,250,0) 20%, rgba(196,181,253,0.22) 45%, rgba(244,114,182,0.10) 60%, rgba(167,139,250,0) 80%)',
+            }}
+            aria-hidden="true"
+          />
+          <span className="relative">{children}</span>
+        </div>
       </div>
     </div>
   );
@@ -76,6 +165,35 @@ export default function OmicMindEcosystem() {
   const heCurtainRef = useRef(null);
   const cellCurtainRef = useRef(null);
   const foundationRef = useRef(null);
+  const [liveCard, setLiveCard] = useState(-1);
+
+  /* The pink-to-purple wave through the architecture cards. It steps only
+     while the flow chart is on screen, and not at all for reduced motion. */
+  useEffect(() => {
+    const el = foundationRef.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let timer = null;
+    const stop = () => {
+      clearInterval(timer);
+      timer = null;
+      setLiveCard(-1);
+    };
+    const start = () => {
+      if (timer) return;
+      setLiveCard(0);
+      timer = setInterval(() => setLiveCard((i) => (i + 1) % WAVE_ORDER.length), WAVE_STEP_MS);
+    };
+
+    const io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop()), {
+      threshold: 0.2,
+    });
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -114,7 +232,7 @@ export default function OmicMindEcosystem() {
         },
       });
       curtain
-        .fromTo(heCurtainRef.current, { attr: { height: 0 } }, { attr: { height: 410 }, ease: 'none' }, 0)
+        .fromTo(heCurtainRef.current, { attr: { height: 0 } }, { attr: { height: 340 }, ease: 'none' }, 0)
         .fromTo(
           cellCurtainRef.current,
           { attr: { height: 0 } },
@@ -155,6 +273,7 @@ export default function OmicMindEcosystem() {
       className="relative w-full overflow-hidden bg-[#F3EEE7] pb-24 pt-20 lg:pb-32 lg:pt-24"
       style={{ backgroundImage: 'linear-gradient(135deg, #F7F3ED 0%, #EDE5DA 100%)' }}
     >
+      <style>{ECO_CARD_CSS}</style>
       {/* Hairline divider separating this chapter from the section above */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -236,8 +355,8 @@ export default function OmicMindEcosystem() {
                     The same arrangement the Core chapter's plate carries, and
                     the same geometry: both slides are 1280 x 559, so the
                     coordinates transfer across unchanged. The H&E
-                    classification sits top-right, the carcinoma cell view
-                    bottom-left, and the specimen reads between them.
+                    classification sits top-left, above the carcinoma cell view
+                    at bottom-left, and the specimen reads beside them.
 
                     Each is drawn as a plain rectangle at its own intrinsic
                     ratio, with no mask, no crop and no rounded corner anywhere
@@ -279,7 +398,7 @@ export default function OmicMindEcosystem() {
                       <rect ref={cellCurtainRef} x="65" y="235" width="310" height="310.7" />
                     </clipPath>
                     <clipPath id="ecoCurtainHE">
-                      <rect ref={heCurtainRef} x="815" y="-10" width="325.2" height="410" />
+                      <rect ref={heCurtainRef} x="65" y="-25" width="275" height="340" />
                     </clipPath>
 
                     <filter id="ecoSlideShadow" x="-25%" y="-25%" width="150%" height="150%">
@@ -298,13 +417,14 @@ export default function OmicMindEcosystem() {
                     clipPath="url(#ecoCurtainCell)"
                   />
 
-                  {/* Top-right — the classified H&E slide, 454 x 633 */}
+                  {/* Top-left — the classified H&E slide, 454 x 633, sized
+                      to clear the cell view beneath it */}
                   <image
                     href={classifiedField}
-                    x="870"
-                    y="45"
-                    width="215.2"
-                    height="300"
+                    x="120"
+                    y="30"
+                    width="165"
+                    height="230"
                     filter="url(#ecoSlideShadow)"
                     clipPath="url(#ecoCurtainHE)"
                   />
@@ -339,7 +459,7 @@ export default function OmicMindEcosystem() {
             {FOUNDATION_BRANCHES.map((name) => (
               <div key={name} className="flex flex-col items-center md:px-3">
                 <FlowArrow />
-                <FlowNode>{name}</FlowNode>
+                <FlowNode live={WAVE_ORDER[liveCard] === name}>{name}</FlowNode>
                 <FlowLine className="hidden min-h-6 flex-1 md:block" />
               </div>
             ))}
@@ -349,7 +469,7 @@ export default function OmicMindEcosystem() {
             {FOUNDATION_TRUNK.map((name) => (
               <React.Fragment key={name}>
                 <FlowArrow />
-                <FlowNode>{name}</FlowNode>
+                <FlowNode live={WAVE_ORDER[liveCard] === name}>{name}</FlowNode>
               </React.Fragment>
             ))}
             <FlowArrow />
