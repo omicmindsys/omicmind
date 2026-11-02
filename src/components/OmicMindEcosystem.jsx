@@ -270,8 +270,8 @@ export default function OmicMindEcosystem() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden bg-[#F3EEE7] pb-24 pt-20 lg:pb-32 lg:pt-24"
-      style={{ backgroundImage: 'linear-gradient(135deg, #F7F3ED 0%, #EDE5DA 100%)' }}
+      className="relative w-full overflow-hidden bg-[#F5F3FF] pb-24 pt-20 lg:pb-32 lg:pt-24"
+      style={{ backgroundImage: 'linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 52%, #EEF6FF 100%)' }}
     >
       <style>{ECO_CARD_CSS}</style>
       {/* Hairline divider separating this chapter from the section above */}
@@ -289,7 +289,7 @@ export default function OmicMindEcosystem() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(56% 42% at 22% 18%, rgba(124,58,237,0.07) 0%, rgba(124,58,237,0) 70%), radial-gradient(52% 40% at 80% 78%, rgba(124,58,237,0.08) 0%, rgba(124,58,237,0) 72%), radial-gradient(46% 34% at 52% 50%, rgba(236,72,153,0.05) 0%, rgba(236,72,153,0) 76%)',
+            'radial-gradient(56% 42% at 22% 18%, rgba(167,139,250,0.12) 0%, rgba(167,139,250,0) 70%), radial-gradient(52% 40% at 80% 78%, rgba(244,114,182,0.08) 0%, rgba(244,114,182,0) 72%), radial-gradient(46% 34% at 52% 50%, rgba(196,181,253,0.08) 0%, rgba(196,181,253,0) 76%)',
         }}
         aria-hidden="true"
       />

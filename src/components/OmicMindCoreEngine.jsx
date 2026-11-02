@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import quantIhc from '../assets/quantihc.webp';
@@ -304,21 +304,39 @@ const PRODUCTS = [
   },
 ];
 
-/* ---------- The core's neural mesh ----------
-   A fixed set of points inside the two hemispheres, joined to every
-   neighbour within reach. Computed once, at module load. */
-const MESH_POINTS = [
-  [150, 138], [178, 122], [222, 122], [250, 138],
-  [126, 172], [160, 166], [192, 156], [208, 186], [240, 166], [274, 172],
-  [134, 214], [168, 206], [200, 222], [232, 206], [266, 214],
-  [152, 250], [184, 244], [216, 244], [248, 250],
+/* ---------- The core's pie chart ----------
+   Multimodal data shares, one slice per capability, drawn clockwise from
+   twelve o'clock on the 400-wide core box. Arcs, and the outward nudge a
+   hovered slice takes along its bisector, computed once at module load. */
+const PIE_R = 110;
+const PIE_SLICES = [
+  { concept: 'Biomarker & Signature Discovery', share: 0.2, from: '#A78BFA', to: '#7C3AED', rgb: '124, 58, 237' },
+  { concept: 'Therapy Response Modeling', share: 0.18, from: '#60A5FA', to: '#2563EB', rgb: '37, 99, 235' },
+  { concept: 'Patient Stratification', share: 0.16, from: '#2DD4BF', to: '#0D9488', rgb: '13, 148, 136' },
+  { concept: 'Cross-modal Learning', share: 0.16, from: '#F472B6', to: '#DB2777', rgb: '219, 39, 119' },
+  { concept: 'Biological Context', share: 0.15, from: '#C4B5FD', to: '#8B5CF6', rgb: '139, 92, 246' },
+  { concept: 'Scalable Architecture', share: 0.15, from: '#818CF8', to: '#4F46E5', rgb: '79, 70, 229' },
 ];
-const MESH_EDGES = [];
-MESH_POINTS.forEach((a, i) => {
-  MESH_POINTS.slice(i + 1).forEach((b) => {
-    if (Math.hypot(a[0] - b[0], a[1] - b[1]) < 50) MESH_EDGES.push([a, b]);
+const PIE_PATHS = [];
+PIE_SLICES.reduce((start, s) => {
+  const end = start + s.share * Math.PI * 2;
+  const mid = (start + end) / 2;
+  const pt = (a) => `${(200 + PIE_R * Math.cos(a)).toFixed(2)} ${(200 + PIE_R * Math.sin(a)).toFixed(2)}`;
+  PIE_PATHS.push({
+    d: `M200 200 L${pt(start)} A${PIE_R} ${PIE_R} 0 ${s.share > 0.5 ? 1 : 0} 1 ${pt(end)} Z`,
+    dx: (Math.cos(mid) * 7).toFixed(2),
+    dy: (Math.sin(mid) * 7).toFixed(2),
   });
-});
+  return end;
+}, -Math.PI / 2);
+
+/* Shown one at a time beneath the pie as scrolling turns it. */
+const CONCEPTS = PIE_SLICES.map((s) => s.concept);
+const SLICE_BY_CONCEPT = Object.fromEntries(PIE_SLICES.map((s) => [s.concept, s]));
+
+/* The pie's footprint inside the core box, for the HTML light and shadow
+   layers that sit on it: a 220-wide circle centred in 400. */
+const PIE_BOX = { left: '22.5%', top: '22.5%', width: '55%', height: '55%' };
 
 /* Pathways from the four card centres (12.5 / 37.5 / 62.5 / 87.5% of the
    row) down to the core, on a 1000-wide box. */
@@ -329,99 +347,267 @@ const PATHS = [
   'M875 0 C875 90 530 70 508 160',
 ];
 
-function CoreVisual() {
+function CoreVisual({ hovered, onHover }) {
+  const wrapRef = useRef(null);
+  const pieRef = useRef(null);
+  const [active, setActive] = useState(0);
+
+  /* Scroll position drives both the pie's turn (one clockwise revolution
+     across the core's pass through the viewport, reversing on the way back
+     up) and which concept is showing. No autoplay, no scroll locking. */
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ctx = gsap.context(() => {
+      const scrollTrigger = {
+        trigger: wrapRef.current,
+        start: 'top 90%',
+        end: 'bottom 10%',
+        onUpdate: (self) => setActive(Math.min(CONCEPTS.length - 1, Math.floor(self.progress * CONCEPTS.length))),
+      };
+      if (reduced) {
+        ScrollTrigger.create(scrollTrigger);
+      } else {
+        gsap.to(pieRef.current, {
+          rotation: 360,
+          svgOrigin: '200 200',
+          ease: 'none',
+          scrollTrigger: { ...scrollTrigger, scrub: 0.8 },
+        });
+      }
+    }, wrapRef);
+    return () => ctx.revert();
+  }, []);
+
+  /* Cursor depth: tilt, lift, light and ring parallax all read three CSS
+     variables on the wrapper, eased toward the pointer in a single rAF loop
+     that stops once settled, so there is no React render per move. Fine
+     pointers only; touch and reduced motion keep the static chart. */
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const target = { x: 0, y: 0, lift: 0 };
+    const cur = { x: 0, y: 0, lift: 0 };
+    let frame = 0;
+    const tick = () => {
+      let moving = false;
+      Object.keys(cur).forEach((k) => {
+        const d = target[k] - cur[k];
+        if (Math.abs(d) < 0.001) {
+          cur[k] = target[k];
+        } else {
+          cur[k] += d * 0.1;
+          moving = true;
+        }
+        el.style.setProperty(`--omc-${k}`, cur[k].toFixed(4));
+      });
+      frame = moving ? requestAnimationFrame(tick) : 0;
+    };
+    const kick = () => {
+      if (!frame) frame = requestAnimationFrame(tick);
+    };
+    const clamp = (v) => Math.max(-1, Math.min(1, v));
+    const move = (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      target.x = clamp(((e.clientX - r.left) / r.width) * 2 - 1);
+      target.y = clamp(((e.clientY - r.top) / r.height) * 2 - 1);
+      target.lift = 1;
+      kick();
+    };
+    const leave = () => {
+      target.x = 0;
+      target.y = 0;
+      target.lift = 0;
+      kick();
+    };
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerleave', leave);
+    return () => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerleave', leave);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden="true">
-      <defs>
-        <radialGradient id="omc-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#A855F7" stopOpacity="0.22" />
-          <stop offset="45%" stopColor="#6366F1" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#F5F7FA" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="omc-ring" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#60A5FA" />
-          <stop offset="50%" stopColor="#A78BFA" />
-          <stop offset="100%" stopColor="#F472B6" />
-        </linearGradient>
-        <linearGradient id="omc-brain" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.22" />
-          <stop offset="55%" stopColor="#8B5CF6" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#EC4899" stopOpacity="0.22" />
-        </linearGradient>
-        <filter id="omc-soft" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3" />
-        </filter>
-      </defs>
+    <div ref={wrapRef} className="relative h-full w-full" style={{ perspective: '900px' }}>
+      {/* Back layer: glow and orbits, drifting against the cursor */}
+      <svg
+        viewBox="0 0 400 400"
+        className="absolute inset-0 h-full w-full"
+        style={{ transform: 'translate3d(calc(var(--omc-x, 0) * -7px), calc(var(--omc-y, 0) * -7px), 0)' }}
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id="omc-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#A855F7" stopOpacity="0.22" />
+            <stop offset="45%" stopColor="#6366F1" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#F5F7FA" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="omc-ring" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#60A5FA" />
+            <stop offset="50%" stopColor="#A78BFA" />
+            <stop offset="100%" stopColor="#F472B6" />
+          </linearGradient>
+        </defs>
 
-      {/* Glow */}
-      <circle className="omc-pulse" cx="200" cy="200" r="200" fill="url(#omc-glow)" />
+        {/* Glow */}
+        <circle className="omc-pulse" cx="200" cy="200" r="200" fill="url(#omc-glow)" />
 
-      {/* Orbits */}
-      <circle cx="200" cy="200" r="182" fill="none" stroke="#A78BFA" strokeOpacity="0.18" strokeDasharray="2 7" />
-      <g className="omc-spin">
-        <circle cx="200" cy="200" r="158" fill="none" stroke="url(#omc-ring)" strokeOpacity="0.7" strokeWidth="1.2" strokeDasharray="120 38 18 38" />
-        <circle cx="358" cy="200" r="3.5" fill="#F472B6" />
-        <circle cx="42" cy="200" r="3" fill="#60A5FA" />
-      </g>
-      <g className="omc-spin-rev">
-        <circle cx="200" cy="200" r="134" fill="none" stroke="#60A5FA" strokeOpacity="0.28" strokeDasharray="1 5" />
-        <circle cx="200" cy="66" r="2.6" fill="#A78BFA" />
-      </g>
+        {/* Orbits */}
+        <circle cx="200" cy="200" r="182" fill="none" stroke="#A78BFA" strokeOpacity="0.18" strokeDasharray="2 7" />
+        <g className="omc-spin">
+          <circle cx="200" cy="200" r="158" fill="none" stroke="url(#omc-ring)" strokeOpacity="0.7" strokeWidth="1.2" strokeDasharray="120 38 18 38" />
+          <circle cx="358" cy="200" r="3.5" fill="#F472B6" />
+          <circle cx="42" cy="200" r="3" fill="#60A5FA" />
+        </g>
+        <g className="omc-spin-rev">
+          <circle cx="200" cy="200" r="134" fill="none" stroke="#60A5FA" strokeOpacity="0.28" strokeDasharray="1 5" />
+          <circle cx="200" cy="66" r="2.6" fill="#A78BFA" />
+        </g>
+      </svg>
 
-      {/* Hemispheres */}
-      <g stroke="url(#omc-ring)" strokeWidth="1.6" fill="url(#omc-brain)" strokeLinejoin="round">
-        <path d="M197 108 C168 94 128 104 118 134 C94 142 86 174 100 194 C86 214 94 248 120 256 C128 284 164 296 188 282 C193 288 197 290 197 290 Z" />
-        <path d="M203 108 C232 94 272 104 282 134 C306 142 314 174 300 194 C314 214 306 248 280 256 C272 284 236 296 212 282 C207 288 203 290 203 290 Z" />
-      </g>
-      {/* Gyri */}
-      <g fill="none" stroke="#7C3AED" strokeOpacity="0.3" strokeWidth="1.2" strokeLinecap="round">
-        <path d="M140 140 C156 150 170 140 184 150" />
-        <path d="M118 190 C136 182 150 196 170 188" />
-        <path d="M134 240 C150 230 168 244 186 236" />
-        <path d="M260 140 C244 150 230 140 216 150" />
-        <path d="M282 190 C264 182 250 196 230 188" />
-        <path d="M266 240 C250 230 232 244 214 236" />
-      </g>
+      {/* Front layer: the pie, tilting toward the cursor and lifting on entry */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          transformStyle: 'preserve-3d',
+          transform:
+            'rotateX(calc(var(--omc-y, 0) * -10deg)) rotateY(calc(var(--omc-x, 0) * 10deg)) translateZ(calc(var(--omc-lift, 0) * 16px))',
+        }}
+      >
+        {/* Ambient shadow, sinking and drifting away from the light */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            ...PIE_BOX,
+            background: 'radial-gradient(closest-side, rgba(76,29,149,0.26), rgba(76,29,149,0))',
+            transform:
+              'translate3d(calc(var(--omc-x, 0) * -8px), calc(14px + var(--omc-y, 0) * -8px + var(--omc-lift, 0) * 6px), -30px) scale(calc(1.06 + var(--omc-lift, 0) * 0.05))',
+            opacity: 'calc(0.8 + var(--omc-lift, 0) * 0.2)',
+          }}
+          aria-hidden="true"
+        />
 
-      {/* Neural mesh */}
-      <g stroke="#8B5CF6" strokeOpacity="0.32" strokeWidth="0.9">
-        {MESH_EDGES.map(([a, b], i) => (
-          <line key={i} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} />
-        ))}
-      </g>
-      <g>
-        {MESH_POINTS.map(([x, y], i) => (
-          <g key={i}>
-            <circle cx={x} cy={y} r="5" fill={i % 3 === 0 ? '#60A5FA' : i % 3 === 1 ? '#A78BFA' : '#F472B6'} opacity="0.35" filter="url(#omc-soft)" />
-            <circle className="omc-node" style={{ animationDelay: `${(i % 6) * 0.45}s` }} cx={x} cy={y} r="2.3" fill="#6D28D9" />
+        <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full" aria-hidden="true">
+          <defs>
+            {PIE_SLICES.map((s, i) => (
+              <linearGradient key={i} id={`omc-slice-${i}`} x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor={s.from} />
+                <stop offset="100%" stopColor={s.to} />
+              </linearGradient>
+            ))}
+            <radialGradient id="omc-pie-sheen" cx="38%" cy="30%" r="75%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.32" />
+              <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="100%" stopColor="#172033" stopOpacity="0.12" />
+            </radialGradient>
+          </defs>
+
+          <circle cx="200" cy="200" r={PIE_R} fill="#FFFFFF" />
+          <g ref={pieRef} stroke="#FFFFFF" strokeWidth="2.5" strokeLinejoin="round">
+            {PIE_PATHS.map((p, i) => {
+              const s = PIE_SLICES[i];
+              const on = hovered === i;
+              return (
+                <path
+                  key={s.concept}
+                  d={p.d}
+                  fill={`url(#omc-slice-${i})`}
+                  className="pointer-events-auto motion-reduce:![transform:none] motion-reduce:!transition-none"
+                  style={{
+                    transformBox: 'view-box',
+                    transformOrigin: '200px 200px',
+                    transform: on ? `translate(${p.dx}px, ${p.dy}px) scale(1.035)` : 'translate(0px, 0px) scale(1)',
+                    filter: `drop-shadow(0 0 ${on ? 10 : 0}px rgba(${s.rgb}, ${on ? 0.55 : 0}))`,
+                    transition: 'transform 500ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease',
+                  }}
+                  onPointerEnter={(e) => e.pointerType === 'mouse' && onHover(i)}
+                  onPointerLeave={() => onHover(null)}
+                />
+              );
+            })}
           </g>
+          <circle cx="200" cy="200" r={PIE_R} fill="url(#omc-pie-sheen)" />
+        </svg>
+
+        {/* Soft light that follows the cursor across the glass */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            ...PIE_BOX,
+            background:
+              'radial-gradient(circle at calc(50% + var(--omc-x, 0) * 26%) calc(45% + var(--omc-y, 0) * 26%), rgba(255,255,255,calc(var(--omc-lift, 0) * 0.3)) 0%, rgba(255,255,255,0) 55%)',
+            transform: 'translateZ(1px)',
+          }}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* Concepts, crossfading in step with the pie's rotation */}
+      <div className="pointer-events-none absolute inset-x-0 top-[80.5%] h-8" aria-live="polite">
+        {CONCEPTS.map((c, i) => (
+          <span
+            key={c}
+            className={`absolute left-1/2 top-0 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#A78BFA]/30 bg-white/90 px-3.5 py-1 font-sans text-[12.5px] font-medium tracking-[-0.005em] text-[#4C1D95] shadow-[0_6px_16px_-10px_rgba(124,58,237,0.45)] transition-all duration-500 ease-out motion-reduce:transition-none sm:text-[13px] ${
+              i === active ? 'translate-y-0 opacity-100' : i < active ? '-translate-y-2 opacity-0' : 'translate-y-2 opacity-0'
+            }`}
+            aria-hidden={i !== active}
+          >
+            {c}
+          </span>
         ))}
-      </g>
-    </svg>
+      </div>
+    </div>
   );
 }
 
-function Capability({ cap, side }) {
+function Capability({ cap, side, lit }) {
   const right = side === 'right';
+  const accent = lit ? SLICE_BY_CONCEPT[cap.title] : null;
   return (
     <li
       className={`omc-cap relative flex items-center gap-3.5 rounded-2xl border border-[#DDE3EE] bg-white px-4 py-3.5 shadow-[0_8px_24px_-18px_rgba(23,32,51,0.25)] backdrop-blur-sm lg:border-0 lg:shadow-none lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none ${
         right ? '' : 'lg:flex-row-reverse lg:text-right'
       }`}
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#A78BFA]/30 bg-gradient-to-br from-[#3B82F6]/15 via-[#8B5CF6]/15 to-[#EC4899]/15 bg-white text-[#7C3AED] shadow-[0_6px_16px_-8px_rgba(124,58,237,0.35)]">
+      <span
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#A78BFA]/30 bg-gradient-to-br from-[#3B82F6]/15 via-[#8B5CF6]/15 to-[#EC4899]/15 bg-white text-[#7C3AED] shadow-[0_6px_16px_-8px_rgba(124,58,237,0.35)] transition-[color,border-color,box-shadow] duration-500 ease-out"
+        style={
+          accent
+            ? {
+                color: accent.to,
+                borderColor: `rgba(${accent.rgb}, 0.55)`,
+                boxShadow: `0 0 0 4px rgba(${accent.rgb}, 0.08), 0 8px 22px -8px rgba(${accent.rgb}, 0.6)`,
+              }
+            : undefined
+        }
+      >
         {cap.icon}
       </span>
-      <span className="font-sans text-[15px] font-medium leading-snug tracking-[-0.01em] text-[#172033]">
+      <span
+        className="font-sans text-[15px] font-medium leading-snug tracking-[-0.01em] text-[#172033] transition-colors duration-500 ease-out"
+        style={accent ? { color: accent.to } : undefined}
+      >
         {cap.title}
       </span>
       {/* Hairline reaching toward the core, desktop only */}
       <span
-        className={`pointer-events-none absolute top-1/2 hidden h-px w-10 xl:w-14 lg:block ${
+        className={`pointer-events-none absolute top-1/2 hidden h-px w-10 transition-shadow duration-500 ease-out xl:w-14 lg:block ${
           right
             ? 'right-full mr-3 bg-gradient-to-l from-[#A78BFA]/60 to-transparent'
             : 'left-full ml-3 bg-gradient-to-r from-[#60A5FA]/60 to-transparent'
         }`}
+        style={
+          accent
+            ? {
+                backgroundImage: `linear-gradient(to ${right ? 'left' : 'right'}, rgba(${accent.rgb}, 0.95), rgba(${accent.rgb}, 0.1))`,
+                boxShadow: `0 0 6px rgba(${accent.rgb}, 0.6)`,
+              }
+            : undefined
+        }
         aria-hidden="true"
       />
     </li>
@@ -430,6 +616,8 @@ function Capability({ cap, side }) {
 
 export default function OmicMindCoreEngine() {
   const sectionRef = useRef(null);
+  const [hovered, setHovered] = useState(null);
+  const hoveredConcept = hovered === null ? null : PIE_SLICES[hovered].concept;
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -634,13 +822,13 @@ export default function OmicMindCoreEngine() {
         <div className="omc-engine mt-6 grid grid-cols-1 items-center gap-8 lg:mt-0 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-10 xl:gap-14">
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1 lg:gap-12">
             {CAPS_LEFT.map((c) => (
-              <Capability key={c.title} cap={c} side="left" />
+              <Capability key={c.title} cap={c} side="left" lit={hoveredConcept === c.title} />
             ))}
           </ul>
 
           <div className="omc-core mx-auto flex w-full max-w-[340px] flex-col items-center lg:w-[340px] xl:w-[380px] xl:max-w-[380px]">
             <div className="aspect-square w-full">
-              <CoreVisual />
+              <CoreVisual hovered={hovered} onHover={setHovered} />
             </div>
             <p className="-mt-4 font-serif text-2xl font-semibold tracking-[-0.01em]">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#DB2777]">
@@ -651,7 +839,7 @@ export default function OmicMindCoreEngine() {
 
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1 lg:gap-12">
             {CAPS_RIGHT.map((c) => (
-              <Capability key={c.title} cap={c} side="right" />
+              <Capability key={c.title} cap={c} side="right" lit={hoveredConcept === c.title} />
             ))}
           </ul>
         </div>
